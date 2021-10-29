@@ -19,12 +19,9 @@ void Lector::LeerTxt(){
             v.push_back(dat);
         }
         datos.push_back(v);
-        v.clear();
-        
+        v.clear(); 
     }
-
     mostrarDatos();
-
 }
 
 vector<vector<double>> Lector::getDatos(){
