@@ -1,7 +1,8 @@
-ejecutar:
+run:
 	./pso
+
 build:
-	g++  -o pso main.cpp lector.cpp 
+	g++ -o pso main.cpp lector.cpp 
 
 clean:
 	
