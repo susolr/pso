@@ -12,3 +12,9 @@ http://rosettacode.org/wiki/Particle_swarm_optimization
 
 https://esa.github.io/pagmo2/install.html IMPORTANTE
 
+# Ultimos apuntes
+
+https://www.cienciadedatos.net/documentos/py02_optimizacion_pso
+
+http://sedici.unlp.edu.ar/bitstream/handle/10915/47135/Documento_completo__.pdf?sequence=1&isAllowed=y
+
