@@ -1,5 +1,5 @@
 /**
- * @file pso.h
+ * @file particula.h
  * @author Jesús López Rodríguez (jlopezpeque@hotmail.com)
  * @brief 
  * @version 0.1
@@ -8,18 +8,16 @@
  * @copyright Copyright (c) 2021
  * 
  */
-#ifndef PSO_H
-#define PSO_H
 
-#include <vector>
+#ifndef PARTICULA_H
+#define PARTICULA_H
+
 using namespace std;
 
-class PSO {
+class Particula {
 public:
-    PSO();
 
-private:
-
+private: 
 
 };
 
