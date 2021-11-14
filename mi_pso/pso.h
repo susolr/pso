@@ -14,6 +14,12 @@
 #include <vector>
 using namespace std;
 
+class PSO {
+public:
+    PSO();
+
+private:
+};
 
 
 #endif
