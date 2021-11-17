@@ -12,12 +12,25 @@
 #ifndef PARTICULA_H
 #define PARTICULA_H
 
+#include <vector>
 using namespace std;
 
 class Particula {
 public:
+    Particula();
+    void actualizarPosicion();
+    void valorar();
+    void actualizarVelocidad();
+
 
 private: 
+    vector<int> pos;
+    vector<int> b_pos;
+    vector<double> vel;
+    double b_value;
+    double c_cog;
+    double c_social;
+
 
 };
 
