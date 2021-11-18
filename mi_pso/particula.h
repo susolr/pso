@@ -17,19 +17,26 @@ using namespace std;
 
 class Particula {
 public:
-    Particula();
+    Particula(int n);
     void actualizarPosicion();
     void valorar();
-    void actualizarVelocidad();
+    void actualizarVelocidad(vector<int>& g);
 
 
 private: 
     vector<int> pos;
     vector<int> b_pos;
     vector<double> vel;
+    double max_vel = 3.0;
     double b_value;
+    double value;
     double c_cog;
     double c_social;
+    double inercia;
+    int dimension;
+
+    double calcularValor();
+    void setMejorPosicion();
 
 
 };

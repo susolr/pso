@@ -18,3 +18,14 @@ https://www.cienciadedatos.net/documentos/py02_optimizacion_pso
 
 http://sedici.unlp.edu.ar/bitstream/handle/10915/47135/Documento_completo__.pdf?sequence=1&isAllowed=y
 
+# Ejemplos KNN
+
+https://github.com/mddragnev/k-nearest-neighbors/blob/master/KNN/KNN/main.cpp
+
+https://github.com/luizgh/knn
+
+https://github.com/vincentfpgarcia/kNN-CUDA/blob/master/code/knncuda.cu
+
+https://academica-e.unavarra.es/xmlui/bitstream/handle/2454/29112/Memoria.pdf?sequence=2&isAllowed=y
+
+
