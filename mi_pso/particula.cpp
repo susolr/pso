@@ -1,3 +1,4 @@
+
 #include "particula.h"
 #include <iostream>
 #include <fstream>
@@ -30,5 +31,7 @@ void Particula::actualizarVelocidad(){
 }
 
 void Particula::valorar(){
+
+    
 
 }
