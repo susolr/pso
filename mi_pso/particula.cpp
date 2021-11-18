@@ -48,7 +48,9 @@ void Particula::actualizarVelocidad(vector<int> &g){
 }
 
 void Particula::valorar(){
+    double aux_value = value;
     value = calcularValor();
+    var_value = abs(value-aux_value);
     if (value > b_value){
         b_value = value;
         setMejorPosicion();
@@ -63,4 +65,18 @@ void Particula::setMejorPosicion(){
     b_pos = pos;
 }
 
+double Particula::getValue(){
+    return value;
+}
 
+double Particula::getBValue(){
+    return b_value;
+}
+
+vector<int> Particula::getPos(){
+    return pos;
+}
+
+vector<int> Particula::getBPos(){
+    return b_pos;
+}

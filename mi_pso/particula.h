@@ -21,6 +21,10 @@ public:
     void actualizarPosicion();
     void valorar();
     void actualizarVelocidad(vector<int>& g);
+    double getValue();
+    double getBValue();
+    vector<int> getBPos();
+    vector<int> getPos();
 
 
 private: 
@@ -30,6 +34,7 @@ private:
     double max_vel = 3.0;
     double b_value;
     double value;
+    double var_value;
     double c_cog;
     double c_social;
     double inercia;

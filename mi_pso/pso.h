@@ -12,13 +12,22 @@
 #define PSO_H
 
 #include <vector>
+#include "particula.h"
 using namespace std;
 
 class PSO {
 public:
     PSO();
+    void crearCumulo(int n_particulas, int dimension);
+    void ejecutar();
+    void mostrarResultados();
 
 private:
+
+    vector<Particula> cumulo;
+    vector<int> b_pos;
+    double b_value;
+    int cont_cambio;
 
 
 };
