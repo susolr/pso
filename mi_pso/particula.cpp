@@ -38,8 +38,8 @@ void Particula::actualizarPosicion(){
 
 void Particula::actualizarVelocidad(vector<int> &g){
 
-    vector<int> rd1;
-    vector<int> rd2;
+    vector<int> rd1 = generarAleatorio();
+    vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
@@ -79,4 +79,20 @@ vector<int> Particula::getPos(){
 
 vector<int> Particula::getBPos(){
     return b_pos;
+}
+
+vector<int> Particula::generarAleatorio(){
+    vector<int> aux;
+
+    for (int i = 0; i < dimension; ++i){
+        
+        if (rand()%100 >= 0.5){
+            aux.push_back(1);
+        }
+        else {
+            aux.push_back(0);
+        }
+    }
+
+    return aux;
 }

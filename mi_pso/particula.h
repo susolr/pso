@@ -42,6 +42,7 @@ private:
 
     double calcularValor();
     void setMejorPosicion();
+    vector<int> generarAleatorio();
 
 
 };
