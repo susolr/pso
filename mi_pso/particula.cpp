@@ -57,6 +57,10 @@ void Particula::valorar(){
     }
 }
 double Particula::calcularValor(){
+    
+    for (int i = 0; i < ; i++){
+
+    }
     return rand()%100;
 }
 
