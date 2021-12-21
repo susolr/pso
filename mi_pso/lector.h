@@ -18,12 +18,18 @@ using namespace std;
 class Lector{
 private:
     vector<vector<double>> datos;
-    
-public:
+
+protected:
     Lector();
+    static Lector* lector;
+public:
+    Lector(Lector & otro) = delete;
+    void operator =(const Lector & otro) = delete;
     void LeerTxt();
     vector<vector<double>> getDatos();
     void mostrarDatos();
+    double getValor(int i, int j);
+    static Lector *getInstance();
     
 };
 

@@ -14,6 +14,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include "lector.h"
 
 using namespace std;
 
@@ -57,8 +58,16 @@ void Particula::valorar(){
     }
 }
 double Particula::calcularValor(){
-    
-    for (int i = 0; i < ; i++){
+
+    Lector * lector = Lector::getInstance();
+    vector<vector<double>> data= lector->getDatos();
+    for (int i = 1; i < data.size(); i++){
+        for (int j = 0; j< data.at(i).size(); j++){
+            if (pos[j] == 1){
+                data[0][j] - data[i][j];
+            }
+            
+        }
 
     }
     return rand()%100;

@@ -4,8 +4,18 @@
 
 using namespace std;
 
+
+Lector* Lector::lector= nullptr;
+
 Lector::Lector(){
 
+}
+
+Lector* Lector::getInstance(){
+    if(lector==nullptr){
+        lector = new Lector();
+    }
+    return lector;
 }
 
 void Lector::LeerTxt(){
@@ -26,6 +36,10 @@ void Lector::LeerTxt(){
 
 vector<vector<double>> Lector::getDatos(){
     return datos;
+}
+
+double Lector::getValor(int i, int j){
+    return (datos[i][j]);
 }
 
 void Lector::mostrarDatos(){
