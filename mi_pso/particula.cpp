@@ -61,16 +61,22 @@ double Particula::calcularValor(){
 
     Lector * lector = Lector::getInstance();
     vector<vector<double>> data= lector->getDatos();
+    double suma = 0.0;
+    double res = 0.0;
     for (int i = 1; i < data.size(); i++){
         for (int j = 0; j< data.at(i).size(); j++){
             if (pos[j] == 1){
-                data[0][j] - data[i][j];
+                double dis = data[0][j] - data[i][j];
+                suma += dis*dis;
             }
             
         }
-
+        suma = sqrt(suma);
+        res += suma;
+        suma = 0.0;
     }
-    return rand()%100;
+    
+    return res;
 }
 
 void Particula::setMejorPosicion(){

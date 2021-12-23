@@ -18,7 +18,7 @@ using namespace std;
 Lector* Lector::lector= nullptr;
 
 Lector::Lector(){
-
+    cout << "Creando Lector" << endl;
 }
 
 Lector* Lector::getInstance(){
