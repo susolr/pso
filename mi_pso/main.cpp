@@ -17,9 +17,9 @@
 
 int main (int argc, char* argv[]){
 
-    Lector l = Lector();
+    Lector * l = Lector::getInstance();
 
-    l.LeerTxt();
+    l->LeerTxt();
 
     return 0;
 }

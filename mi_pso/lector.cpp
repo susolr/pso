@@ -1,3 +1,13 @@
+/**
+ * @file lector.cpp
+ * @author Jesús López Rodríguez (jlopezpeque@hotmail.com)
+ * @brief Clase encargada del manejo de ficheros
+ * @version 0.1
+ * @date 2021-12-23
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "lector.h"
 #include <iostream>
 #include <fstream>
