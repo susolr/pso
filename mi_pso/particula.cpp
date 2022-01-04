@@ -24,6 +24,7 @@ Particula::Particula(int n){
     c_cog = 0.8;
     c_social = 0.6;
     lector = Lector::getInstance();
+    inercia = 0.8;
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
