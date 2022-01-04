@@ -21,6 +21,7 @@ using namespace std;
 PSO::PSO(){
     Lector * lector = Lector::getInstance();
     lector->LeerTxt();
+    b_value = 100.0;
 }
 
 void PSO::crearCumulo(int n_particulas, int dimension){
@@ -45,7 +46,7 @@ void PSO::ejecutar(){
         cout << "Valorando..." << endl;
         for (int i = 0; i < cumulo.size(); i++){
             cumulo[i].valorar();
-            if (cumulo[i].getValue() > b_value){
+            if (cumulo[i].getValue() < b_value){
                 b_value = cumulo[i].getValue();
                 b_pos = cumulo[i].getPos();
             }
