@@ -41,7 +41,7 @@ void Lector::LeerTxt(){
         datos.push_back(v);
         v.clear(); 
     }
-    mostrarDatos();
+    //mostrarDatos();
 }
 
 vector<vector<double>> Lector::getDatos(){

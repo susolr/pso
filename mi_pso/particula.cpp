@@ -20,6 +20,13 @@ using namespace std;
 
 Particula::Particula(int n){
     dimension = n;
+    pos = generarAleatorio();
+    c_cog = 0.8;
+    c_social = 0.6;
+    lector = Lector::getInstance();
+    for (int i = 0; i < dimension; i++){
+        vel.push_back(0.0);
+    }
 }
 
 void Particula::actualizarPosicion(){
@@ -38,7 +45,7 @@ void Particula::actualizarPosicion(){
 }
 
 void Particula::actualizarVelocidad(vector<int> &g){
-
+    //cout << "Actualizando velocidad";
     vector<int> rd1 = generarAleatorio();
     vector<int> rd2 = generarAleatorio();
 
@@ -49,6 +56,7 @@ void Particula::actualizarVelocidad(vector<int> &g){
 }
 
 void Particula::valorar(){
+    //cout << "Valorando" << endl;
     double aux_value = value;
     value = calcularValor();
     var_value = abs(value-aux_value);
@@ -78,19 +86,20 @@ double Particula::calcularValor(){
     
     return res;*/
 
-    Lector * lector = Lector::getInstance();
-    lector->LeerTxt();
-    vector<vector<double>> data= lector->getDatos();
+    vector<vector<double>> data = lector->getDatos();
     double suma = 0.0;
     double res = 0.0;
-    vector<double> pos = {0,0,1,0,1};
+    //cout << "Data size: " << data.size() << endl;
     for (int i = 1; i < data.size(); i++){
+        //cout << "Primer for" << endl;
         for (int j = 0; j< data.at(i).size(); j++){
+            //cout << "Segundo for" << endl;
+            //cout << "Pos size " << pos.size() << endl;
             if (pos[j] == 1){
-                cout << "Paso " << i << " " << j << endl;
+               // cout << "Paso " << i << " " << j << endl;
                 double dis = data[0][j] - data[i][j];
                 suma += dis*dis;
-                cout << "Distancia: " << dis << "\tSuma: " << suma << endl;
+                //cout << "Distancia: " << dis << "\tSuma: " << suma << endl;
             }
             
         }
@@ -98,7 +107,7 @@ double Particula::calcularValor(){
         suma = sqrt(suma);
         res += suma;
         suma = 0.0;
-        cout << "Resultado: " << res << "\n" << endl;
+        //cout << "Resultado: " << res << "\n" << endl;
     }
 
     return res;

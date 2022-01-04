@@ -13,6 +13,7 @@
 #define PARTICULA_H
 
 #include <vector>
+#include "lector.h"
 using namespace std;
 
 class Particula {
@@ -39,6 +40,7 @@ private:
     double c_social;
     double inercia;
     int dimension;
+    Lector * lector;
 
     double calcularValor();
     void setMejorPosicion();
