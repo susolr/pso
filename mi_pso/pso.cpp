@@ -18,7 +18,6 @@
 using namespace std;
 
 PSO::PSO(){
-
 }
 
 void PSO::crearCumulo(int n_particulas, int dimension){
@@ -30,7 +29,8 @@ void PSO::crearCumulo(int n_particulas, int dimension){
 
 void PSO::ejecutar(){
     int n_iter = 0;
-    while (n_iter < 10){
+    int contador = 0;
+    while (n_iter < 10 && contador <=20){
         double aux_value = b_value, var_value;
         int max = 0;
         for (int i = 0; i < cumulo.size(); i++){
@@ -53,11 +53,18 @@ void PSO::ejecutar(){
         else {
             n_iter = 0;
         }
+        contador++;
     }
 }
 
 void PSO::mostrarResultados(){
 
-    
+    cout << "RESULTADOS:" << endl;
+    cout << "Mejor valor: " << b_value << endl;
+    cout << "Mejor posicion:";
+    for (int i = 0; i < b_pos.size(); i++){
+        cout << "\t" << b_pos[i];
+    }
+    cout << endl;
 
 }

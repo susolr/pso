@@ -17,6 +17,7 @@
 
 int main (int argc, char* argv[]){
 
+/*
     Lector * lector = Lector::getInstance();
     lector->LeerTxt();
     vector<vector<double>> data= lector->getDatos();
@@ -39,7 +40,7 @@ int main (int argc, char* argv[]){
         suma = 0.0;
         cout << "Resultado: " << res << "\n" << endl;
     }
-
+*/
 
 
     return 0;
