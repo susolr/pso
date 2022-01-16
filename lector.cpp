@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -37,11 +38,43 @@ void Lector::leerDatos(){
 }
 
 void Lector::leerDataTraining(){
-
+    data_training.clear();
+    string file = "./data_training_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
+    ifstream f (file);
+    vector<double> v;
+    double d;
+    string line;
+     
+    while (getline(f, line)){
+        stringstream ss(line);
+        while (ss >> d){
+            v.push_back(d);
+        }
+        data_training.push_back(v);
+        v.clear();
+    }
+    f.close();
 }
 
 void Lector::leerDataTest(){
-
+    data_test.clear();
+    string file = "./data_training_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
+    ifstream f (file);
+    vector<double> v;
+    double d;
+    string line;
+     
+    while (getline(f, line)){
+        stringstream ss(line);
+        while (ss >> d){
+            v.push_back(d);
+        }
+        data_training.push_back(v);
+        v.clear();
+    }
+    f.close();
 }
 
 void Lector::leerLabelsTraining(){
@@ -54,9 +87,20 @@ void Lector::leerLabelsTraining(){
         f >> n;
         labels_training.push_back(n);
     }
+    f.close();
 }
 
 void Lector::leerLabelsTest(){
+    labels_test.clear();
+    string file = "./labels_test_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
+    ifstream f (file);
+    int n;
+    while (!f.eof()){
+        f >> n;
+        labels_test.push_back(n);
+    }
+    f.close();
 
 }
 
@@ -68,26 +112,77 @@ void Lector::leerDatos(int fil, int col){
 }
 
 void Lector::leerDataTraining(int fil, int col){
-
+    data_training.clear();
+    string file = "./data_training_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
+    ifstream f (file);
+    vector<double> v;
+    double d;
+    string line;
+    int cont_fil = 0;
+    int cont_col = 0;
+    while (getline(f, line) && (cont_fil < fil)){
+        stringstream ss(line);
+        while (ss >> d && (cont_col < col)){
+            v.push_back(d);
+            cont_col++;
+        }
+        data_training.push_back(v);
+        v.clear();
+        cont_col = 0;
+        cont_fil++;
+    }
+    f.close();
 }
 
 void Lector::leerDataTest(int fil, int col){
-
+    data_test.clear();
+    string file = "./data_test_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
+    ifstream f (file);
+    vector<double> v;
+    double d;
+    string line;
+    int cont_fil = 0;
+    int cont_col = 0;
+    while (getline(f, line) && (cont_fil < fil)){
+        stringstream ss(line);
+        while (ss >> d && (cont_col < col)){
+            v.push_back(d);
+        }
+        data_test.push_back(v);
+        v.clear();
+        cont_col = 0;
+    }
+    f.close();
 }
 
 void Lector::leerLabelsTraining(int fil){
-    string file = "./labels_training" + data_base + ".csv";
+    labels_training.clear();
+    string file = "./labels_training_" + data_base + ".csv";
     ifstream f (file);
     int n;
     int cont = 0;
     while (!f.eof() && (cont<fil)){
         f >> n;
         labels_training.push_back(n);
+        cont ++;
     }
+    f.close();
 }
 
 void Lector::leerLabelsTest(int fil){
-    
+    labels_test.clear();
+    string file = "./labels_test_" + data_base + ".csv";
+    ifstream f (file);
+    int n;
+    int cont = 0;
+    while (!f.eof() && (cont<fil)){
+        f >> n;
+        labels_training.push_back(n);
+        cont ++;
+    }
+    f.close();
 }
 
 /*void Lector::LeerTxt(){

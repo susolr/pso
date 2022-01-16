@@ -28,8 +28,8 @@ int main (int argc, char* argv[]){
 */
     Lector * lector = Lector::getInstance();
     lector->setDataBase("104");
-    lector->leerLabelsTraining();
-    lector->mostrarLabelsTraining();
+    lector->leerDataTraining(10,10);
+    lector->mostrarDataTraining();
 
     return 0;
 }
