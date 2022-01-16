@@ -68,7 +68,7 @@ void Particula::valorar(){
 }
 double Particula::calcularValor(){
 
-    vector<vector<double>> data = lector->getDatos();
+    vector<vector<double>> data = lector->getDataTest();
     double suma = 0.0;
     double res = 0.0;
     //cout << "Data size: " << data.size() << endl;

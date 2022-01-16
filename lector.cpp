@@ -28,7 +28,7 @@ Lector* Lector::getInstance(){
     return lector;
 }
 
-void Lector::LeerTxt(){
+/*void Lector::LeerTxt(){
 
     ifstream f ("./datos.txt");
     vector<double> v;
@@ -43,20 +43,68 @@ void Lector::LeerTxt(){
     }
     //mostrarDatos();
 }
+*/
 
-vector<vector<double>> Lector::getDatos(){
-    return datos;
+vector<vector<double>> Lector::getDataTest(){
+    return data_test;
 }
 
-double Lector::getValor(int i, int j){
+vector<vector<double>> Lector::getDataTraining(){
+    return data_training;
+}
+
+vector<int> Lector::getLabelsTest(){
+    return labels_test;
+}
+
+vector<int> Lector::getLabelsTraining(){
+    return labels_training;
+}
+
+vector<vector<double>> Lector::getDataTest(){
+    return data_test;
+}
+
+/*double Lector::getValor(int i, int j){
     return (datos[i][j]);
-}
+}*/
 
 void Lector::mostrarDatos(){
-    for (int i = 0; i < datos.size(); ++i){
-        for (int j = 0; j < datos.at(i).size(); ++j){
-            cout << datos[i][j] << "\t";
+    mostrarDataTest();
+    mostrarDataTraining();
+    mostrarLabelsTest();
+    mostrarLabelsTraining();
+
+}
+
+void Lector::mostrarDataTest(){
+    for (int i = 0; i < data_test.size(); ++i){
+        for (int j = 0; j < data_test.at(i).size(); ++j){
+            cout << data_test[i][j] << "\t";
         }
         cout << endl;
     }
+}
+
+void Lector::mostrarDataTraining(){
+    for (int i = 0; i < data_training.size(); ++i){
+        for (int j = 0; j < data_training.at(i).size(); ++j){
+            cout << data_training[i][j] << "\t";
+        }
+        cout << endl;
+    }
+}
+
+void Lector::mostrarLabelsTest(){
+    for (int i = 0; i < labels_test.size(); ++i){
+        cout << labels_test[i] << "\t";
+    }
+    cout << endl;
+}
+
+void Lector::mostrarLabelsTraining(){
+    for (int i = 0; i < labels_training.size(); ++i){
+        cout << labels_training[i] << "\t";
+    }
+    cout << endl;
 }

@@ -17,7 +17,12 @@ using namespace std;
 
 class Lector{
 private:
-    vector<vector<double>> datos;
+    vector<vector<double>> data_test;
+    vector<vector<double>> data_training;
+    vector<int> labels_test;
+    vector<int> labels_training;
+    string data_base;
+
 
 protected:
     Lector();
@@ -25,11 +30,41 @@ protected:
 public:
     Lector(Lector & otro) = delete;
     void operator =(const Lector & otro) = delete;
-    void LeerTxt();
-    vector<vector<double>> getDatos();
+    //void LeerTxt();
+
+    //Métodos para leer la base de datos completa del fichero
+    void LeerDatos();
+    void LeerDataTraining();
+    void LeerDataTest();
+    void LeerLabelsTraining();
+    void LeerLabelsTest();
+
+    //Métodos para leer una parte de la base de datos para hacer pruebas
+    void LeerDatos(int fil, int col);
+    void LeerDataTraining(int fil, int col);
+    void LeerDataTest(int fil, int col);
+    void LeerLabelsTraining(int fil);
+    void LeerLabelsTest(int fil);
+
+    //Métodos para acceder a los distintos datos
+    vector<vector<double>> getDataTest();
+    vector<vector<double>> getDataTraining();
+    vector<int> getLabelsTest();
+    vector<int> getLabelsTraining();
+    string getDataBase();
+
+    //Métodos para mostrar los datos por pantalla
     void mostrarDatos();
-    double getValor(int i, int j);
+    void mostrarDataTest();
+    void mostrarDataTraining();
+    void mostrarLabelsTest();
+    void mostrarLabelsTraining();
+
+    //double getValor(int i, int j);
+    void setDataBase(string db);
+
     static Lector *getInstance();
+    
     
 };
 

@@ -16,6 +16,8 @@
 #include "lector.h"
 #include "pso.h"
 
+using namespace std;
+
 int main (int argc, char* argv[]){
 
 /*
@@ -24,30 +26,9 @@ int main (int argc, char* argv[]){
     mi_pso.ejecutar();
     mi_pso.mostrarResultados();
 */
-    Lector * lector = Lector::getInstance();
-    vector<int> pos;
-    vector<vector<double>> data = lector->getDatos();
-    double suma = 0.0;
-    double res = 0.0;
-    //cout << "Data size: " << data.size() << endl;
-    for (int i = 1; i < data.size(); i++){
-        //cout << "Primer for" << endl;
-        for (int j = 0; j< data.at(i).size(); j++){
-            //cout << "Segundo for" << endl;
-            //cout << "Pos size " << pos.size() << endl;
-            if (pos[j] == 1){
-               // cout << "Paso " << i << " " << j << endl;
-                double dis = data[0][j] - data[i][j];
-                suma += dis*dis;
-                //cout << "Distancia: " << dis << "\tSuma: " << suma << endl;
-            }
-            
-        }
-        
-        suma = sqrt(suma);
-        res += suma;
-        suma = 0.0;
-    }
+    string db = "104";
+    string file = "data_test_" + db + ".csv";
+    cout << "Fichero:" << file.data() << endl;
 
     return 0;
 }
