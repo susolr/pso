@@ -27,6 +27,7 @@ int main (int argc, char* argv[]){
     mi_pso.mostrarResultados();
 */
     Lector * lector = Lector::getInstance();
+    lector->setDataBase("104");
     lector->leerLabelsTraining();
     lector->mostrarLabelsTraining();
 

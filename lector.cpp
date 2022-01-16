@@ -11,6 +11,7 @@
 #include "lector.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -44,7 +45,9 @@ void Lector::leerDataTest(){
 }
 
 void Lector::leerLabelsTraining(){
-    string file = "./labels_training" + data_base + ".csv";
+    labels_training.clear();
+    string file = "./labels_training_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
     while (!f.eof()){
@@ -120,8 +123,8 @@ vector<int> Lector::getLabelsTraining(){
     return labels_training;
 }
 
-vector<vector<double>> Lector::getDataTest(){
-    return data_test;
+string Lector::getDataBase(){
+    return data_base;
 }
 
 /*double Lector::getValor(int i, int j){
@@ -166,4 +169,8 @@ void Lector::mostrarLabelsTraining(){
         cout << labels_training[i] << "\t";
     }
     cout << endl;
+}
+
+void Lector::setDataBase(string db){
+    data_base = db;
 }
