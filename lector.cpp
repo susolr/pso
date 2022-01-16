@@ -28,6 +28,52 @@ Lector* Lector::getInstance(){
     return lector;
 }
 
+void Lector::leerDatos(){
+    leerDataTraining();
+    leerDataTest();
+    leerLabelsTraining();
+    leerLabelsTest();
+}
+
+void Lector::leerDataTraining(){
+
+}
+
+void Lector::leerDataTest(){
+
+}
+
+void Lector::leerLabelsTraining(){
+    ifstream f (data_base);
+}
+
+void Lector::leerLabelsTest(){
+
+}
+
+void Lector::leerDatos(int fil, int col){
+    leerDataTraining(fil, col);
+    leerDataTest(fil, col);
+    leerLabelsTraining(fil);
+    leerLabelsTest(fil);
+}
+
+void Lector::leerDataTraining(int fil, int col){
+
+}
+
+void Lector::leerDataTest(int fil, int col){
+
+}
+
+void Lector::leerLabelsTraining(int fil){
+
+}
+
+void Lector::leerLabelsTest(int fil){
+    
+}
+
 /*void Lector::LeerTxt(){
 
     ifstream f ("./datos.txt");

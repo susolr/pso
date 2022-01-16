@@ -33,18 +33,18 @@ public:
     //void LeerTxt();
 
     //Métodos para leer la base de datos completa del fichero
-    void LeerDatos();
-    void LeerDataTraining();
-    void LeerDataTest();
-    void LeerLabelsTraining();
-    void LeerLabelsTest();
+    void leerDatos();
+    void leerDataTraining();
+    void leerDataTest();
+    void leerLabelsTraining();
+    void leerLabelsTest();
 
     //Métodos para leer una parte de la base de datos para hacer pruebas
-    void LeerDatos(int fil, int col);
-    void LeerDataTraining(int fil, int col);
-    void LeerDataTest(int fil, int col);
-    void LeerLabelsTraining(int fil);
-    void LeerLabelsTest(int fil);
+    void leerDatos(int fil, int col);
+    void leerDataTraining(int fil, int col);
+    void leerDataTest(int fil, int col);
+    void leerLabelsTraining(int fil);
+    void leerLabelsTest(int fil);
 
     //Métodos para acceder a los distintos datos
     vector<vector<double>> getDataTest();

@@ -61,7 +61,7 @@ void Particula::valorar(){
     double aux_value = value;
     value = calcularValor();
     var_value = abs(value-aux_value);
-    if (value < b_value){
+    if (value > b_value){
         b_value = value;
         setMejorPosicion();
     }
