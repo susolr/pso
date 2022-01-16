@@ -26,9 +26,9 @@ int main (int argc, char* argv[]){
     mi_pso.ejecutar();
     mi_pso.mostrarResultados();
 */
-    string db = "104";
-    string file = "data_test_" + db + ".csv";
-    cout << "Fichero:" << file.data() << endl;
+    Lector * lector = Lector::getInstance();
+    lector->leerLabelsTraining();
+    lector->mostrarLabelsTraining();
 
     return 0;
 }

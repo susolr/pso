@@ -44,7 +44,13 @@ void Lector::leerDataTest(){
 }
 
 void Lector::leerLabelsTraining(){
-    ifstream f (data_base);
+    string file = "./labels_training" + data_base + ".csv";
+    ifstream f (file);
+    int n;
+    while (!f.eof()){
+        f >> n;
+        labels_training.push_back(n);
+    }
 }
 
 void Lector::leerLabelsTest(){
@@ -67,7 +73,14 @@ void Lector::leerDataTest(int fil, int col){
 }
 
 void Lector::leerLabelsTraining(int fil){
-
+    string file = "./labels_training" + data_base + ".csv";
+    ifstream f (file);
+    int n;
+    int cont = 0;
+    while (!f.eof() && (cont<fil)){
+        f >> n;
+        labels_training.push_back(n);
+    }
 }
 
 void Lector::leerLabelsTest(int fil){
