@@ -16,6 +16,7 @@
 #include <cmath>
 #include "lector.h"
 
+
 using namespace std;
 
 Particula::Particula(int n){
@@ -66,8 +67,8 @@ void Particula::valorar(){
         setMejorPosicion();
     }
 }
-double Particula::calcularValor(){
 
+/*double Particula::calcularValor(){
     vector<vector<double>> data = lector->getDataTest();
     double suma = 0.0;
     double res = 0.0;
@@ -93,6 +94,22 @@ double Particula::calcularValor(){
     }
 
     return res;
+}*/
+
+double Particula::calcularValor(){
+
+    vector<vector<double>> data_test = lector->getDataTest();
+    vector<vector<double>> data_training = lector->getDataTraining();
+    vector<int> labels_test = lector->getLabelsTest();
+    vector<int> labels_training = lector->getLabelsTraining();
+    vector<pair<double, int>> distancias;
+    for(int i = 0; i < data_test.size(); i++){
+        for(int j = 0; j < data_training.size(); j++){
+            for (int k = 0; k < data_training[i].size(); k++){
+
+            }
+        }
+    }
 }
 
 void Particula::setMejorPosicion(){
