@@ -13,11 +13,27 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <stdlib.h>
 
 using namespace std;
 
 
 Lector* Lector::lector= nullptr;
+
+vector<string> split (string s, string delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    string token;
+    vector<string> res;
+
+    while ((pos_end = s.find (delimiter, pos_start)) != string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (token);
+    }
+
+    res.push_back (s.substr (pos_start));
+    return res;
+}
 
 Lector::Lector(){
     cout << "Creando Lector" << endl;
@@ -45,15 +61,20 @@ void Lector::leerDataTraining(){
     vector<double> v;
     double d;
     string line;
-     
+    int cont_col = 0;
     while (getline(f, line)){
-        stringstream ss(line);
-        while (ss >> d){
+        vector<string> ss = split(line, ",");
+        while ((cont_col < ss.size())){
+            d = stod(ss[cont_col]);
             v.push_back(d);
+            cont_col++;
         }
         data_training.push_back(v);
         v.clear();
+        cont_col = 0;
+
     }
+
     f.close();
 }
 
@@ -65,14 +86,18 @@ void Lector::leerDataTest(){
     vector<double> v;
     double d;
     string line;
-     
+    int cont_col = 0;
     while (getline(f, line)){
-        stringstream ss(line);
-        while (ss >> d){
+        vector<string> ss = split(line, ",");
+        while ((cont_col < ss.size())){
+            d = stod(ss[cont_col]);
             v.push_back(d);
+            cont_col++;
         }
         data_training.push_back(v);
         v.clear();
+        cont_col = 0;
+
     }
     f.close();
 }
@@ -119,11 +144,15 @@ void Lector::leerDataTraining(int fil, int col){
     vector<double> v;
     double d;
     string line;
+    
     int cont_fil = 0;
     int cont_col = 0;
     while (getline(f, line) && (cont_fil < fil)){
-        stringstream ss(line);
-        while (ss >> d && (cont_col < col)){
+        //stringstream ss(line);
+        //while ((ss >> d) && (cont_col < col)){
+        vector<string> ss = split(line, ",");
+        while ((cont_col < ss.size()) && (cont_col < col)){
+            d = stod(ss[cont_col]);
             v.push_back(d);
             cont_col++;
         }
@@ -146,13 +175,18 @@ void Lector::leerDataTest(int fil, int col){
     int cont_fil = 0;
     int cont_col = 0;
     while (getline(f, line) && (cont_fil < fil)){
-        stringstream ss(line);
-        while (ss >> d && (cont_col < col)){
+        //stringstream ss(line);
+        //while ((ss >> d) && (cont_col < col)){
+        vector<string> ss = split(line, ",");
+        while ((cont_col < ss.size()) && (cont_col < col)){
+            d = stod(ss[cont_col]);
             v.push_back(d);
+            cont_col++;
         }
-        data_test.push_back(v);
+        data_training.push_back(v);
         v.clear();
         cont_col = 0;
+        cont_fil++;
     }
     f.close();
 }
@@ -269,3 +303,4 @@ void Lector::mostrarLabelsTraining(){
 void Lector::setDataBase(string db){
     data_base = db;
 }
+

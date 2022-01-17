@@ -28,7 +28,7 @@ int main (int argc, char* argv[]){
 */
     Lector * lector = Lector::getInstance();
     lector->setDataBase("104");
-    lector->leerDataTraining(10,10);
+    lector->leerDataTraining(200,10);
     lector->mostrarDataTraining();
 
     return 0;
