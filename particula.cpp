@@ -14,10 +14,28 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "lector.h"
 
 
 using namespace std;
+
+int valorKNN(int k_valor, vector<pair<double,int>> distancias){
+    vector<int> res = {0,0,0};
+    int label;
+
+    sort(distancias.begin(), distancias.end());
+
+    for (int i = 0; i < k_valor; i++){
+        int l = distancias[i].first;
+        res[l]++;
+    }
+
+    sort(res.begin(), res.end());
+
+    label = res[2];
+    return label;
+}
 
 Particula::Particula(int n){
     dimension = n;
@@ -68,48 +86,48 @@ void Particula::valorar(){
     }
 }
 
-/*double Particula::calcularValor(){
-    vector<vector<double>> data = lector->getDataTest();
-    double suma = 0.0;
-    double res = 0.0;
-    //cout << "Data size: " << data.size() << endl;
-    for (int i = 1; i < data.size(); i++){
-        //cout << "Primer for" << endl;
-        for (int j = 0; j< data.at(i).size(); j++){
-            //cout << "Segundo for" << endl;
-            //cout << "Pos size " << pos.size() << endl;
-            if (pos[j] == 1){
-               // cout << "Paso " << i << " " << j << endl;
-                double dis = data[0][j] - data[i][j];
-                suma += dis*dis;
-                //cout << "Distancia: " << dis << "\tSuma: " << suma << endl;
-            }
-            
-        }
-        
-        suma = sqrt(suma);
-        res += suma;
-        suma = 0.0;
-        //cout << "Resultado: " << res << "\n" << endl;
-    }
-
-    return res;
-}*/
-
 double Particula::calcularValor(){
 
     vector<vector<double>> data_test = lector->getDataTest();
     vector<vector<double>> data_training = lector->getDataTraining();
     vector<int> labels_test = lector->getLabelsTest();
     vector<int> labels_training = lector->getLabelsTraining();
+    vector<int> labels_knn; 
     vector<pair<double, int>> distancias;
+    int k_valor = 7;
+    
     for(int i = 0; i < data_test.size(); i++){
+        double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             for (int k = 0; k < data_training[i].size(); k++){
-
+                if(pos[k]==1){
+                    double aux = data_test[i][k] - data_training[j][k];
+                    aux = aux*aux;
+                    distancia += aux;
+                }
             }
+            pair<double,int> d_v (distancia, labels_training[j]);
+            distancias.push_back(d_v);
+        }
+        int valor_label_knn = valorKNN(k_valor, distancias);
+        labels_knn.push_back(valor_label_knn);
+    }
+
+    int n_aciertos = 0, n_fallos = 0;
+
+    for (int i = 0; i < labels_knn.size(); i++){
+        if (labels_knn[i] == labels_test[i]){
+            n_aciertos++;
+        }
+        else{
+            n_fallos++;
         }
     }
+
+    double valor = (n_aciertos)/(n_aciertos+n_fallos)*100;
+
+    return valor;
+
 }
 
 void Particula::setMejorPosicion(){
