@@ -20,7 +20,9 @@ using namespace std;
 
 PSO::PSO(){
     Lector * lector = Lector::getInstance();
-    lector->leerDatos();
+    lector->setDataBase("104");
+    lector->leerDatos(20,20);
+    //lector->mostrarDatos();
     b_value = 0.0;
 }
 
@@ -48,12 +50,15 @@ void PSO::ejecutar(){
             cumulo[i].valorar();
             if (cumulo[i].getValue() > b_value){
                 b_value = cumulo[i].getValue();
+                b_pos.clear();
                 b_pos = cumulo[i].getPos();
             }
         }
         cout << "Valoradas todas las partículas" << endl;
         cout << "Actualizando velocidad y posicion..." << endl;
         for (int i = 0; i < cumulo.size(); i++){
+            cout << "Actualizando: " << i << endl;
+            cout << "Tamaño del cúmulo " << cumulo.size() << endl;
             cumulo[i].actualizarVelocidad(b_pos);
             cumulo[i].actualizarPosicion();
         }

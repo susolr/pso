@@ -20,16 +20,17 @@ using namespace std;
 
 int main (int argc, char* argv[]){
 
-/*
+
     PSO mi_pso = PSO();
-    mi_pso.crearCumulo(20, 5);
+    mi_pso.crearCumulo(20, 20);
     mi_pso.ejecutar();
     mi_pso.mostrarResultados();
-*/
-    Lector * lector = Lector::getInstance();
+
+/*    Lector * lector = Lector::getInstance();
     lector->setDataBase("104");
     lector->leerDataTraining(200,10);
     lector->mostrarDataTraining();
+*/
 
     return 0;
 }

@@ -50,7 +50,7 @@ Particula::Particula(int n){
 }
 
 void Particula::actualizarPosicion(){
-
+    cout << "Actualizando posicion";
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i)));
@@ -65,7 +65,7 @@ void Particula::actualizarPosicion(){
 }
 
 void Particula::actualizarVelocidad(vector<int> &g){
-    //cout << "Actualizando velocidad";
+    cout << "Actualizando velocidad";
     vector<int> rd1 = generarAleatorio();
     vector<int> rd2 = generarAleatorio();
 
@@ -87,7 +87,7 @@ void Particula::valorar(){
 }
 
 double Particula::calcularValor(){
-
+    //cout << "Calcular valor" << endl;
     vector<vector<double>> data_test = lector->getDataTest();
     vector<vector<double>> data_training = lector->getDataTraining();
     vector<int> labels_test = lector->getLabelsTest();
@@ -95,11 +95,14 @@ double Particula::calcularValor(){
     vector<int> labels_knn; 
     vector<pair<double, int>> distancias;
     int k_valor = 7;
-    
+    //cout << "Size de test " << data_test.size();
     for(int i = 0; i < data_test.size(); i++){
+        //cout << "Iteracion: \nI:" << i << endl;
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
+            //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
             for (int k = 0; k < data_training[i].size(); k++){
+                //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){
                     double aux = data_test[i][k] - data_training[j][k];
                     aux = aux*aux;

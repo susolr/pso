@@ -183,7 +183,7 @@ void Lector::leerDataTest(int fil, int col){
             v.push_back(d);
             cont_col++;
         }
-        data_training.push_back(v);
+        data_test.push_back(v);
         v.clear();
         cont_col = 0;
         cont_fil++;
@@ -194,6 +194,7 @@ void Lector::leerDataTest(int fil, int col){
 void Lector::leerLabelsTraining(int fil){
     labels_training.clear();
     string file = "./labels_training_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
     int cont = 0;
@@ -208,12 +209,13 @@ void Lector::leerLabelsTraining(int fil){
 void Lector::leerLabelsTest(int fil){
     labels_test.clear();
     string file = "./labels_test_" + data_base + ".csv";
+    cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
     int cont = 0;
     while (!f.eof() && (cont<fil)){
         f >> n;
-        labels_training.push_back(n);
+        labels_test.push_back(n);
         cont ++;
     }
     f.close();
