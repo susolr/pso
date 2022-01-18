@@ -34,6 +34,7 @@ void PSO::crearCumulo(int n_particulas, int dimension){
         cout << "Creada partícula " << i << endl;
     }
     cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
+    b_pos = cumulo[0].getPos();
 }
 
 void PSO::ejecutar(){
@@ -59,6 +60,7 @@ void PSO::ejecutar(){
         for (int i = 0; i < cumulo.size(); i++){
             cout << "Actualizando: " << i << endl;
             cout << "Tamaño del cúmulo " << cumulo.size() << endl;
+            cout << "Tamaño de b_pos " << b_pos.size() << endl;
             cumulo[i].actualizarVelocidad(b_pos);
             cumulo[i].actualizarPosicion();
         }

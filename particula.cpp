@@ -44,13 +44,15 @@ Particula::Particula(int n){
     c_social = 0.6;
     lector = Lector::getInstance();
     inercia = 0.8;
+    b_value = 0.0;
+    b_pos = pos;
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
 }
 
 void Particula::actualizarPosicion(){
-    cout << "Actualizando posicion";
+    cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i)));
@@ -65,7 +67,7 @@ void Particula::actualizarPosicion(){
 }
 
 void Particula::actualizarVelocidad(vector<int> &g){
-    cout << "Actualizando velocidad";
+    //cout << "Actualizando velocidad" << endl << flush;
     vector<int> rd1 = generarAleatorio();
     vector<int> rd2 = generarAleatorio();
 
@@ -128,7 +130,6 @@ double Particula::calcularValor(){
     }
 
     double valor = (n_aciertos)/(n_aciertos+n_fallos)*100;
-
     return valor;
 
 }
@@ -136,6 +137,7 @@ double Particula::calcularValor(){
 void Particula::setMejorPosicion(){
     b_pos.clear();
     b_pos = pos;
+    
 }
 
 double Particula::getValue(){
