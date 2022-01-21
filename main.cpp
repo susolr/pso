@@ -22,7 +22,7 @@ int main (int argc, char* argv[]){
 
 
     PSO mi_pso = PSO();
-    mi_pso.crearCumulo(20, 20);
+    mi_pso.crearCumulo(100, 100);
     mi_pso.ejecutar();
     mi_pso.mostrarResultados();
 

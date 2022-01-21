@@ -27,13 +27,25 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
     sort(distancias.begin(), distancias.end());
 
     for (int i = 0; i < k_valor; i++){
-        int l = distancias[i].first;
+        int l = distancias[i].second;
+        //cout << "Pos: " << i << " " << distancias[i].first << " " << distancias[i].second << endl;
         res[l]++;
     }
 
-    sort(res.begin(), res.end());
+    //sort(res.begin(), res.end());
+    int max = res[0];
+    int pos_max = 0;
 
-    label = res[2];
+    for (int i = 1; i < res.size(); i++){
+        if (res[i] > max){
+            max = res[i];
+            pos_max = i;
+        }
+    }
+
+    label = pos_max;
+    cout << "N_0 " << res[0] << "\tN_1 " << res[1] << "\tN_2 " << res[2] << "\tElegido " << label << endl;
+    
     return label;
 }
 
@@ -52,7 +64,7 @@ Particula::Particula(int n){
 }
 
 void Particula::actualizarPosicion(){
-    cout << "Actualizando posicion" << endl << flush;
+    //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i)));
@@ -112,15 +124,19 @@ double Particula::calcularValor(){
                 }
             }
             pair<double,int> d_v (distancia, labels_training[j]);
+            //cout << "Distancia: " << distancia << "\tValor " << labels_training[j] << endl;
             distancias.push_back(d_v);
+            distancia = 0.0;
         }
         int valor_label_knn = valorKNN(k_valor, distancias);
+        distancias.clear();
         labels_knn.push_back(valor_label_knn);
     }
 
     int n_aciertos = 0, n_fallos = 0;
 
     for (int i = 0; i < labels_knn.size(); i++){
+        //cout << "LabelKnn: " << labels_knn[i] << "\t LabelTest " << labels_test[i] << endl;
         if (labels_knn[i] == labels_test[i]){
             n_aciertos++;
         }
@@ -129,7 +145,8 @@ double Particula::calcularValor(){
         }
     }
 
-    double valor = (n_aciertos)/(n_aciertos+n_fallos)*100;
+    double valor = ((n_aciertos)*1.0)/(1.0*(n_aciertos+n_fallos))*100;
+    cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
     return valor;
 
 }
@@ -158,15 +175,15 @@ vector<int> Particula::getBPos(){
 
 vector<int> Particula::generarAleatorio(){
     vector<int> aux;
-
     for (int i = 0; i < dimension; ++i){
-        
+        /*
         if (rand()%100 >= 0.5){
             aux.push_back(1);
         }
         else {
             aux.push_back(0);
-        }
+        }*/
+        aux.push_back(rand()%2);
     }
 
     return aux;
