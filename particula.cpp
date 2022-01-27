@@ -44,7 +44,7 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
     }
 
     label = pos_max;
-    cout << "N_0 " << res[0] << "\tN_1 " << res[1] << "\tN_2 " << res[2] << "\tElegido " << label << endl;
+    //cout << "N_0 " << res[0] << "\tN_1 " << res[1] << "\tN_2 " << res[2] << "\tElegido " << label << endl;
     
     return label;
 }
@@ -67,7 +67,7 @@ void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
-        sig = 1.0/(1.0+exp(-vel.at(i)));
+        sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
         if ((rand()%100) < sig){
             pos.at(i) = 1;
         }

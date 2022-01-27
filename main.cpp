@@ -15,6 +15,7 @@
 #include <queue>
 #include "lector.h"
 #include "pso.h"
+#include "omp.h"
 
 using namespace std;
 
@@ -23,8 +24,12 @@ int main (int argc, char* argv[]){
 
     PSO mi_pso = PSO();
     mi_pso.crearCumulo(100, 100);
+    //medir tiempo openmp
+    double time_inicio = omp_get_wtime();
     mi_pso.ejecutar();
+    double time = omp_get_wtime() - time_inicio;
     mi_pso.mostrarResultados();
+    cout << "Tiempo ejecucion " << time*1000 << endl;
 
 /*    Lector * lector = Lector::getInstance();
     lector->setDataBase("104");

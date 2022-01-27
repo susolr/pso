@@ -47,6 +47,7 @@ void PSO::ejecutar(){
         int max = 0;
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         cout << "Valorando..." << endl;
+        //Pragma opm parallel for
         for (int i = 0; i < cumulo.size(); i++){
             cumulo[i].valorar();
             if (cumulo[i].getBValue() > b_value){
@@ -57,6 +58,7 @@ void PSO::ejecutar(){
         }
         cout << "Valoradas todas las partículas" << endl;
         cout << "Actualizando velocidad y posicion..." << endl;
+        //Pragma omp parallel for
         for (int i = 0; i < cumulo.size(); i++){
             //cout << "Actualizando: " << i << endl;
             //cout << "Tamaño del cúmulo " << cumulo.size() << endl;
@@ -67,7 +69,7 @@ void PSO::ejecutar(){
         cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
 
-        if (var_value < pow(10,-3)){
+        if (var_value < 0.001){
             ++n_iter;
         }
         else {

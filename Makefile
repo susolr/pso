@@ -1,10 +1,10 @@
 all: build run
 
 run:
-	./pso.exe
+	./pso
 
 build:
-	g++ -o pso.exe main.cpp lector.cpp pso.cpp particula.cpp
+	g++ -o pso main.cpp lector.cpp pso.cpp particula.cpp -fopenmp
 
 clean:
 	
