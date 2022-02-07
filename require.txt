@@ -58,3 +58,11 @@
 Se clasifican todas las filas de test comparando las distancias a todas las filas de training. 
 Comprobamos aciertos y errores. 
 Acc = Aciertos/Total * 100
+
+Parametros
+-np Numero de particulas
+-nh Numero de hebras
+-nI Numero MAX de iteraciones
+-cS Valor del componente social
+-cC Valor del componente cognitivo
+-cI Valor del componente inercia
