@@ -23,7 +23,7 @@ int main (int argc, char* argv[]){
 
 
     PSO mi_pso = PSO();
-    mi_pso.crearCumulo(100, 100);
+    mi_pso.crearCumulo(20, 3600);
     //medir tiempo openmp
     double time_inicio = omp_get_wtime();
     mi_pso.ejecutar();

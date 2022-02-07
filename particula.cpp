@@ -146,7 +146,7 @@ double Particula::calcularValor(){
     }
 
     double valor = ((n_aciertos)*1.0)/(1.0*(n_aciertos+n_fallos))*100;
-    cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
+    //cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
     return valor;
 
 }
