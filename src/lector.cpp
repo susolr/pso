@@ -55,7 +55,7 @@ void Lector::leerDatos(){
 
 void Lector::leerDataTraining(){
     data_training.clear();
-    string file = "./data_training_" + data_base + ".csv";
+    string file = "./data/data_training_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     vector<double> v;
@@ -80,7 +80,7 @@ void Lector::leerDataTraining(){
 
 void Lector::leerDataTest(){
     data_test.clear();
-    string file = "./data_training_" + data_base + ".csv";
+    string file = "./data/data_training_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     vector<double> v;
@@ -104,7 +104,7 @@ void Lector::leerDataTest(){
 
 void Lector::leerLabelsTraining(){
     labels_training.clear();
-    string file = "./labels_training_" + data_base + ".csv";
+    string file = "./data/labels_training_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
@@ -117,7 +117,7 @@ void Lector::leerLabelsTraining(){
 
 void Lector::leerLabelsTest(){
     labels_test.clear();
-    string file = "./labels_test_" + data_base + ".csv";
+    string file = "./data/labels_test_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
@@ -138,7 +138,7 @@ void Lector::leerDatos(int fil, int col){
 
 void Lector::leerDataTraining(int fil, int col){
     data_training.clear();
-    string file = "./data_training_" + data_base + ".csv";
+    string file = "./data/data_training_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     vector<double> v;
@@ -166,7 +166,7 @@ void Lector::leerDataTraining(int fil, int col){
 
 void Lector::leerDataTest(int fil, int col){
     data_test.clear();
-    string file = "./data_test_" + data_base + ".csv";
+    string file = "./data/data_test_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     vector<double> v;
@@ -193,7 +193,7 @@ void Lector::leerDataTest(int fil, int col){
 
 void Lector::leerLabelsTraining(int fil){
     labels_training.clear();
-    string file = "./labels_training_" + data_base + ".csv";
+    string file = "./data/labels_training_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
@@ -208,7 +208,7 @@ void Lector::leerLabelsTraining(int fil){
 
 void Lector::leerLabelsTest(int fil){
     labels_test.clear();
-    string file = "./labels_test_" + data_base + ".csv";
+    string file = "./data/labels_test_" + data_base + ".csv";
     cout << "Leyendo fichero: " << file << endl;
     ifstream f (file);
     int n;
