@@ -31,7 +31,7 @@ void PSO::crearCumulo(int n_particulas, int dimension){
     cumulo.clear();
     for (int i = 0; i < n_particulas; i++){
         cumulo.push_back(Particula(dimension));
-        cout << "Creada partícula " << i << endl;
+        //cout << "Creada partícula " << i << endl;
     }
     cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
     b_pos = cumulo[0].getPos();
@@ -87,9 +87,9 @@ void PSO::mostrarResultados(){
     cout << "RESULTADOS:" << endl;
     cout << "Mejor valor: " << b_value << "%" << endl;
     cout << "Mejor posicion:";
-    for (int i = 0; i < b_pos.size(); i++){
+    /*for (int i = 0; i < b_pos.size(); i++){
         cout << "\t" << b_pos[i];
-    }
+    }*/
     cout << endl;
 
 }

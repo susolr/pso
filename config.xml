@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<Config>
+    <NParticulas>20</NParticulas>
+    <NHebras>1</NHebras>
+    <NMaxIteraciones>20</NMaxIteraciones>
+    <CSocial>0.6</CSocial>
+    <CCognitiva>0.8</CCognitiva>
+    <CInercia>0.8</CInercia>
+    <KValor>7</KValor>
+</Config>

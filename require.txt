@@ -66,3 +66,4 @@ Parametros
 -cS Valor del componente social
 -cC Valor del componente cognitivo
 -cI Valor del componente inercia
+-k  Valor de la componente K

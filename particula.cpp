@@ -108,7 +108,7 @@ double Particula::calcularValor(){
     vector<int> labels_training = lector->getLabelsTraining();
     vector<int> labels_knn; 
     vector<pair<double, int>> distancias;
-    int k_valor = 7;
+    int k_valor = 3;
     //cout << "Size de test " << data_test.size();
     for(int i = 0; i < data_test.size(); i++){
         //cout << "Iteracion: \nI:" << i << endl;
