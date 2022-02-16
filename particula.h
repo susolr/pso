@@ -40,6 +40,7 @@ private:
     double c_social;
     double inercia;
     int dimension;
+    int k_valor;
     Lector * lector;
 
     double calcularValor();

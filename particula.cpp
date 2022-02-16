@@ -58,6 +58,7 @@ Particula::Particula(int n){
     inercia = 0.8;
     b_value = 0.0;
     b_pos = pos;
+    k_valor = 7;
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
@@ -108,7 +109,6 @@ double Particula::calcularValor(){
     vector<int> labels_training = lector->getLabelsTraining();
     vector<int> labels_knn; 
     vector<pair<double, int>> distancias;
-    int k_valor = 3;
     //cout << "Size de test " << data_test.size();
     for(int i = 0; i < data_test.size(); i++){
         //cout << "Iteracion: \nI:" << i << endl;

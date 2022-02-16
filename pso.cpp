@@ -15,6 +15,7 @@
 #include <vector>
 #include <cmath>
 #include "lector.h"
+#include <omp.h>
 
 using namespace std;
 
@@ -41,13 +42,14 @@ void PSO::ejecutar(){
     //cout << "Bucle principal" << endl;
     int n_iter = 0;
     int contador = 0;
+    int n_threads = 8;
     while (n_iter < 10 && contador < 20){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
         int max = 0;
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
-        //#pragma opm parallel for
+        #pragma opm parallel for num_threads(n_threads)
         for (int i = 0; i < cumulo.size(); i++){
             cumulo[i].valorar();
         }
@@ -61,7 +63,7 @@ void PSO::ejecutar(){
         }
         //cout << "Valoradas todas las partículas" << endl;
         //cout << "Actualizando velocidad y posicion..." << endl;
-        //#pragma omp parallel for
+        #pragma omp parallel for num_threads(n_threads)
         for (int i = 0; i < cumulo.size(); i++){
             //cout << "Actualizando: " << i << endl;
             //cout << "Tamaño del cúmulo " << cumulo.size() << endl;
