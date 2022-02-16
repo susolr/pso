@@ -302,6 +302,10 @@ void Lector::mostrarLabelsTraining(){
     cout << endl;
 }
 
+void Lector::leerConfig(){
+    
+}
+
 void Lector::setDataBase(string db){
     data_base = db;
 }
