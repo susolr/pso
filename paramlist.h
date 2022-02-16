@@ -1,5 +1,5 @@
 /**
- * @file parametro.h
+ * @file paramlist.h
  * @author Jesús López Rodríguez (jlopezpeque@hotmail.com)
  * @brief 
  * @version 0.1
@@ -9,21 +9,21 @@
  * 
  */
 
-#ifndef PARAMETRO_H
-#define PARAMETRO_H
+#ifndef PARAMLIST_H
+#define PARAMLIST_H
 
 #include "lector.h"
+#include "parametro.h"
 #include <string>
+#include <vector>
 using namespace std;
 
-class Parametro{
+class Paramlist{
 public:
-    Parametro();
+    Paramlist();
+
 private:
-    string arg;
-    string descrip;
-    string valor; 
+    vector<Parametro> lista;
 
 };
-
 #endif
