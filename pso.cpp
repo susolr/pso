@@ -42,7 +42,7 @@ void PSO::ejecutar(){
     //cout << "Bucle principal" << endl;
     int n_iter = 0;
     int contador = 0;
-    int n_threads = 8;
+    int n_threads = 4;
     while (n_iter < 10 && contador < 20){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
@@ -53,13 +53,18 @@ void PSO::ejecutar(){
         for (int i = 0; i < cumulo.size(); i++){
             cumulo[i].valorar();
         }
-
+        bool cambia = false;
+        int pos;
         for (int i = 0; i < cumulo.size(); i++){
             if (cumulo[i].getBValue() > b_value){
+                cambia = true;
                 b_value = cumulo[i].getBValue();
-                b_pos.clear();
-                b_pos = cumulo[i].getBPos();
+                pos = i;
             }
+        }
+        if (cambia){
+                b_pos.clear();
+                b_pos = cumulo[pos].getBPos();
         }
         //cout << "Valoradas todas las partículas" << endl;
         //cout << "Actualizando velocidad y posicion..." << endl;
