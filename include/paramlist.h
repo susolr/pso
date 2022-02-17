@@ -25,7 +25,10 @@ public:
 
 private:
     vector<Parametro> lista;
+
+    
     void init();
+    int buscarParametro(string arg);
 
 };
 #endif

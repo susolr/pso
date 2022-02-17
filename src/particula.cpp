@@ -62,6 +62,11 @@ Particula::Particula(int n){
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
+    data_test = lector->getDataTest();
+    data_training = lector->getDataTraining();
+    labels_test = lector->getLabelsTest();
+    labels_training = lector->getLabelsTraining();
+    //cout << "Sizes: " << data_test.size() << " " << data_training.size() << " " << labels_test.size() << " " << labels_training.size() << endl;
 }
 
 void Particula::actualizarPosicion(){
@@ -103,10 +108,7 @@ void Particula::valorar(){
 
 double Particula::calcularValor(){
     //cout << "Calcular valor" << endl;
-    vector<vector<double>> data_test = lector->getDataTest();
-    vector<vector<double>> data_training = lector->getDataTraining();
-    vector<int> labels_test = lector->getLabelsTest();
-    vector<int> labels_training = lector->getLabelsTraining();
+    
     vector<int> labels_knn; 
     vector<pair<double, int>> distancias;
     //cout << "Size de test " << data_test.size();

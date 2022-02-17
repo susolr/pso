@@ -21,11 +21,16 @@ using namespace std;
 
 int main (int argc, char* argv[]){
 
+    Lector * lector = Lector::getInstance();
+    lector->setDataBase("104");
+    lector->leerDatos(178,3600);
 
-    string a="";
-    for (int i = 1; i < argc; i+=2){
-        cout << argv[i] << "\t" << argv[i+1] << endl;
+    vector<int> a = lector->getLabelsTest();
+
+    cout << "Labels size: " << a.size() << endl;
+    for (int i = 0; i < a.size(); i++){
+        cout << a.at(i) << "\t" << endl;
     }
-
+    cout << "fin" << endl;
     return 0;
 }

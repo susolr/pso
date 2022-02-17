@@ -42,11 +42,14 @@ private:
     int dimension;
     int k_valor;
     Lector * lector;
+    vector<vector<double>> data_test;
+    vector<vector<double>> data_training;
+    vector<int> labels_test;
+    vector<int> labels_training;
 
     double calcularValor();
     void setMejorPosicion();
     vector<int> generarAleatorio();
-
 
 };
 

@@ -55,6 +55,7 @@ void PSO::ejecutar(){
         }
         bool cambia = false;
         int pos;
+        //cout << "Antes de actualizacion b_pos" << endl;
         for (int i = 0; i < cumulo.size(); i++){
             if (cumulo[i].getBValue() > b_value){
                 cambia = true;

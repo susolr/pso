@@ -37,3 +37,14 @@ void Paramlist::init(){
     lista.push_back(Parametro("-cI", "Parámetro para definir el valor de la componente de inercia del algoritmo"));
     lista.push_back(Parametro("-k" , "Parámetro para definir el valor K del algoritmo de clasificación"));
 }
+
+int Paramlist::buscarParametro(string arg){
+    int pos = -1;
+    for (int i = 0; i < lista.size(); i++){
+        if (arg.compare(lista.at(i).getArg()) == 0){
+            pos = i;
+        }
+    }
+
+    return pos;
+}

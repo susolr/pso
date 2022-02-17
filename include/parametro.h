@@ -25,6 +25,8 @@ public:
     //funciones de acceso y modificacion
     void setValor(string valor);
     string getValor();
+    string getArg();
+    string getDescipcion();
     bool isSet();
 
 private:

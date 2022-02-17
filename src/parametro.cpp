@@ -46,3 +46,11 @@ void Parametro::setValor(string valor){
 string Parametro::getValor(){
     return valor;
 }
+
+string Parametro::getArg(){
+    return arg;
+}
+
+string Parametro::getDescipcion(){
+    return descrip;
+}

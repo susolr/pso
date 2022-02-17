@@ -54,6 +54,12 @@
     return res;
 }*/
 
+/*vector<vector<double>> data_test = lector->getDataTest();
+    vector<vector<double>> data_training = lector->getDataTraining();
+    vector<int> labels_test = lector->getLabelsTest();
+    vector<int> labels_training = lector->getLabelsTraining();
+    */
+
 
 Se clasifican todas las filas de test comparando las distancias a todas las filas de training. 
 Comprobamos aciertos y errores. 
