@@ -18,13 +18,19 @@ using namespace std;
 
 Paramlist::Paramlist(){
     init();
+    //Load and set args
 }
 
 Paramlist::Paramlist(int argc, char* argv[]){
     init();
-    string a="";
     for (int i = 1; i < argc; i++){
-        a = a + argv[i];
+        int pos = buscarParametro(argv[i]);
+        //Comprobar valor adecuado??
+        lista.at(pos).setValor(argv[i+1]);
+    }
+    int n_arg = (argc-1)/2;
+    if ( n_arg != lista.size()){
+        //Load and set args
     }
 }
 
