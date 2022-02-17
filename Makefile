@@ -20,5 +20,7 @@ build_p:
 	g++ -o pruebas -Iinclude $(SRC)/pruebas.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp -fopenmp
 
 clean:
+	rm pso
+	rm pruebas
 	
 
