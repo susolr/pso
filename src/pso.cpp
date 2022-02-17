@@ -42,7 +42,7 @@ void PSO::ejecutar(){
     //cout << "Bucle principal" << endl;
     int n_iter = 0;
     int contador = 0;
-    int n_threads = 4;
+    int n_threads = 5;
     while (n_iter < 10 && contador < 20){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
@@ -94,7 +94,7 @@ void PSO::mostrarResultados(){
     cout << "Monstrando resultados "  << endl;
     cout << "RESULTADOS:" << endl;
     cout << "Mejor valor: " << b_value << "%" << endl;
-    cout << "Mejor posicion:";
+    //cout << "Mejor posicion:";
     /*for (int i = 0; i < b_pos.size(); i++){
         cout << "\t" << b_pos[i];
     }*/

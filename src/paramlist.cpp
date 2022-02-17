@@ -19,6 +19,7 @@ using namespace std;
 Paramlist::Paramlist(){
     init();
     //Load and set args
+    setParametros();
 }
 
 Paramlist::Paramlist(int argc, char* argv[]){
@@ -26,11 +27,12 @@ Paramlist::Paramlist(int argc, char* argv[]){
     for (int i = 1; i < argc; i++){
         int pos = buscarParametro(argv[i]);
         //Comprobar valor adecuado??
-        lista.at(pos).setValor(argv[i+1]);
+        lista[pos].setValor(argv[i+1]);
     }
     int n_arg = (argc-1)/2;
     if ( n_arg != lista.size()){
         //Load and set args
+        setParametros();
     }
 }
 
@@ -47,10 +49,17 @@ void Paramlist::init(){
 int Paramlist::buscarParametro(string arg){
     int pos = -1;
     for (int i = 0; i < lista.size(); i++){
-        if (arg.compare(lista.at(i).getArg()) == 0){
+        if (arg.compare(lista[i].getArg()) == 0){
             pos = i;
         }
     }
-
     return pos;
+}
+
+void Paramlist::setParametros(){
+    for (int i = 0; i < lista.size(); i++){
+        if(!lista[i].isSet()){
+            //leer de XML
+        }
+    }
 }

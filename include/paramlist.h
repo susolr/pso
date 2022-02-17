@@ -29,6 +29,7 @@ private:
     
     void init();
     int buscarParametro(string arg);
+    void setParametros();
 
 };
 #endif

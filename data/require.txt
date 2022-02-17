@@ -73,3 +73,25 @@ Parametros
 -cC Valor del componente cognitivo
 -cI Valor del componente inercia
 -k  Valor de la componente K
+
+Probar K entre 15 y 25
+K = sqrt numero de muestras
+
+probar con Optimización O2 y sin optimización y con o sin simd
+
+Hacer gráfica: 
+eje x numero de hebras (1 a 8)
+eje y tiempo de ejecucion (en segundos)
+secuencial
+secuencial O2
+paralelo O2 sin simd
+paralelo O2 con simd
+paralelo sin O2 con simd
+paralelo sin O2 sin simd
+barrido de K
+
+5 mediciones por muestra
+
+
+
+https://efficomp.ugr.es/research/apply-to-use-our-computing-resources/
