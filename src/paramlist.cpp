@@ -10,9 +10,19 @@
  */
 
 #include "paramlist.h"
+#include "lector.h"
+#include <string>
 
 using namespace std;
 
 Paramlist::Paramlist(){
 
+}
+
+Paramlist::Paramlist(int argc, char* argv[]){
+
+    string a="";
+    for (int i = 1; i < argc; i++){
+        a = a + argv[i];
+    }
 }

@@ -60,8 +60,8 @@ Comprobamos aciertos y errores.
 Acc = Aciertos/Total * 100
 
 Parametros
--np Numero de particulas
--nh Numero de hebras
+-nP Numero de particulas
+-nH Numero de hebras
 -nI Numero MAX de iteraciones
 -cS Valor del componente social
 -cC Valor del componente cognitivo

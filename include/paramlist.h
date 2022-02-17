@@ -21,6 +21,7 @@ using namespace std;
 class Paramlist{
 public:
     Paramlist();
+    Paramlist(int argc, char* argv[]);
 
 private:
     vector<Parametro> lista;
