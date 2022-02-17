@@ -19,11 +19,19 @@ using namespace std;
 class Parametro{
 public:
     Parametro();
+    Parametro(string arg, string descripcion);
+    Parametro(string arg, string descripcion, string valor);
+
+    //funciones de acceso y modificacion
+    void setValor(string valor);
+    string getValor();
+    bool isSet();
+
 private:
     string arg;
     string descrip;
     string valor; 
-
+    bool set;
 };
 
 #endif

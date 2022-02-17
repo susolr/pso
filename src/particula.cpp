@@ -115,7 +115,7 @@ double Particula::calcularValor(){
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
-            for (int k = 0; k < data_training[i].size(); k++){
+            for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){
                     double aux = data_test[i][k] - data_training[j][k];

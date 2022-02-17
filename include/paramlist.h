@@ -25,6 +25,7 @@ public:
 
 private:
     vector<Parametro> lista;
+    void init();
 
 };
 #endif
