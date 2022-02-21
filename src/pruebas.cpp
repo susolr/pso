@@ -16,21 +16,28 @@
 #include "lector.h"
 #include "pso.h"
 #include "omp.h"
+#include "tinyxml2.h"
 
 using namespace std;
+using namespace tinyxml2;
 
 int main (int argc, char* argv[]){
 
-    Lector * lector = Lector::getInstance();
-    lector->setDataBase("104");
-    lector->leerDatos(178,3600);
+    XMLDocument configDoc;
+    configDoc.LoadFile("config.xml");
+    XMLElement *root = configDoc.FirstChildElement();
+    int nP;
+    int nH;
+    int nI;
+    int k;
+    root -> FirstChildElement("NParticulas") -> QueryIntText(&(nP));
+    root -> FirstChildElement("NHebras") -> QueryIntText(&(nH));
+    root -> FirstChildElement("NMaxIteraciones") -> QueryIntText(&(nI));
+    root -> FirstChildElement("KValor") -> QueryIntText(&(k));
+    cout << "NParticulas:" << nP << endl;
+    cout << "NHebras:" << nH << endl;
+    cout << "NMaxIteraciones:" << nI << endl;
+    cout << "KValor:" << k << endl;
 
-    vector<int> a = lector->getLabelsTest();
-
-    cout << "Labels size: " << a.size() << endl;
-    for (int i = 0; i < a.size(); i++){
-        cout << a.at(i) << "\t" << endl;
-    }
-    cout << "fin" << endl;
     return 0;
 }
