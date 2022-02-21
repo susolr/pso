@@ -17,20 +17,23 @@ Parametro::Parametro(){
     arg = "";
     descrip = "";
     valor = "";
+    tag = "";
     set = false;
 }
 
-Parametro::Parametro(string arg, string descripcion){
+Parametro::Parametro(string arg, string descripcion, string tag){
     this->arg = arg;
     this->descrip = descripcion;
+    this->tag = tag;
     valor = "";
     set = false;
 }
 
-Parametro::Parametro(string arg, string descripcion, string valor){
+Parametro::Parametro(string arg, string descripcion, string valor, string tag){
     this->arg = arg;
     this->descrip = descripcion;
     this->valor = valor;
+    this->tag = tag;
     set = true;
 }
 
@@ -43,6 +46,18 @@ void Parametro::setValor(string valor){
     set = true;
 }
 
+void Parametro::setTag(string tag){
+    this->tag = tag;
+}
+
+void Parametro::setArg(string arg){
+    this->arg = arg;
+}
+
+void Parametro::setDescripcion(string descripcion){
+    this->descrip = descripcion;
+}
+
 string Parametro::getValor(){
     return valor;
 }
@@ -53,4 +68,8 @@ string Parametro::getArg(){
 
 string Parametro::getDescipcion(){
     return descrip;
+}
+
+string Parametro::getTag(){
+    return tag;
 }
