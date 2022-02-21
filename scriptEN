@@ -1,0 +1,140 @@
+#!/bin/bash
+
+################# Global variables
+
+NSUBPOPULATIONS=32
+NREPETITIONS=5
+NGENERATIONS=150
+CHANGEFREQ="false"
+PROJECT=${PWD##*/}
+NODES="hpmoon.ugr.es,compute-0-0,compute-0-1"
+#NODES="hpmoon.ugr.es,compute-0-0,compute-0-1,compute-0-2"
+#NODES="localhost"
+NUMNODES=`echo $(IFS=','; c() { echo $#; }; c $NODES)`
+
+################# Identify the columns necessary to parse the energy
+
+## Case desktop PC
+if [ "$NODES" == "localhost" ]; then
+	INSCOLS+="1"
+	ACCCOLS+="2"
+
+## Case cluster
+else
+	if [[ "$NODES" =~ "hpmoon.ugr.es" ]]; then
+		INSCOLS+=",1"
+		ACCCOLS+=",6"
+	fi
+	if [[ "$NODES" =~ "compute-0-0" ]]; then
+		INSCOLS+=",2"
+		ACCCOLS+=",7"
+	fi
+	if [[ "$NODES" =~ "compute-0-1" ]]; then
+		INSCOLS+=",3"
+		ACCCOLS+=",8"
+	fi
+	if [[ "$NODES" =~ "compute-0-2" ]]; then
+		INSCOLS+=",4"
+		ACCCOLS+=",9"
+	fi
+
+	## Add the switch if more than one node is present
+	if [ $NUMNODES -gt 1 ]; then
+		INSCOLS+=",5"
+		ACCCOLS+=",10"
+	fi
+
+	## Remove first comma
+	INSCOLS=${INSCOLS#?}
+	ACCCOLS=${ACCCOLS#?}
+fi
+
+################# Remove previous results and start again
+
+DIR="results"
+rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+for MODE in HET; do
+	echo -e "\t`date`" && echo -e "\tStarts with DB 110," $MODE "mode and" $NREPETITIONS "repetitions"
+	DIR+="/$MODE"
+	mkdir "$DIR"
+	for WS in 3840; do
+		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $WS "individuals of worldSize"
+		DIR+="/$WS individuals"
+		mkdir "$DIR"
+		for FREQ in ondemand; do
+			if [ "$FREQ" == "ondemand" ]; then
+				F=$FREQ
+				OPTION=g
+			else
+				F=`expr $FREQ / 1000`
+				OPTION=f
+			fi
+			echo -e "\t\t\t`date`" && echo -e "\t\t\tStarts with" $F "MHz"
+			DIR+="/$F MHz"
+			mkdir "$DIR"
+			for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
+				echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NS "subpopulations and" $NGENERATIONS "generations"
+				DIR+="/$NS subpopulations"
+				mkdir "$DIR"
+				for R in $( eval echo {1..$NREPETITIONS} ); do
+					echo "Energy repetition: $R" >> "$DIR/energy_raw.txt"
+					echo -e "\t\t\t\t\t" $R
+
+					################# Measure the energy consumption and start the program
+
+					./../muestra_consumo.py R
+					stdbuf -oL ./../muestra_consumo.py >> "$DIR/energy_raw.txt" &
+					PID=$!
+					disown
+					if [ "$CHANGEFREQ" == "true" ]; then
+						ssh -t -o ServerAliveInterval=200 compute-0-0 "sudo cpupower -c all frequency-set -$OPTION $FREQ > /dev/null" 2> /dev/null
+					fi
+					sleep 1
+					mpirun --bind-to none --map-by node --host $NODES ./bin/hpmoon -conf config.xml -ns $NS -ss `expr $WS / $NS` -g $NGENERATIONS > last.txt
+					sleep 2
+					kill -9 $PID
+					echo "`sed -n 1p last.txt`" >> tmp_time.txt
+					echo "`sed -n 2p last.txt`" >> tmp_hv.txt
+					R2=`expr $R + 1`
+					echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$ACCCOLS | sed -e '$!d'`" >> tmp_acc.txt
+					if [ $R -eq 1 ]; then
+						echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$INSCOLS`" >> tmp_instant.txt
+					fi
+				done
+				rm last.txt
+				paste tmp_hv* > "$DIR/hypervolume.txt"
+				paste tmp_time* > "$DIR/time.txt"
+				paste tmp_acc* > "$DIR/energy_acc.txt"
+				paste tmp_instant* > "$DIR/energy_instant.txt"
+				rm -rf tmp*
+				DIR="$(dirname "$DIR")"
+			done
+
+			################# Postprocessing
+
+			for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
+				cat "$DIR/$NS subpopulations/time"* "$DIR/$NS subpopulations/hyp"* > "tmp_TH_${NS}.txt"
+				cat "$DIR/$NS subpopulations/energy_acc.txt" "$DIR/$NS subpopulations/energy_instant.txt" > "tmp_AI_${NS}.txt"
+				if [ $NUMNODES -gt 1 ]; then
+					cat "tmp_AI_${NS}.txt" | awk '{sum=0; for(i=1; i<=NF; i++) sum += $i; print sum}' > tmp_SUM.txt
+					paste -d' ' "tmp_AI_${NS}.txt" "tmp_SUM.txt" > "results/AI_SUM_${NS}.txt"
+				else
+					cat "tmp_TH_${NS}.txt" "tmp_AI_${NS}.txt" > "tmp_THAI_${NS}.txt"
+				fi
+			done
+			if [ $NUMNODES -eq 1 ]; then
+				paste $(ls -v tmp_THAI*) > results/THAI.txt
+			else
+				paste $(ls -v tmp_TH*) > results/TH.txt
+				#paste $(ls -v tmp_AI_SUM*) | column -tn > results/AI.txt
+			fi
+			rm -rf tmp*
+			DIR="$(dirname "$DIR")"
+		done
+		DIR="$(dirname "$DIR")"
+	done
+	DIR="$(dirname "$DIR")"
+done
+find ./results -name \*.txt -exec sed -i 's/\./,/g' {} \;
