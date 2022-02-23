@@ -21,7 +21,8 @@ using namespace std;
 class Paramlist{
 public:
     Paramlist();
-    Paramlist(int argc, char* argv[]);
+    Paramlist(int argc, char** argv);
+    string getValor(string arg);
 
 private:
     vector<Parametro> lista;

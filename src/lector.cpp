@@ -14,8 +14,10 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include "tinyxml2.h"
 
 using namespace std;
+using namespace tinyxml2;
 
 
 Lector* Lector::lector= nullptr;
@@ -302,8 +304,15 @@ void Lector::mostrarLabelsTraining(){
     cout << endl;
 }
 
-void Lector::leerConfig(){
-    
+string Lector::leerConfig(string tag){
+    XMLDocument configDoc;
+    configDoc.LoadFile("config.xml");
+    XMLElement *root = configDoc.FirstChildElement();
+
+    string param;
+    param = root -> FirstChildElement(tag.data()) -> GetText();
+
+    return param;
 }
 
 void Lector::setDataBase(string db){

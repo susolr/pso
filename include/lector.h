@@ -62,7 +62,7 @@ public:
     void mostrarLabelsTraining();
 
     //Métodos para leer fichero config.xml
-    void leerConfig();
+    string leerConfig(string tag);
 
     //double getValor(int i, int j);
     void setDataBase(string db);

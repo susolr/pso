@@ -22,7 +22,7 @@ Paramlist::Paramlist(){
     setParametros();
 }
 
-Paramlist::Paramlist(int argc, char* argv[]){
+Paramlist::Paramlist(int argc, char** argv){
     init();
     for (int i = 1; i < argc; i++){
         int pos = buscarParametro(argv[i]);
@@ -59,7 +59,17 @@ int Paramlist::buscarParametro(string arg){
 void Paramlist::setParametros(){
     for (int i = 0; i < lista.size(); i++){
         if(!lista[i].isSet()){
-            //leer de XML
+            Lector * lector = Lector::getInstance();
+            lista[i].setValor(lector->leerConfig(lista[i].getTag()));
         }
     }
+}
+
+string Paramlist::getValor(string arg){
+    int pos = buscarParametro(arg);
+    if (pos == -1){
+        return "";
+    }
+    return lista.at(pos).getValor();
+
 }

@@ -17,13 +17,15 @@
 #include "pso.h"
 #include "omp.h"
 #include "tinyxml2.h"
+#include "paramlist.h"
 
 using namespace std;
 using namespace tinyxml2;
 
-int main (int argc, char* argv[]){
+int main (int argc, char** argv){
 
-    XMLDocument configDoc;
+
+/*    XMLDocument configDoc;
     configDoc.LoadFile("config.xml");
     XMLElement *root = configDoc.FirstChildElement();
     int nP;
@@ -38,6 +40,11 @@ int main (int argc, char* argv[]){
     cout << "NHebras:" << nH << endl;
     cout << "NMaxIteraciones:" << nI << endl;
     cout << "KValor:" << k << endl;
+*/
+
+    Paramlist lista = Paramlist();
+
+    cout << lista.getValor("-nP") << endl;
 
     return 0;
 }
