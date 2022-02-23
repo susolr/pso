@@ -11,6 +11,7 @@
 
 #include "paramlist.h"
 #include "parametro.h"
+#include <iostream>
 #include "lector.h"
 #include <string>
 
@@ -24,7 +25,7 @@ Paramlist::Paramlist(){
 
 Paramlist::Paramlist(int argc, char** argv){
     init();
-    for (int i = 1; i < argc; i++){
+    for (int i = 1; i < argc; i+=2){
         int pos = buscarParametro(argv[i]);
         //Comprobar valor adecuado??
         lista[pos].setValor(argv[i+1]);
