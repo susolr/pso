@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- @file config.xml -->
+<!-- @author Jesús López Rodríguez (jlopezpeque@hotmail.com) -->
+<!-- @date 16/02/2022 -->
+<!-- @brief  -->
+<!-- @copyright Copyright (c) 2022 -->
+
+
 <Config>
     <NParticulas>20</NParticulas>
     <NHebras>1</NHebras>

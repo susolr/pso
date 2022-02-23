@@ -1,3 +1,10 @@
+# @file Makefile
+# @author Jesús López Rodríguez (jlopezpeque@hotmail.com)
+# @date 29/08/2021
+# @brief 
+# @copyright Copyright (c) 2022
+
+
 SRC = src
 INC = include
 OBJ = obj
