@@ -2,9 +2,10 @@
 
 ################# Global variables
 
-NPARTICULAS=32
+NPARTICULAS=20
 NREPETITIONS=5
 NITERACIONES=20
+NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 #NODES="hpmoon.ugr.es,compute-0-0,compute-0-1"
 #NODES="hpmoon.ugr.es,compute-0-0,compute-0-1,compute-0-2"
@@ -21,75 +22,64 @@ for MODE in HET; do
 	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "mode and" $NREPETITIONS "repetitions"
 	DIR+="/$MODE"
 	mkdir "$DIR"
-	for WS in 3840; do
-		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $WS "individuals of worldSize"
-		DIR+="/$WS individuals"
+	for WS in 20; do
+		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $WS "particles"
+		DIR+="/$WS particulas"
 		mkdir "$DIR"
-		for FREQ in ondemand; do
-			if [ "$FREQ" == "ondemand" ]; then
-				F=$FREQ
-				OPTION=g
-			else
-				F=`expr $FREQ / 1000`
-				OPTION=f
-			fi
-			echo -e "\t\t\t`date`" && echo -e "\t\t\tStarts with" $F "MHz"
-			DIR+="/$F MHz"
+		for NH in $( eval echo {1..$NMAXHEBRAS} ); do
+			echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NS "subpopulations and" $NGENERATIONS "generations"
+			DIR+="/$NS particulas"
 			mkdir "$DIR"
-			for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
-				echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NS "subpopulations and" $NGENERATIONS "generations"
-				DIR+="/$NS particulas"
-				mkdir "$DIR"
-				for R in $( eval echo {1..$NREPETITIONS} ); do
-					echo "Energy repetition: $R" >> "$DIR/energy_raw.txt"
-					echo -e "\t\t\t\t\t" $R
+			for R in $( eval echo {1..$NREPETITIONS} ); do
+				echo "Energy repetition: $R" >> "$DIR/energy_raw.txt"
+				echo -e "\t\t\t\t\t" $R
 
-					################# Measure the energy consumption and start the program
+				################# Measure the energy consumption and start the program
 
-					PID=$!
-					disown
-					sleep 1
-					./pso -nP $NS -n `expr $WS / $NS` -g $NGENERATIONS > last.txt
-					sleep 2
-					kill -9 $PID
-					echo "`sed -n 1p last.txt`" >> tmp_time.txt
-					echo "`sed -n 2p last.txt`" >> tmp_hv.txt
-					R2=`expr $R + 1`
-					echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$ACCCOLS | sed -e '$!d'`" >> tmp_acc.txt
-					if [ $R -eq 1 ]; then
-						echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$INSCOLS`" >> tmp_instant.txt
-					fi
-				done
-				rm last.txt
-				paste tmp_hv* > "$DIR/hypervolume.txt"
-				paste tmp_time* > "$DIR/time.txt"
-				paste tmp_acc* > "$DIR/energy_acc.txt"
-				paste tmp_instant* > "$DIR/energy_instant.txt"
-				rm -rf tmp*
-				DIR="$(dirname "$DIR")"
-			done
-
-			################# Postprocessing
-
-			for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
-				cat "$DIR/$NS subpopulations/time"* "$DIR/$NS subpopulations/hyp"* > "tmp_TH_${NS}.txt"
-				cat "$DIR/$NS subpopulations/energy_acc.txt" "$DIR/$NS subpopulations/energy_instant.txt" > "tmp_AI_${NS}.txt"
-				if [ $NUMNODES -gt 1 ]; then
-					cat "tmp_AI_${NS}.txt" | awk '{sum=0; for(i=1; i<=NF; i++) sum += $i; print sum}' > tmp_SUM.txt
-					paste -d' ' "tmp_AI_${NS}.txt" "tmp_SUM.txt" > "results/AI_SUM_${NS}.txt"
-				else
-					cat "tmp_TH_${NS}.txt" "tmp_AI_${NS}.txt" > "tmp_THAI_${NS}.txt"
+				PID=$!
+				disown
+				sleep 1
+				./pso -nP $NS -n -nI $NITERACIONES > last.txt
+				sleep 2
+				kill -9 $PID
+				echo "`sed -n 1p last.txt`" >> tmp_time.txt
+				echo "`sed -n 2p last.txt`" >> tmp_hv.txt
+				R2=`expr $R + 1`
+				echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$ACCCOLS | sed -e '$!d'`" >> tmp_acc.txt
+				if [ $R -eq 1 ]; then
+					echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$INSCOLS`" >> tmp_instant.txt
 				fi
 			done
-			if [ $NUMNODES -eq 1 ]; then
-				paste $(ls -v tmp_THAI*) > results/THAI.txt
-			else
-				paste $(ls -v tmp_TH*) > results/TH.txt
-				#paste $(ls -v tmp_AI_SUM*) | column -tn > results/AI.txt
-			fi
+			rm last.txt
+			paste tmp_hv* > "$DIR/hypervolume.txt"
+			paste tmp_time* > "$DIR/time.txt"
+			paste tmp_acc* > "$DIR/energy_acc.txt"
+			paste tmp_instant* > "$DIR/energy_instant.txt"
 			rm -rf tmp*
 			DIR="$(dirname "$DIR")"
 		done
+
+		################# Postprocessing
+
+		for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
+			cat "$DIR/$NS subpopulations/time"* "$DIR/$NS subpopulations/hyp"* > "tmp_TH_${NS}.txt"
+			cat "$DIR/$NS subpopulations/energy_acc.txt" "$DIR/$NS subpopulations/energy_instant.txt" > "tmp_AI_${NS}.txt"
+			if [ $NUMNODES -gt 1 ]; then
+				cat "tmp_AI_${NS}.txt" | awk '{sum=0; for(i=1; i<=NF; i++) sum += $i; print sum}' > tmp_SUM.txt
+				paste -d' ' "tmp_AI_${NS}.txt" "tmp_SUM.txt" > "results/AI_SUM_${NS}.txt"
+			else
+				cat "tmp_TH_${NS}.txt" "tmp_AI_${NS}.txt" > "tmp_THAI_${NS}.txt"
+			fi
+		done
+		if [ $NUMNODES -eq 1 ]; then
+			paste $(ls -v tmp_THAI*) > results/THAI.txt
+		else
+			paste $(ls -v tmp_TH*) > results/TH.txt
+			#paste $(ls -v tmp_AI_SUM*) | column -tn > results/AI.txt
+		fi
+		rm -rf tmp*
+		DIR="$(dirname "$DIR")"
+		
 		DIR="$(dirname "$DIR")"
 	done
 	DIR="$(dirname "$DIR")"

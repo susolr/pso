@@ -59,6 +59,7 @@ Particula::Particula(int n){
     b_value = 0.0;
     b_pos = pos;
     k_valor = 7;
+    simd = 1;
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
@@ -117,7 +118,7 @@ double Particula::calcularValor(){
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
-            #pragma omp simd
+            #pragma omp simd if(simd==1)
             for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){
