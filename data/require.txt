@@ -88,6 +88,7 @@ paralelo O2 sin simd
 paralelo O2 con simd
 paralelo sin O2 con simd
 paralelo sin O2 sin simd
+
 barrido de K
 
 5 mediciones por muestra

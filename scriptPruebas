@@ -2,52 +2,14 @@
 
 ################# Global variables
 
-NSUBPOPULATIONS=32
+NPARTICULAS=32
 NREPETITIONS=5
-NGENERATIONS=150
-CHANGEFREQ="false"
+NITERACIONES=20
 PROJECT=${PWD##*/}
-NODES="hpmoon.ugr.es,compute-0-0,compute-0-1"
+#NODES="hpmoon.ugr.es,compute-0-0,compute-0-1"
 #NODES="hpmoon.ugr.es,compute-0-0,compute-0-1,compute-0-2"
 #NODES="localhost"
-NUMNODES=`echo $(IFS=','; c() { echo $#; }; c $NODES)`
-
-################# Identify the columns necessary to parse the energy
-
-## Case desktop PC
-if [ "$NODES" == "localhost" ]; then
-	INSCOLS+="1"
-	ACCCOLS+="2"
-
-## Case cluster
-else
-	if [[ "$NODES" =~ "hpmoon.ugr.es" ]]; then
-		INSCOLS+=",1"
-		ACCCOLS+=",6"
-	fi
-	if [[ "$NODES" =~ "compute-0-0" ]]; then
-		INSCOLS+=",2"
-		ACCCOLS+=",7"
-	fi
-	if [[ "$NODES" =~ "compute-0-1" ]]; then
-		INSCOLS+=",3"
-		ACCCOLS+=",8"
-	fi
-	if [[ "$NODES" =~ "compute-0-2" ]]; then
-		INSCOLS+=",4"
-		ACCCOLS+=",9"
-	fi
-
-	## Add the switch if more than one node is present
-	if [ $NUMNODES -gt 1 ]; then
-		INSCOLS+=",5"
-		ACCCOLS+=",10"
-	fi
-
-	## Remove first comma
-	INSCOLS=${INSCOLS#?}
-	ACCCOLS=${ACCCOLS#?}
-fi
+#NUMNODES=`echo $(IFS=','; c() { echo $#; }; c $NODES)`
 
 ################# Remove previous results and start again
 
@@ -56,7 +18,7 @@ rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 for MODE in HET; do
-	echo -e "\t`date`" && echo -e "\tStarts with DB 110," $MODE "mode and" $NREPETITIONS "repetitions"
+	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "mode and" $NREPETITIONS "repetitions"
 	DIR+="/$MODE"
 	mkdir "$DIR"
 	for WS in 3840; do
@@ -76,7 +38,7 @@ for MODE in HET; do
 			mkdir "$DIR"
 			for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
 				echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NS "subpopulations and" $NGENERATIONS "generations"
-				DIR+="/$NS subpopulations"
+				DIR+="/$NS particulas"
 				mkdir "$DIR"
 				for R in $( eval echo {1..$NREPETITIONS} ); do
 					echo "Energy repetition: $R" >> "$DIR/energy_raw.txt"
@@ -84,15 +46,10 @@ for MODE in HET; do
 
 					################# Measure the energy consumption and start the program
 
-					./../muestra_consumo.py R
-					stdbuf -oL ./../muestra_consumo.py >> "$DIR/energy_raw.txt" &
 					PID=$!
 					disown
-					if [ "$CHANGEFREQ" == "true" ]; then
-						ssh -t -o ServerAliveInterval=200 compute-0-0 "sudo cpupower -c all frequency-set -$OPTION $FREQ > /dev/null" 2> /dev/null
-					fi
 					sleep 1
-					mpirun --bind-to none --map-by node --host $NODES ./bin/hpmoon -conf config.xml -ns $NS -ss `expr $WS / $NS` -g $NGENERATIONS > last.txt
+					./pso -nP $NS -n `expr $WS / $NS` -g $NGENERATIONS > last.txt
 					sleep 2
 					kill -9 $PID
 					echo "`sed -n 1p last.txt`" >> tmp_time.txt
