@@ -44,17 +44,11 @@ for MODE in HET; do
 				kill -9 $PID
 				echo "`sed -n 1p last.txt`" >> tmp_time.txt
 				echo "`sed -n 2p last.txt`" >> tmp_hv.txt
-				R2=`expr $R + 1`
-				echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$ACCCOLS | sed -e '$!d'`" >> tmp_acc.txt
-				if [ $R -eq 1 ]; then
-					echo "`sed -e '0,/Energy repetition: '$R'/d' -e '/Energy repetition: '$R2'/,$d' "$DIR/energy_raw.txt" | cut -d' ' -f$INSCOLS`" >> tmp_instant.txt
-				fi
+
 			done
 			rm last.txt
 			paste tmp_hv* > "$DIR/hypervolume.txt"
 			paste tmp_time* > "$DIR/time.txt"
-			paste tmp_acc* > "$DIR/energy_acc.txt"
-			paste tmp_instant* > "$DIR/energy_instant.txt"
 			rm -rf tmp*
 			DIR="$(dirname "$DIR")"
 		done
