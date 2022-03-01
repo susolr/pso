@@ -29,7 +29,7 @@ int main (int argc, char* argv[]){
         lista = Paramlist::getInstance(argc, argv);
     }
     PSO mi_pso = PSO();
-    mi_pso.crearCumulo(20, 3600);
+    mi_pso.crearCumulo();
     //medir tiempo openmp
     double time_inicio = omp_get_wtime();
     mi_pso.ejecutar();
@@ -37,11 +37,6 @@ int main (int argc, char* argv[]){
     mi_pso.mostrarResultados();
     cout << "Tiempo ejecucion " << time*1000 << endl;
 
-/*    Lector * lector = Lector::getInstance();
-    lector->setDataBase("104");
-    lector->leerDataTraining(200,10);
-    lector->mostrarDataTraining();
-*/
 
     return 0;
 }

@@ -47,7 +47,7 @@ void Paramlist::init(){
     lista.push_back(Parametro("-cC", "Parámetro para definir el valor de la componente cognitiva del algoritmo", "CCognitiva"));
     lista.push_back(Parametro("-cI", "Parámetro para definir el valor de la componente de inercia del algoritmo", "CInercia"));
     lista.push_back(Parametro("-k" , "Parámetro para definir el valor K del algoritmo de clasificación", "KValor"));
-    lista.push_back(Parametro("-si", "Parámetro para definir el uso de la orden simd", "SIMD"));
+    lista.push_back(Parametro("-sI", "Parámetro para definir el uso de la orden simd", "SIMD"));
 }
 
 int Paramlist::buscarParametro(string arg){

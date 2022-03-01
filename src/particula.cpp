@@ -16,6 +16,7 @@
 #include <cmath>
 #include <algorithm>
 #include "lector.h"
+#include "paramlist.h"
 
 
 using namespace std;
@@ -52,14 +53,14 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
 Particula::Particula(int n){
     dimension = n;
     pos = generarAleatorio();
-    c_cog = 0.8;
-    c_social = 0.6;
+    c_cog = stod(Paramlist::getInstance()->getValor("-cC"));
+    c_social = stod((Paramlist::getInstance()->getValor("-cS")));
     lector = Lector::getInstance();
-    inercia = 0.8;
+    inercia = stod(Paramlist::getInstance()->getValor("-cI"));
     b_value = 0.0;
     b_pos = pos;
-    k_valor = 7;
-    simd = 1;
+    k_valor = stoi(Paramlist::getInstance()->getValor("-k"));
+    simd = stoi((Paramlist::getInstance()->getValor("-sI")));
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }

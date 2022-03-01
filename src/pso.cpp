@@ -24,13 +24,15 @@ PSO::PSO(){
     Lector * lector = Lector::getInstance();
     lector->setDataBase("104");
     lector->leerDatos(178,3600);
+    dimension = 3600;
     //lector->mostrarDatos();
     b_value = 0.0;
 }
 
-void PSO::crearCumulo(int n_particulas, int dimension){
+void PSO::crearCumulo(){
     cout << "Creando cumulo" << endl;
     cumulo.clear();
+    int n_particulas = stoi(Paramlist::getInstance()->getValor("-nP"));
     for (int i = 0; i < n_particulas; i++){
         cumulo.push_back(Particula(dimension));
         //cout << "Creada partícula " << i << endl;

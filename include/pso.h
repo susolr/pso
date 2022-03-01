@@ -18,7 +18,7 @@ using namespace std;
 class PSO {
 public:
     PSO();
-    void crearCumulo(int n_particulas, int dimension);
+    void crearCumulo();
     void ejecutar();
     void mostrarResultados();
 
@@ -28,6 +28,7 @@ private:
     vector<int> b_pos;
     double b_value;
     int cont_cambio;
+    int dimension;
 
 
 };
