@@ -16,12 +16,18 @@
 #include "lector.h"
 #include "pso.h"
 #include "omp.h"
-
+#include "paramlist.h"
 using namespace std;
 
 int main (int argc, char* argv[]){
 
-
+    Paramlist * lista;
+    if (argc==1){
+        lista = Paramlist::getInstance();
+    }
+    else{
+        lista = Paramlist::getInstance(argc, argv);
+    }
     PSO mi_pso = PSO();
     mi_pso.crearCumulo(20, 3600);
     //medir tiempo openmp

@@ -2,7 +2,7 @@
 
 ################# Global variables
 
-NPARTICULAS=20
+NPARTICULAS=40
 NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
@@ -22,13 +22,18 @@ for MODE in $( eval echo {0..1} ); do
 	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "mode and" $NREPETITIONS "repetitions"
 	DIR+="/$MODE"
 	mkdir "$DIR"
+	if [$MODE == 0]; then
+		make build
+	else
+		make build_o2
+	fi
 	for NP in 20; do
 		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $WS "particles"
 		DIR+="/$WS particulas"
 		mkdir "$DIR"
 		for NH in $( eval echo {1..$NMAXHEBRAS} ); do
 			echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NS "subpopulations and" $NGENERATIONS "generations"
-			DIR+="/$NS particulas"
+			DIR+="/$NH hebras"
 			mkdir "$DIR"
 			for R in $( eval echo {1..$NREPETITIONS} ); do
 				echo "Repetition: $R" >> "$DIR/raw.txt"
@@ -53,25 +58,10 @@ for MODE in $( eval echo {0..1} ); do
 
 		################# Postprocessing
 
-		for NS in $( eval echo {1..$NSUBPOPULATIONS..1} ); do
-			cat "$DIR/$NS subpopulations/time"* "$DIR/$NS subpopulations/hyp"* > "tmp_TH_${NS}.txt"
-			cat "$DIR/$NS subpopulations/energy_acc.txt" "$DIR/$NS subpopulations/energy_instant.txt" > "tmp_AI_${NS}.txt"
-			if [ $NUMNODES -gt 1 ]; then
-				cat "tmp_AI_${NS}.txt" | awk '{sum=0; for(i=1; i<=NF; i++) sum += $i; print sum}' > tmp_SUM.txt
-				paste -d' ' "tmp_AI_${NS}.txt" "tmp_SUM.txt" > "results/AI_SUM_${NS}.txt"
-			else
-				cat "tmp_TH_${NS}.txt" "tmp_AI_${NS}.txt" > "tmp_THAI_${NS}.txt"
-			fi
+		for NH in $( eval echo {1..$NMAXHEBRAS} ); do
+			cat "$DIR/$NH subpopulations/time"* "$DIR/$NH subpopulations/hyp"* > "tmp_TH_${NH}.txt"
 		done
-		if [ $NUMNODES -eq 1 ]; then
-			paste $(ls -v tmp_THAI*) > results/THAI.txt
-		else
-			paste $(ls -v tmp_TH*) > results/TH.txt
-			#paste $(ls -v tmp_AI_SUM*) | column -tn > results/AI.txt
-		fi
 		rm -rf tmp*
-		DIR="$(dirname "$DIR")"
-		
 		DIR="$(dirname "$DIR")"
 	done
 	DIR="$(dirname "$DIR")"

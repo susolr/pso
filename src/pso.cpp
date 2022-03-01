@@ -16,6 +16,7 @@
 #include <cmath>
 #include "lector.h"
 #include <omp.h>
+#include "paramlist.h"
 
 using namespace std;
 
@@ -42,7 +43,7 @@ void PSO::ejecutar(){
     //cout << "Bucle principal" << endl;
     int n_iter = 0;
     int contador = 0;
-    int n_threads = 5;
+    int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     while (n_iter < 10 && contador < 20){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
