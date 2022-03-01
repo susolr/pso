@@ -42,9 +42,9 @@ int main (int argc, char** argv){
     cout << "KValor:" << k << endl;
 */
 
-    Paramlist lista = Paramlist(argc, argv);
+    Paramlist* lista = Paramlist::getInstance(argc, argv);
 
-    cout << lista.getValor("-nP") << endl;
+    cout << lista->getValor("-nP") << endl;
 
     return 0;
 }

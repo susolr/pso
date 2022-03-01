@@ -17,6 +17,8 @@
 
 using namespace std;
 
+Paramlist* Paramlist::paramlist= nullptr;
+
 Paramlist::Paramlist(){
     init();
     //Load and set args
@@ -45,6 +47,7 @@ void Paramlist::init(){
     lista.push_back(Parametro("-cC", "Parámetro para definir el valor de la componente cognitiva del algoritmo", "CCognitiva"));
     lista.push_back(Parametro("-cI", "Parámetro para definir el valor de la componente de inercia del algoritmo", "CInercia"));
     lista.push_back(Parametro("-k" , "Parámetro para definir el valor K del algoritmo de clasificación", "KValor"));
+    lista.push_back(Parametro("-si", "Parámetro para definir el uso de la orden simd", "SIMD"));
 }
 
 int Paramlist::buscarParametro(string arg){
@@ -73,4 +76,18 @@ string Paramlist::getValor(string arg){
     }
     return lista.at(pos).getValor();
 
+}
+
+Paramlist* Paramlist::getInstance(){
+    if(paramlist==nullptr){
+        paramlist = new Paramlist();
+    }
+    return paramlist;
+}
+
+Paramlist* Paramlist::getInstance(int argc, char** argv){
+    if(paramlist==nullptr){
+        paramlist = new Paramlist(argc, argv);
+    }
+    return paramlist;
 }

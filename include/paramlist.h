@@ -20,9 +20,16 @@ using namespace std;
 
 class Paramlist{
 public:
+    string getValor(string arg);
+    Paramlist (Paramlist & otro) = delete;
+    void operator =(const Paramlist & otro) = delete;
+    static Paramlist *getInstance();
+    static Paramlist *getInstance(int argc, char** argv);
+
+protected:
     Paramlist();
     Paramlist(int argc, char** argv);
-    string getValor(string arg);
+    static Paramlist* paramlist;
 
 private:
     vector<Parametro> lista;

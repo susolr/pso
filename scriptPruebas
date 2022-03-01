@@ -18,11 +18,11 @@ DIR="results"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
-for MODE in HET; do
+for MODE in $( eval echo {0..1} ); do
 	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "mode and" $NREPETITIONS "repetitions"
 	DIR+="/$MODE"
 	mkdir "$DIR"
-	for WS in 20; do
+	for NP in 20; do
 		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $WS "particles"
 		DIR+="/$WS particulas"
 		mkdir "$DIR"
@@ -31,10 +31,8 @@ for MODE in HET; do
 			DIR+="/$NS particulas"
 			mkdir "$DIR"
 			for R in $( eval echo {1..$NREPETITIONS} ); do
-				echo "Energy repetition: $R" >> "$DIR/energy_raw.txt"
+				echo "Repetition: $R" >> "$DIR/raw.txt"
 				echo -e "\t\t\t\t\t" $R
-
-				################# Measure the energy consumption and start the program
 
 				PID=$!
 				disown
