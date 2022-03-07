@@ -30,14 +30,14 @@ PSO::PSO(){
 }
 
 void PSO::crearCumulo(){
-    cout << "Creando cumulo" << endl;
+    //cout << "Creando cumulo" << endl;
     cumulo.clear();
     int n_particulas = stoi(Paramlist::getInstance()->getValor("-nP"));
     for (int i = 0; i < n_particulas; i++){
         cumulo.push_back(Particula(dimension));
         //cout << "Creada partícula " << i << endl;
     }
-    cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
+    //cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
     b_pos = cumulo[0].getPos();
 }
 
