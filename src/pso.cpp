@@ -72,7 +72,7 @@ void PSO::ejecutar(){
         }
         //cout << "Valoradas todas las partículas" << endl;
         //cout << "Actualizando velocidad y posicion..." << endl;
-        #pragma omp parallel for num_threads(n_threads)
+        #pragma omp parallel for num_threads(n_threads) if (n_threads>0)
         for (int i = 0; i < cumulo.size(); i++){
             //cout << "Actualizando: " << i << endl;
             //cout << "Tamaño del cúmulo " << cumulo.size() << endl;

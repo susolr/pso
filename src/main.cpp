@@ -30,6 +30,15 @@ int main (int argc, char* argv[]){
     }
     PSO mi_pso = PSO();
     mi_pso.crearCumulo();
+    /*cout << "-nH " << lista->getInstance()->getValor("-nH") << endl;
+    cout << "-nP " << lista->getInstance()->getValor("-nP") << endl;
+    cout << "-sI " << lista->getInstance()->getValor("-sI") << endl;
+    cout << "-nI " << lista->getInstance()->getValor("-nI") << endl;
+    cout << "-cS " << lista->getInstance()->getValor("-cS") << endl;
+    cout << "-cC " << lista->getInstance()->getValor("-cC") << endl;
+    cout << "-cI " << lista->getInstance()->getValor("-cI") << endl;
+    cout << "-k " << lista->getInstance()->getValor("-k") << endl;
+    */  
     //medir tiempo openmp
     double time_inicio = omp_get_wtime();
     mi_pso.ejecutar();

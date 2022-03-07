@@ -36,7 +36,7 @@ for MODE in $( eval echo {0..1} ); do
 
 		for SIMD in $( eval echo {0..1} ); do 
 			echo -e "\t\t`date`" && echo -e "\t\tStarts with" $SIMD "simd"
-			DIR+="/$WS simd"
+			DIR+="/$SIMD simd"
 			mkdir "$DIR"
 			if [ $SIMD == 0 ]; then
 				NHI=0
