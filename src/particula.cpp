@@ -61,6 +61,7 @@ Particula::Particula(int n){
     b_pos = pos;
     k_valor = stoi(Paramlist::getInstance()->getValor("-k"));
     simd = stoi((Paramlist::getInstance()->getValor("-sI")));
+    n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
@@ -119,7 +120,7 @@ double Particula::calcularValor(){
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
-            #pragma omp simd if(simd==1)
+            #pragma omp simd if(simd==1 && n_hebras>0)
             for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){

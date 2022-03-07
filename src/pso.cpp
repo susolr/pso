@@ -52,7 +52,7 @@ void PSO::ejecutar(){
         int max = 0;
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
-        #pragma opm parallel for num_threads(n_threads)
+        #pragma opm parallel for num_threads(n_threads) if (n_threads>0)
         for (int i = 0; i < cumulo.size(); i++){
             cumulo[i].valorar();
         }

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+A=1
+B=5
+NHI=0
+if [ $A == 0 ]; then
+	NHI=0
+	echo "A == 0"
+else
+	NHI=1
+	echo "A == 1"
+fi
+for NH in $( eval echo {$NHI..$B} ); do
+	echo $NH
+done

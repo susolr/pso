@@ -42,6 +42,7 @@ private:
     int dimension;
     int k_valor;
     int simd;
+    int n_hebras;
     Lector * lector;
     vector<vector<double>> data_test;
     vector<vector<double>> data_training;
