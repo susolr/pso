@@ -59,11 +59,9 @@ for MODE in $( eval echo {0..1} ); do
 					sleep 2
 					kill -9 $PID
 					echo "`sed -n 1p last.txt`" >> tmp_time.txt
-					echo "`sed -n 2p last.txt`" >> tmp_hv.txt
 
 				done
 				rm last.txt
-				paste tmp_hv* > "$DIR/hypervolume.txt"
 				paste tmp_time* > "$DIR/time.txt"
 				rm -rf tmp*
 				DIR="$(dirname "$DIR")"
@@ -73,7 +71,7 @@ for MODE in $( eval echo {0..1} ); do
 		################# Postprocessing
 
 		for NH in $( eval echo {1..$NMAXHEBRAS} ); do
-			cat "$DIR/$NH paticulas/time"* "$DIR/$NH particulas/hyp"* > "tmp_TH_${NH}.txt"
+			cat "$DIR/$NH paticulas/time"* > "tmp_TH_${NH}.txt"
 		done
 		rm -rf tmp*
 		DIR="$(dirname "$DIR")"
