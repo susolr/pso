@@ -60,14 +60,15 @@ for MODE in $( eval echo {0..1} ); do
 				rm -rf tmp*
 				DIR="$(dirname "$DIR")"
 			done
-		done
 
-		################# Postprocessing
-
-		for NH in $( eval echo {1..$NMAXHEBRAS} ); do
-			cat "$DIR/$NH paticulas/time"* > "tmp_TH_${NH}.txt"
+			################# Postprocessing
+			for NH in $( eval echo {1..$NMAXHEBRAS} ); do
+				cat "$DIR/$NH hebras/time"* > "tmp_TH_${NH}.txt"
+			done
+			paste $(ls -v tmp_TH*) > results/TH.txt
+			rm -rf tmp*
+			DIR="$(dirname "$DIR")"
 		done
-		rm -rf tmp*
 		DIR="$(dirname "$DIR")"
 	done
 	DIR="$(dirname "$DIR")"
