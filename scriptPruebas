@@ -19,7 +19,7 @@ rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 for MODE in $( eval echo {0..1} ); do
-	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "mode and" $NREPETITIONS "repetitions"
+	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "O2 and" $NREPETITIONS "repetitions"
 	DIR+="/$MODE O2"
 	mkdir "$DIR"
 	if [ $MODE == 0 ]; then
