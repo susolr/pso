@@ -121,7 +121,6 @@ double Particula::calcularValor(){
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
         #pragma omp simd if(simd_var==1 && n_hebras>0)
-        {
             for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){
@@ -130,7 +129,6 @@ double Particula::calcularValor(){
                     distancia += aux;
                 }
             }
-        }
             distancia = sqrt(distancia);
             pair<double,int> d_v (distancia, labels_training[j]);
             //cout << "Distancia: " << distancia << "\tValor " << labels_training[j] << endl;

@@ -38,11 +38,12 @@ for MODE in $( eval echo {0..1} ); do
 			echo -e "\t\t`date`" && echo -e "\t\tStarts with" $SIMD "simd"
 			DIR+="/$SIMD simd"
 			mkdir "$DIR"
-			if [ $SIMD == 0 ]; then
-				NHI=0
-			else
-				NHI=1
-			fi
+			#if [ $SIMD == 0 ]; then
+			#	NHI=0
+			#else
+			#	NHI=1
+			#fi
+			NHI=1
 			for NH in $( eval echo {$NHI..$NMAXHEBRAS} ); do
 				echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NH "hebras"
 				DIR+="/$NH hebras"
