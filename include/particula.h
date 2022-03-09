@@ -41,7 +41,7 @@ private:
     double inercia;
     int dimension;
     int k_valor;
-    int simd;
+    int simd_var;
     int n_hebras;
     Lector * lector;
     vector<vector<double>> data_test;

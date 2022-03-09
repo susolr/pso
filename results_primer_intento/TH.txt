@@ -1,0 +1,5 @@
+Tiempo ejecucion 67030	Tiempo ejecucion 68720,3	Tiempo ejecucion 58863,8	Tiempo ejecucion 67710,4	Tiempo ejecucion 67067	Tiempo ejecucion 67260,9	Tiempo ejecucion 44471,7	Tiempo ejecucion 44381
+Tiempo ejecucion 67007,4	Tiempo ejecucion 53924,3	Tiempo ejecucion 53384,6	Tiempo ejecucion 67516,9	Tiempo ejecucion 55967,6	Tiempo ejecucion 62184,1	Tiempo ejecucion 67166,3	Tiempo ejecucion 53555,5
+Tiempo ejecucion 67081,2	Tiempo ejecucion 50967,4	Tiempo ejecucion 67774,6	Tiempo ejecucion 62320,9	Tiempo ejecucion 67619,1	Tiempo ejecucion 44506,1	Tiempo ejecucion 44493,2	Tiempo ejecucion 67319,7
+Tiempo ejecucion 66846,1	Tiempo ejecucion 53271,5	Tiempo ejecucion 67636,2	Tiempo ejecucion 49976,3	Tiempo ejecucion 58874,9	Tiempo ejecucion 50352,6	Tiempo ejecucion 67276,7	Tiempo ejecucion 58965,7
+Tiempo ejecucion 66824,9	Tiempo ejecucion 56445,5	Tiempo ejecucion 67816,6	Tiempo ejecucion 61946,8	Tiempo ejecucion 56224,3	Tiempo ejecucion 47487,8	Tiempo ejecucion 50360,1	Tiempo ejecucion 67129,7

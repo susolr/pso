@@ -44,7 +44,7 @@ int main (int argc, char* argv[]){
     mi_pso.ejecutar();
     double time = omp_get_wtime() - time_inicio;
     //mi_pso.mostrarResultados();
-    cout << "Tiempo ejecucion " << time*1000 << endl;
+    cout << time*1000 << endl;
 
 
     return 0;

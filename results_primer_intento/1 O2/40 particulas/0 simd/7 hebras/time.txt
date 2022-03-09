@@ -1,0 +1,5 @@
+Tiempo ejecucion 59251,6
+Tiempo ejecucion 47227,4
+Tiempo ejecucion 67403,2
+Tiempo ejecucion 50444,6
+Tiempo ejecucion 55976,3
