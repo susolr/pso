@@ -54,34 +54,41 @@ void PSO::ejecutar(){
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
 
-        #pragma omp parallel for num_threads(n_threads) if(n_threads > 0)
-            for (int i = 0; i < cumulo.size(); i++){
-                cumulo[i].valorar();
+        #pragma omp parallel num_threads(n_threads)
+        {
+            #pragma omp for
+                for (int i = 0; i < cumulo.size(); i++){
+                    cumulo[i].valorar();
+                }
+            
+            //cout << "Antes de actualizacion b_pos" << endl;
+            #pragma omp single
+            {
+                bool cambia = false;
+                int pos;
+                for (int i = 0; i < cumulo.size(); i++){
+                    if (cumulo[i].getBValue() > b_value){
+                        cambia = true;
+                        b_value = cumulo[i].getBValue();
+                        pos = i;
+                    }
+                }
+                if (cambia){
+                        b_pos.clear();
+                        b_pos = cumulo[pos].getBPos();
+                        b_k = cumulo[pos].getBK();
+                }
             }
-        bool cambia = false;
-        int pos;
-        //cout << "Antes de actualizacion b_pos" << endl;
-        for (int i = 0; i < cumulo.size(); i++){
-            if (cumulo[i].getBValue() > b_value){
-                cambia = true;
-                b_value = cumulo[i].getBValue();
-                pos = i;
-            }
-        }
-        if (cambia){
-                b_pos.clear();
-                b_pos = cumulo[pos].getBPos();
-                b_k = cumulo[pos].getBK();
-        }
-        //cout << "Valoradas todas las partículas" << endl;
-        //cout << "Actualizando velocidad y posicion..." << endl;
-        #pragma omp parallel for num_threads(n_threads) if (n_threads>0)
-            for (int i = 0; i < cumulo.size(); i++){
-                //cout << "Actualizando: " << i << endl;
-                //cout << "Tamaño del cúmulo " << cumulo.size() << endl;
-                //cout << "Tamaño de b_pos " << b_pos.size() << endl;
-                cumulo[i].actualizarVelocidad(b_pos);
-                cumulo[i].actualizarPosicion();
+            //cout << "Valoradas todas las partículas" << endl;
+            //cout << "Actualizando velocidad y posicion..." << endl;
+            #pragma omp for 
+                for (int i = 0; i < cumulo.size(); i++){
+                    //cout << "Actualizando: " << i << endl;
+                    //cout << "Tamaño del cúmulo " << cumulo.size() << endl;
+                    //cout << "Tamaño de b_pos " << b_pos.size() << endl;
+                    cumulo[i].actualizarVelocidad(b_pos);
+                    cumulo[i].actualizarPosicion();
+                }
             }
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);

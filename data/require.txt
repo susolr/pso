@@ -96,3 +96,14 @@ barrido de K
 
 
 https://efficomp.ugr.es/research/apply-to-use-our-computing-resources/
+
+
+
+Hacer un barrido manteniendo 100 iteraciones: usando 15,30,45... hasta 90 partículas (tasa de clasificacion media en cada iteracion)
+
+eje x: numero de iteraciones
+eje y: tasa media
+
+mirar seminario 1 de AC
+
+repetir tablas de tiempo con la nueva configuración
