@@ -71,6 +71,7 @@ void PSO::ejecutar(){
         if (cambia){
                 b_pos.clear();
                 b_pos = cumulo[pos].getBPos();
+                b_k = cumulo[pos].getBK();
         }
         //cout << "Valoradas todas las partículas" << endl;
         //cout << "Actualizando velocidad y posicion..." << endl;
@@ -99,6 +100,7 @@ void PSO::mostrarResultados(){
     cout << "Monstrando resultados "  << endl;
     cout << "RESULTADOS:" << endl;
     cout << "Mejor valor: " << b_value << "%" << endl;
+    cout << "Mejor k: " << b_k << endl;
     //cout << "Mejor posicion:";
     /*for (int i = 0; i < b_pos.size(); i++){
         cout << "\t" << b_pos[i];

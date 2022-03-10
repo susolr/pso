@@ -26,6 +26,7 @@ public:
     double getBValue();
     vector<int> getBPos();
     vector<int> getPos();
+    int getBK();
 
 
 private: 
@@ -48,8 +49,10 @@ private:
     vector<vector<double>> data_training;
     vector<int> labels_test;
     vector<int> labels_training;
+    int mejor_k;
 
     double calcularValor();
+    double calcularValor(int & k);
     void setMejorPosicion();
     vector<int> generarAleatorio();
 

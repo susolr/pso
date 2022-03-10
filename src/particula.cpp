@@ -50,6 +50,19 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
     return label;
 }
 
+vector<int> barridoK(vector<pair<double,int>> distancias){
+    
+    vector<int> labels;
+
+    for (int i = 0; i < 178; i++){
+        int k = i+1;
+        int l = valorKNN(k, distancias);
+        labels.push_back(l);
+    }
+    
+    return labels;
+}
+
 Particula::Particula(int n){
     dimension = n;
     pos = generarAleatorio();
@@ -101,15 +114,17 @@ void Particula::actualizarVelocidad(vector<int> &g){
 void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
-    value = calcularValor();
+    int k;
+    value = calcularValor(k);
     var_value = abs(value-aux_value);
     if (value > b_value){
         b_value = value;
         setMejorPosicion();
+        mejor_k = k;
     }
 }
 
-double Particula::calcularValor(){
+/*double Particula::calcularValor(){
     //cout << "Calcular valor" << endl;
     
     vector<int> labels_knn; 
@@ -156,6 +171,63 @@ double Particula::calcularValor(){
     //cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
     return valor;
 
+}*/
+
+double Particula::calcularValor(int & k){
+    //cout << "Calcular valor" << endl;
+    
+    //vector<int> labels_knn; 
+    vector<vector<int>> labels_completos;
+    vector<pair<double, int>> distancias;
+    //cout << "Size de test " << data_test.size();
+    for(int i = 0; i < data_test.size(); i++){
+        //cout << "Iteracion: \nI:" << i << endl;
+        double distancia = 0.0;
+        for(int j = 0; j < data_training.size(); j++){
+            //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
+            for (int k = 0; k < data_training[j].size(); k++){
+                //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
+                if(pos[k]==1){
+                    double aux = data_test[i][k] - data_training[j][k];
+                    aux = aux*aux;
+                    distancia += aux;
+                }
+            }
+            distancia = sqrt(distancia);
+            pair<double,int> d_v (distancia, labels_training[j]);
+            //cout << "Distancia: " << distancia << "\tValor " << labels_training[j] << endl;
+            distancias.push_back(d_v);
+            distancia = 0.0;
+        }
+        vector<int> valores_label_knn = barridoK(distancias);
+        distancias.clear();
+        labels_completos.push_back(valores_label_knn);
+    }
+    double b_valor = 0.0;    
+
+    for (int j = 0; j < 178; j++){
+        int n_aciertos = 0, n_fallos = 0;
+        for (int i = 0; i < labels_completos.size(); i++){
+            //cout << "LabelKnn: " << labels_knn[i] << "\t LabelTest " << labels_test[i] << endl;
+            if (labels_completos[i][j] == labels_test[i]){
+                n_aciertos++;
+            }
+            else{
+                n_fallos++;
+            }
+        }
+        double valor = ((n_aciertos)*1.0)/(1.0*(n_aciertos+n_fallos))*100;
+
+        if (valor > b_valor){
+            b_valor = valor;
+            k = j+1;
+        }
+    }
+
+    
+    //cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
+    return b_valor;
+
 }
 
 void Particula::setMejorPosicion(){
@@ -178,6 +250,10 @@ vector<int> Particula::getPos(){
 
 vector<int> Particula::getBPos(){
     return b_pos;
+}
+
+int Particula::getBK(){
+    return mejor_k;
 }
 
 vector<int> Particula::generarAleatorio(){

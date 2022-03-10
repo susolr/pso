@@ -27,6 +27,7 @@ private:
     vector<Particula> cumulo;
     vector<int> b_pos;
     double b_value;
+    double b_k;
     int cont_cambio;
     int dimension;
 

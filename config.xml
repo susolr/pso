@@ -9,7 +9,7 @@
 
 <Config>
     <NParticulas>40</NParticulas>
-    <NHebras>1</NHebras>
+    <NHebras>8</NHebras>
     <NMaxIteraciones>20</NMaxIteraciones>
     <CSocial>0.6</CSocial>
     <CCognitiva>0.8</CCognitiva>
