@@ -1,5 +1,0 @@
-Repetition: 1
-Repetition: 2
-Repetition: 3
-Repetition: 4
-Repetition: 5
