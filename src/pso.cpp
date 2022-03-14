@@ -46,8 +46,9 @@ void PSO::ejecutar(){
     int n_iter = 0;
     int contador = 0;
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
+    int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
     
-    while (n_iter < 10 && contador < 20){
+    while (n_iter < 10 && contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
         int max = 0;
