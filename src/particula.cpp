@@ -109,6 +109,7 @@ void Particula::actualizarPosicion(){
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
+        cout << sig << endl;
         if ((rand()%100) < sig){
             pos.at(i) = 1;
         }
