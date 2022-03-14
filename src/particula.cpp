@@ -53,11 +53,28 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
 vector<int> barridoK(vector<pair<double,int>> distancias){
     
     vector<int> labels;
+    sort(distancias.begin(), distancias.end());
 
     for (int i = 0; i < 178; i++){
         int k = i+1;
-        int l = valorKNN(k, distancias);
-        labels.push_back(l);
+        int label;
+        vector<int> res = {0,0,0};
+        for (int j = 0; j < k; j++){
+            int l = distancias[i].second;
+        //cout << "Pos: " << i << " " << distancias[i].first << " " << distancias[i].second << endl;
+            res[l]++;
+        }
+        int max = res[0];
+        int pos_max = 0;
+        for (int j = 1; j < res.size(); j++){
+            if (res[j] > max){
+                max = res[j];
+                pos_max = j;
+            }
+        }
+        label = pos_max;
+
+        labels.push_back(label);
     }
     
     return labels;
@@ -76,14 +93,16 @@ Particula::Particula(int n){
     simd_var = stoi((Paramlist::getInstance()->getValor("-sI")));
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     for (int i = 0; i < dimension; i++){
-        vel.push_back(0.0);
+        vel.push_back(0);
     }
+    //vel = generarAleatorio();
     data_test = lector->getDataTest();
     data_training = lector->getDataTraining();
     labels_test = lector->getLabelsTest();
     labels_training = lector->getLabelsTraining();
     //cout << "Sizes: " << data_test.size() << " " << data_training.size() << " " << labels_test.size() << " " << labels_training.size() << endl;
 }
+
 
 void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
@@ -100,10 +119,11 @@ void Particula::actualizarPosicion(){
 
 }
 
+
 void Particula::actualizarVelocidad(vector<int> &g){
-    //cout << "Actualizando velocidad" << endl << flush;
-    vector<int> rd1 = generarAleatorio();
-    vector<int> rd2 = generarAleatorio();
+//cout << "Actualizando velocidad" << endl << flush;
+vector<int> rd1 = generarAleatorio();
+vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
@@ -116,6 +136,29 @@ void Particula::actualizarVelocidad(vector<int> &g){
     }
 
 }
+
+
+/*void Particula::actualizarPosicion(){
+    //cout << "Actualizando posicion" << endl << flush;
+    for (int i = 0; i < vel.size(); i++){
+        pos.at(i) = pos.at(i) + vel.at(i);
+        pos.at(i) = (4+pos.at(i))%2;
+        vel.at(i) = (3+vel.at(i))%3 - 1;
+    }
+
+}
+
+
+void Particula::actualizarVelocidad(vector<int> &g){
+    //cout << "Actualizando velocidad" << endl << flush;
+    vector<int> rd1 = generarAleatorio();
+    vector<int> rd2 = generarAleatorio();
+
+    for (int i = 0; i < dimension; i++){
+        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+    }
+
+}*/
 
 void Particula::valorar(){
     //cout << "Valorando" << endl;

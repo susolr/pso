@@ -24,27 +24,7 @@ using namespace tinyxml2;
 
 int main (int argc, char** argv){
 
-
-/*    XMLDocument configDoc;
-    configDoc.LoadFile("config.xml");
-    XMLElement *root = configDoc.FirstChildElement();
-    int nP;
-    int nH;
-    int nI;
-    int k;
-    root -> FirstChildElement("NParticulas") -> QueryIntText(&(nP));
-    root -> FirstChildElement("NHebras") -> QueryIntText(&(nH));
-    root -> FirstChildElement("NMaxIteraciones") -> QueryIntText(&(nI));
-    root -> FirstChildElement("KValor") -> QueryIntText(&(k));
-    cout << "NParticulas:" << nP << endl;
-    cout << "NHebras:" << nH << endl;
-    cout << "NMaxIteraciones:" << nI << endl;
-    cout << "KValor:" << k << endl;
-*/
-
-    Paramlist* lista = Paramlist::getInstance(argc, argv);
-
-    cout << lista->getValor("-nP") << endl;
+    cout << 3%2 << endl;
 
     return 0;
 }

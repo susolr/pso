@@ -64,7 +64,7 @@ void PSO::ejecutar(){
                 }
             
             //cout << "Antes de actualizacion b_pos" << endl;
-            #pragma omp single
+            #pragma omp master
             {
                 bool cambia = false;
                 int pos;
