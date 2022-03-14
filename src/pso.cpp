@@ -97,7 +97,7 @@ void PSO::ejecutar(){
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
         clas_media = clas_media/cumulo.size();
-        cout << clas_media << "\t" << b_k  << endl;
+        cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k  << endl;
         /*if (var_value < 0.001){
             ++n_iter;
         }
@@ -106,6 +106,7 @@ void PSO::ejecutar(){
         }
         contador++;
         */
+       contador++;
     }
 }
 
