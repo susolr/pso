@@ -48,10 +48,11 @@ void PSO::ejecutar(){
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
     
-    while (n_iter < 10 && contador < n_max_iter){
+    while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
         int max = 0;
+        double clas_media = 0.0;
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
 
@@ -73,13 +74,15 @@ void PSO::ejecutar(){
                         b_value = cumulo[i].getBValue();
                         pos = i;
                     }
+                    clas_media += cumulo[i].getValue();
                 }
                 if (cambia){
                         b_pos.clear();
                         b_pos = cumulo[pos].getBPos();
-                        //b_k = cumulo[pos].getBK();
+                        b_k = cumulo[pos].getBK();
                 }
             }
+            
             //cout << "Valoradas todas las partículas" << endl;
             //cout << "Actualizando velocidad y posicion..." << endl;
             #pragma omp for 
@@ -93,14 +96,16 @@ void PSO::ejecutar(){
         }
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
-
-        if (var_value < 0.001){
+        clas_media = clas_media/cumulo.size();
+        cout << clas_media << "\t" << b_k  << endl;
+        /*if (var_value < 0.001){
             ++n_iter;
         }
         else {
             n_iter = 0;
         }
         contador++;
+        */
     }
 }
 
