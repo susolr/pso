@@ -1,0 +1,71 @@
+#!/bin/bash
+
+################# Global variables
+
+NPARTICULAS=(15 30 45 60 75 90)
+NREPETITIONS=5
+NITERACIONES=20
+NMAXHEBRAS=8
+PROJECT=${PWD##*/}
+
+DIR="results_barrido"
+rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+for MODE in $( eval echo {0..1} ); do
+	echo -e "\t`date`" && echo -e "\tStarts with DB 104," $MODE "O2 and" $NREPETITIONS "repetitions"
+	DIR+="/$MODE O2"
+	mkdir "$DIR"
+	if [ $MODE == 0 ]; then
+		make build
+		echo -e "\tBuild sin O2"
+	else
+		make build_o2
+		echo -e "\tBuild con O2"
+	fi
+	for NP in "${NPARTICULAS[@]}"; do
+		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $NP "particles"
+		DIR+="/$NP particulas"
+		mkdir "$DIR"
+
+		for SIMD in $( eval echo {0..1} ); do 
+			echo -e "\t\t`date`" && echo -e "\t\tStarts with" $SIMD "simd"
+			DIR+="/$SIMD simd"
+			mkdir "$DIR"
+			#if [ $SIMD == 0 ]; then
+			#	NHI=0
+			#else
+			#	NHI=1
+			#fi
+			NHI=1
+			for NH in $( eval echo {$NHI..$NMAXHEBRAS} ); do
+				echo -e "\t\t\t\t`date`" && echo -e "\t\t\t\tStarts with" $NH "hebras"
+				DIR+="/$NH hebras"
+				mkdir "$DIR"
+
+				for R in $( eval echo {1..$NREPETITIONS} ); do
+					echo "Repetition: $R" >> "$DIR/raw.txt"
+					echo -e "\t\t\t\t\t" $R
+					./pso -nH $NH -sI $SIMD > last.txt
+					echo "`sed -n 1p last.txt`" >> tmp_time.txt
+
+				done
+				rm last.txt
+				paste tmp_time* > "$DIR/time.txt"
+				rm -rf tmp*
+				DIR="$(dirname "$DIR")"
+			done
+
+			################# Postprocessing
+			for NH in $( eval echo {1..$NMAXHEBRAS} ); do
+				cat "$DIR/$NH hebras/time"* > "tmp_TH_${NH}.txt"
+			done
+			paste $(ls -v tmp_TH*) > results/TH.txt
+			rm -rf tmp*
+			DIR="$(dirname "$DIR")"
+		done
+		DIR="$(dirname "$DIR")"
+	done
+	DIR="$(dirname "$DIR")"
+done
+find ./results -name \*.txt -exec sed -i 's/\./,/g' {} \;
