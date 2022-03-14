@@ -107,6 +107,12 @@ void Particula::actualizarVelocidad(vector<int> &g){
 
     for (int i = 0; i < dimension; i++){
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+        if (vel.at(i) > 3.0){
+            vel.at(i) = 3.0;
+        }
+        if (vel.at(i) < -3.0){
+            vel.at(i) = -3.0;
+        }
     }
 
 }
