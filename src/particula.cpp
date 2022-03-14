@@ -50,7 +50,7 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
     return label;
 }
 
-vector<int> barridoK(vector<pair<double,int>> distancias){
+/*vector<int> barridoK(vector<pair<double,int>> distancias){
     
     vector<int> labels;
     sort(distancias.begin(), distancias.end());
@@ -74,6 +74,19 @@ vector<int> barridoK(vector<pair<double,int>> distancias){
         }
         label = pos_max;
 
+        labels.push_back(label);
+    }
+    
+    return labels;
+}*/
+
+vector<int> barridoK(vector<pair<double,int>> distancias){
+    
+    vector<int> labels;
+
+    for (int i = 0; i < 178; i++){
+        int k = i+1;
+        int label = valorKNN(k, distancias);
         labels.push_back(label);
     }
     
@@ -109,7 +122,6 @@ void Particula::actualizarPosicion(){
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
-        cout << sig << endl;
         if ((rand()%100) < sig){
             pos.at(i) = 1;
         }
@@ -127,16 +139,16 @@ vector<int> rd1 = generarAleatorio();
 vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
-        int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
-        int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
-        //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
-        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
-        if (vel.at(i) > 3.0){
+        //int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
+        //int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
+        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+        //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
+        /*if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
         if (vel.at(i) < -3.0){
             vel.at(i) = -3.0;
-        }
+        }*/
     }
 
 }

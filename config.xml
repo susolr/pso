@@ -11,8 +11,8 @@
     <NParticulas>40</NParticulas>
     <NHebras>8</NHebras>
     <NMaxIteraciones>200</NMaxIteraciones>
-    <CSocial>0.9</CSocial>
-    <CCognitiva>0.6</CCognitiva>
+    <CSocial>2.5</CSocial>
+    <CCognitiva>2.5</CCognitiva>
     <CInercia>0.9</CInercia>
     <KValor>17</KValor>
     <SIMD>1</SIMD>
