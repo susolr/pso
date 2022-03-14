@@ -24,7 +24,11 @@ using namespace tinyxml2;
 
 int main (int argc, char** argv){
 
-    cout << 3%2 << endl;
+    int b_pos = 1;
+    int pos = 0;
+    int v_cog = (b_pos==pos) ? 1 : -1;
+
+    cout << v_cog << endl;
 
     return 0;
 }

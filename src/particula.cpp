@@ -93,7 +93,7 @@ Particula::Particula(int n){
     simd_var = stoi((Paramlist::getInstance()->getValor("-sI")));
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     for (int i = 0; i < dimension; i++){
-        vel.push_back(0);
+        vel.push_back(0.0);
     }
     //vel = generarAleatorio();
     data_test = lector->getDataTest();
@@ -126,7 +126,10 @@ vector<int> rd1 = generarAleatorio();
 vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
-        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+        int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
+        int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
+        //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
         if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
