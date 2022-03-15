@@ -14,7 +14,7 @@ PROJECT=${PWD##*/}
 
 ################# Remove previous results and start again
 
-DIR="results"
+DIR="results_2"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"

@@ -19,6 +19,7 @@ https://www.cienciadedatos.net/documentos/py02_optimizacion_pso
 http://sedici.unlp.edu.ar/bitstream/handle/10915/47135/Documento_completo__.pdf?sequence=1&isAllowed=y
 
 http://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1405-55462016000100153
+https://www.redalyc.org/journal/614/61465285006/html/
 
 # Ejemplos KNN
 

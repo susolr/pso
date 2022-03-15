@@ -51,7 +51,7 @@ void PSO::ejecutar(){
     while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
-        int max = 0;
+        //int max = 0;
         double clas_media = 0.0;
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
@@ -74,12 +74,12 @@ void PSO::ejecutar(){
                         b_value = cumulo[i].getBValue();
                         pos = i;
                     }
-                    clas_media += cumulo[i].getValue();
+                    //clas_media += cumulo[i].getValue();
                 }
                 if (cambia){
                         b_pos.clear();
                         b_pos = cumulo[pos].getBPos();
-                        b_k = cumulo[pos].getBK();
+                        //b_k = cumulo[pos].getBK();
                 }
             }
             
@@ -96,17 +96,16 @@ void PSO::ejecutar(){
         }
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
-        clas_media = clas_media/cumulo.size();
-        cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k  << endl;
-        /*if (var_value < 0.001){
+        //clas_media = clas_media/cumulo.size();
+        //cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k  << endl;
+        if (var_value < 0.001){
             ++n_iter;
         }
         else {
             n_iter = 0;
         }
         contador++;
-        */
-       contador++;
+        
     }
 }
 

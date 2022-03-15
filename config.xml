@@ -10,10 +10,10 @@
 <Config>
     <NParticulas>40</NParticulas>
     <NHebras>8</NHebras>
-    <NMaxIteraciones>200</NMaxIteraciones>
-    <CSocial>2.5</CSocial>
-    <CCognitiva>2.5</CCognitiva>
-    <CInercia>0.9</CInercia>
+    <NMaxIteraciones>20</NMaxIteraciones>
+    <CSocial>0.8</CSocial>
+    <CCognitiva>0.8</CCognitiva>
+    <CInercia>0.6</CInercia>
     <KValor>17</KValor>
-    <SIMD>1</SIMD>
+    <SIMD>0</SIMD>
 </Config>
