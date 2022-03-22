@@ -74,12 +74,12 @@ void PSO::ejecutar(){
                         b_value = cumulo[i].getBValue();
                         pos = i;
                     }
-                    //clas_media += cumulo[i].getValue();
+                    clas_media += cumulo[i].getValue();
                 }
                 if (cambia){
                         b_pos.clear();
                         b_pos = cumulo[pos].getBPos();
-                        //b_k = cumulo[pos].getBK();
+                        b_k = cumulo[pos].getBK();
                 }
             }
             
