@@ -2,7 +2,9 @@
 
 ################# Global variables
 
-NPARTICULAS=(15 30 45 60 75 90)
+NPARTICULAS=(15 30 45 60 75 90 105)
+CSOCIAL=(0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.5)
+CCOGNITIVO=(0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.5)
 NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
@@ -22,20 +24,29 @@ for MODE in CON; do
 		echo -e "\t\t`date`" && echo -e "\t\tStarts with" $NP "particles"
 		DIR+="/$NP particulas"
 		mkdir "$DIR"
-
-		for R in $( eval echo {1..$NREPETITIONS} ); do
-			DIR+="/$R repeticion"
+		for S in "${CSOCIAL[@]}"; do
+			echo -e "\t\t`date`" && echo -e "\t\tStarts with" $S "social"
+			DIR+="/$S particulas"
 			mkdir "$DIR"
-			echo "Repetition: $R" >> "$DIR/raw.txt"
-			echo -e "\t\t\t\t\t" $R
-			./pso -nP $NP > last.txt
-			paste last* > "$DIR/clasificacion.txt"
-			rm last.txt
+			for C in "${CCOGNITIVO[@]}"; do
+				echo -e "\t\t`date`" && echo -e "\t\tStarts with" $C "congnitivo"
+				DIR+="/$C particulas"
+				mkdir "$DIR"
+				for R in $( eval echo {1..$NREPETITIONS} ); do
+					DIR+="/$R repeticion"
+					mkdir "$DIR"
+					echo "Repetition: $R" >> "$DIR/raw.txt"
+					echo -e "\t\t\t\t\t" $R
+					./pso -nP $NP > last.txt
+					paste last* > "$DIR/clasificacion.txt"
+					rm last.txt
+					DIR="$(dirname "$DIR")"
+				done
+				DIR="$(dirname "$DIR")"
+			done
 			DIR="$(dirname "$DIR")"
 		done
-		rm last.txt
 		DIR="$(dirname "$DIR")"
-
 	done
 	DIR="$(dirname "$DIR")"
 done
