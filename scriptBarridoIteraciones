@@ -2,15 +2,15 @@
 
 ################# Global variables
 
-NPARTICULAS=(15 30 45 60 75 90 105)
-CSOCIAL=(0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.5)
-CCOGNITIVO=(0.8 1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.5)
+NPARTICULAS=(90 105)
+CSOCIAL=(1.6 2.0 2.5)
+CCOGNITIVO=(1.6 2.0 2.5)
 NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="results_barrido_componentes"
+DIR="results_barrido_componentes_grandes"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
@@ -26,18 +26,18 @@ for MODE in CON; do
 		mkdir "$DIR"
 		for S in "${CSOCIAL[@]}"; do
 			echo -e "\t\t`date`" && echo -e "\t\tStarts with" $S "social"
-			DIR+="/$S particulas"
+			DIR+="/$S componente_social"
 			mkdir "$DIR"
 			for C in "${CCOGNITIVO[@]}"; do
 				echo -e "\t\t`date`" && echo -e "\t\tStarts with" $C "congnitivo"
-				DIR+="/$C particulas"
+				DIR+="/$C componente_cognitivo"
 				mkdir "$DIR"
 				for R in $( eval echo {1..$NREPETITIONS} ); do
 					DIR+="/$R repeticion"
 					mkdir "$DIR"
 					echo "Repetition: $R" >> "$DIR/raw.txt"
 					echo -e "\t\t\t\t\t" $R
-					./pso -nP $NP -cS $S - cC $C > last.txt
+					./pso -nP $NP -cS $S -cC $C > last.txt
 					paste last* > "$DIR/clasificacion.txt"
 					rm last.txt
 					DIR="$(dirname "$DIR")"
