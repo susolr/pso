@@ -2,7 +2,7 @@
 
 ################# Global variables
 
-NPARTICULAS=(90 105)
+NPARTICULAS=(90)
 CSOCIAL=(1.6 2.0 2.5)
 CCOGNITIVO=(1.6 2.0 2.5)
 NREPETITIONS=5
