@@ -143,12 +143,12 @@ vector<int> rd2 = generarAleatorio();
         //int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
         //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
-        /*if (vel.at(i) > 3.0){
+        if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
         if (vel.at(i) < -3.0){
             vel.at(i) = -3.0;
-        }*/
+        }
     }
 
 }

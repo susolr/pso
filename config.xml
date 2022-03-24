@@ -13,7 +13,7 @@
     <NMaxIteraciones>1000</NMaxIteraciones>
     <CSocial>0.8</CSocial>
     <CCognitiva>0.8</CCognitiva>
-    <CInercia>1.2</CInercia>
+    <CInercia>1.5</CInercia>
     <KValor>17</KValor>
     <SIMD>0</SIMD>
 </Config>
