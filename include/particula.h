@@ -40,16 +40,20 @@ private:
     double c_cog;
     double c_social;
     double inercia;
+    double max_inercia;
+    double min_inercia;
     int dimension;
     int k_valor;
     int simd_var;
     int n_hebras;
+    int max_iter;
     Lector * lector;
     vector<vector<double>> data_test;
     vector<vector<double>> data_training;
     vector<int> labels_test;
     vector<int> labels_training;
     int mejor_k;
+    int cont;
 
     double calcularValor();
     double calcularValor(int & k);

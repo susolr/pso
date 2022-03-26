@@ -21,6 +21,10 @@ http://sedici.unlp.edu.ar/bitstream/handle/10915/47135/Documento_completo__.pdf?
 http://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S1405-55462016000100153
 https://www.redalyc.org/journal/614/61465285006/html/
 
+https://www.researchgate.net/profile/Yun-Chia-Liang/publication/253556513_A_Binary_Particle_Swarm_Optimization_Algorithm_for_Lot_Sizing_Problem/links/540471b30cf2c48563b0916f/A-Binary-Particle-Swarm-Optimization-Algorithm-for-Lot-Sizing-Problem.pdf
+https://www.researchgate.net/publication/258456389_Binary_Particle_Swarm_Optimization_challenges_and_New_Solutions
+http://www.cs.us.es/~fsancho/ficheros/IA2019/INBPSO.pdf
+
 # Ejemplos KNN
 
 https://github.com/mddragnev/k-nearest-neighbors/blob/master/KNN/KNN/main.cpp

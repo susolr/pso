@@ -100,11 +100,14 @@ Particula::Particula(int n){
     c_social = stod((Paramlist::getInstance()->getValor("-cS")));
     lector = Lector::getInstance();
     inercia = stod(Paramlist::getInstance()->getValor("-cI"));
+    max_inercia = inercia;
+    min_inercia = 0.1;
     b_value = 0.0;
     b_pos = pos;
     k_valor = stoi(Paramlist::getInstance()->getValor("-k"));
     simd_var = stoi((Paramlist::getInstance()->getValor("-sI")));
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
+    max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
         vel.push_back(0.0);
     }
@@ -113,6 +116,7 @@ Particula::Particula(int n){
     data_training = lector->getDataTraining();
     labels_test = lector->getLabelsTest();
     labels_training = lector->getLabelsTraining();
+    cont = 0;
     //cout << "Sizes: " << data_test.size() << " " << data_training.size() << " " << labels_test.size() << " " << labels_training.size() << endl;
 }
 
@@ -122,6 +126,7 @@ void Particula::actualizarPosicion(){
     double sig;
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
+        //cout << "sig: " << sig << endl;
         if ((rand()%100) < sig){
             pos.at(i) = 1;
         }
@@ -141,16 +146,20 @@ vector<int> rd2 = generarAleatorio();
     for (int i = 0; i < dimension; i++){
         //int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
         //int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
-        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i));
+        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i)); //Con componente aleatoria
+        //vel.at(i) = inercia*vel.at(i) + c_cog*(b_pos.at(i) - pos.at(i)) + c_social*(g.at(i) - pos.at(i)); //Sin componente aleatoria. No satisfactorio
         //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
-        if (vel.at(i) > 3.0){
+        /*if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
         if (vel.at(i) < -3.0){
             vel.at(i) = -3.0;
-        }
+        }*/
     }
 
+    //cont++;
+    //inercia = max_inercia - ((max_inercia - min_inercia)/max_iter)*cont ;
+    
 }
 
 
