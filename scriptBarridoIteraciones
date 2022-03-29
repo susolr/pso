@@ -2,15 +2,15 @@
 
 ################# Global variables
 
-NPARTICULAS=(200)
-CSOCIAL=(2.0)
-CCOGNITIVO=(2.0)
+NPARTICULAS=(105)
+CSOCIAL=(1.0)
+CCOGNITIVO=(1.0)
 NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="results_barrido_componentes_grandes_200p"
+DIR="results_barrido_componentes_grandes_105p_convergencia"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
