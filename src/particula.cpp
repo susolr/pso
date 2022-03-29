@@ -124,7 +124,7 @@ Particula::Particula(int n){
 }
 
 
-void Particula::actualizarPosicion(){
+/*void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
@@ -135,6 +135,20 @@ void Particula::actualizarPosicion(){
         }
         else {
             pos.at(i) = 0;
+        }
+    }
+
+}*/
+void Particula::actualizarPosicion(){
+    //cout << "Actualizando posicion" << endl << flush;
+    double sig;
+    double s;
+    for (int i = 0; i < vel.size(); i++){
+        sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
+        s = 2 * abs(sig-0.5);
+        //cout << "sig: " << sig << endl;
+        if ((rand()%100) < s){
+            pos.at(i) = (pos.at(i) + 1)%2;
         }
     }
 
@@ -262,6 +276,7 @@ double Particula::calcularValor(int & k){
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
+        #pragma omp simd if(simd_var==1 && n_hebras>0)
             for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){

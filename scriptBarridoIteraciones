@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="results_barrido_componentes_grandes_250p"
+DIR="results_barrido_componentes_grandes_200p"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
