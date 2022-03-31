@@ -107,3 +107,16 @@ eje y: tasa media
 mirar seminario 1 de AC
 
 repetir tablas de tiempo con la nueva configuración
+
+
+Probar alternativas (velocidad)
+
+repetir sin variar el k sqrt(178) con 200P
+
+sacar KNN a secas con sqrt(178)
+
+- KNN
+- Repetir con las distintas funciones de movimiento (200p) k=sqrt(178)
+
+
+
