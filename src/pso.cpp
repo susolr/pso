@@ -79,7 +79,7 @@ void PSO::ejecutar(){
                 if (cambia){
                         b_pos.clear();
                         b_pos = cumulo[pos].getBPos();
-                        b_k = cumulo[pos].getBK();
+                        //b_k = cumulo[pos].getBK();
                 }
             }
             
@@ -97,7 +97,7 @@ void PSO::ejecutar(){
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
         clas_media = clas_media/cumulo.size();
-        cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k  << endl;
+        cout << "0," << clas_media << "\t0," << b_value << endl;
         /*if (var_value < 0.001){
             ++n_iter;
         }

@@ -202,7 +202,7 @@ void Particula::actualizarVelocidad(vector<int> &g){
 
 }*/
 
-void Particula::valorar(){
+/*void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
     int k;
@@ -212,6 +212,19 @@ void Particula::valorar(){
         b_value = value;
         setMejorPosicion();
         mejor_k = k;
+    }
+}*/
+
+void Particula::valorar(){
+    //cout << "Valorando" << endl;
+    double aux_value = value;
+    //int k;
+    value = calcularValor();
+    var_value = abs(value-aux_value);
+    if (value > b_value){
+        b_value = value;
+        setMejorPosicion();
+        //mejor_k = k;
     }
 }
 
