@@ -27,5 +27,7 @@ done
 paste tmp_clasificacion* > "$DIR/clasificacion.txt"
 paste tmp_time* > "$DIR/time.txt"
 rm last.txt
+rm tmp_time.txt
+rm tmp_clasificacion.txt
 
 find ./pruebas/segunda_tanda/mi_knn -name \*.txt -exec sed -i 's/\./,/g' {} \;
