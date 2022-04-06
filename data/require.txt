@@ -118,5 +118,7 @@ sacar KNN a secas con sqrt(178) = 13
 - KNN
 - Repetir con las distintas funciones de movimiento (200p) k=sqrt(178)
 
+Mejores K = 3, 13, 18, 20, 23
+
 
 
