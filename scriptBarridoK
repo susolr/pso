@@ -9,25 +9,20 @@ NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
-NK=(23)
 
-DIR="pruebas/segunda_tanda/1000_iter_k"
+DIR="pruebas/segunda_tanda/200p_v0_convergencia"
 date && echo "Start the execution"
 echo "-------------------"
 echo -e "\t`date`" && echo -e "\tStarts with DB 104, O2 and" $NREPETITIONS "repetitions"
 make build_o2
-for K in "${NK[@]}"; do
-	echo -e "\t\t`date`" && echo -e "\t\tStarts with" $K " k"
-	DIR+="/k_$K"
-	mkdir "$DIR"
-	for R in $( eval echo {1..$NREPETITIONS} ); do
-		echo -e "\t\t" $R
-		./pso -k $K > last.txt
-		paste last* > "$DIR/clasificacion_$R.txt"
-		rm last.txt
-	done
-	DIR="$(dirname "$DIR")"
+
+for R in $( eval echo {1..$NREPETITIONS} ); do
+	echo -e "\t\t" $R
+	./pso > last.txt
+	paste last* > "$DIR/clasificacion_$R.txt"
+	rm last.txt
 done
+
 
 
 find ./pruebas/segunda_tanda/barrido_k -name \*.txt -exec sed -i 's/\./,/g' {} \;
