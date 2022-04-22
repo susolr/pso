@@ -10,7 +10,8 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="pruebas/segunda_tanda/200p_v0_convergencia"
+DIR="pruebas/segunda_tanda/200p_vi_convergencia"
+rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 echo -e "\t`date`" && echo -e "\tStarts with DB 104, O2 and" $NREPETITIONS "repetitions"
