@@ -36,3 +36,7 @@ https://github.com/vincentfpgarcia/kNN-CUDA/blob/master/code/knncuda.cu
 https://academica-e.unavarra.es/xmlui/bitstream/handle/2454/29112/Memoria.pdf?sequence=2&isAllowed=y
 
 
+# Box Plot
+https://www.mathworks.com/help/stats/boxplot.html
+
+
