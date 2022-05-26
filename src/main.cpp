@@ -17,6 +17,8 @@
 #include "pso.h"
 #include "omp.h"
 #include "paramlist.h"
+#include <mpi.h>
+
 using namespace std;
 
 int main (int argc, char* argv[]){
@@ -28,21 +30,24 @@ int main (int argc, char* argv[]){
     else{
         lista = Paramlist::getInstance(argc, argv);
     }
+
+    MPI::Init_thread(MPI_THREAD_MULTIPLE);
+
     PSO mi_pso = PSO();
-    mi_pso.crearCumulo();
-    /*cout << "-nH " << lista->getInstance()->getValor("-nH") << endl;
-    cout << "-nP " << lista->getInstance()->getValor("-nP") << endl;
-    cout << "-sI " << lista->getInstance()->getValor("-sI") << endl;
-    cout << "-nI " << lista->getInstance()->getValor("-nI") << endl;
-    cout << "-cS " << lista->getInstance()->getValor("-cS") << endl;
-    cout << "-cC " << lista->getInstance()->getValor("-cC") << endl;
-    cout << "-cI " << lista->getInstance()->getValor("-cI") << endl;
-    cout << "-k " << lista->getInstance()->getValor("-k") << endl;
-    */  
-    //medir tiempo openmp
-    double time_inicio = omp_get_wtime();
-    mi_pso.ejecutar();
-    double time = omp_get_wtime() - time_inicio;
+    double time_inicio;
+    double time;
+    if(stoi(lista->getValor("-rank"))==0  && stoi(lista->getValor("-size")) > 1){
+        mi_pso.crearCumulo();
+        time_inicio = omp_get_wtime();
+        mi_pso.ejecutar();
+        time = omp_get_wtime() - time_inicio;
+    }
+    else {
+        mi_pso.crearParticula();
+        mi_pso.valorar();
+    }
+
+    
     //mi_pso.mostrarResultados();
     cout << time << endl;
 

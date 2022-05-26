@@ -39,4 +39,8 @@ https://academica-e.unavarra.es/xmlui/bitstream/handle/2454/29112/Memoria.pdf?se
 # Box Plot
 https://www.mathworks.com/help/stats/boxplot.html
 
+# MPI
+
+https://amithkk.medium.com/setting-up-visual-studio-code-and-wsl-for-mpi-develoment-8df55758a31c
+
 

@@ -17,6 +17,7 @@
 #include "lector.h"
 #include <omp.h>
 #include "paramlist.h"
+#include <mpi.h>
 
 using namespace std;
 
@@ -28,6 +29,9 @@ PSO::PSO(){
     //lector->mostrarDatos();
     b_value = 0.0;
 }
+
+
+//MASTER
 
 void PSO::crearCumulo(){
     //cout << "Creando cumulo" << endl;
@@ -60,6 +64,7 @@ void PSO::ejecutar(){
         {
             #pragma omp for
                 for (int i = 0; i < cumulo.size(); i++){
+                    //SEND DE LOS VALORES
                     cumulo[i].valorar();
                 }
             
@@ -107,6 +112,10 @@ void PSO::ejecutar(){
         contador++;
         
     }
+
+    for (int p = 1; p < conf -> mpiSize; ++p) {
+        requests[p - 1] = MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
+	}
 }
 
 void PSO::mostrarResultados(){
@@ -121,3 +130,19 @@ void PSO::mostrarResultados(){
     cout << endl;
 
 }
+
+void PSO::valorar(){
+    
+    do {
+
+    } while (true);
+}
+
+void PSO::crearParticula(){
+    
+    cumulo.clear();
+    particula = Particula(dimension);
+}
+
+
+// WORKERS
