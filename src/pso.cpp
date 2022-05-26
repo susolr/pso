@@ -63,6 +63,8 @@ void PSO::ejecutar(){
     int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
 
     MPI::Request requests[conf -> mpiSize - 1];
+
+    MPI::COMM_WORLD.Barrier();
     
     while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
@@ -77,7 +79,13 @@ void PSO::ejecutar(){
             #pragma omp for
                 for (int i = 0; i < cumulo.size(); i++){
                     //SEND DE LOS VALORES
-                    cumulo[i].valorar();
+                    if(mpiSize == 1){
+                        cumulo[i].valorar();
+                    }
+                    else{
+                        //Receive
+                    }
+                    
                 }
             
             //cout << "Antes de actualizacion b_pos" << endl;
@@ -144,7 +152,18 @@ void PSO::mostrarResultados(){
 }
 
 void PSO::valorar(){
-    
+    MPI::Status status;
+	MPI::Datatype array_of_types[3] = {MPI::UNSIGNED_CHAR, MPI::FLOAT, MPI::INT};
+
+	// The 'Individual' datatype must be converted to a MPI datatype and commit it
+	MPI::Aint array_of_displacement[3] = {offsetof(Individual, chromosome), offsetof(Individual, fitness), offsetof(Individual, rank)};
+	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
+	Particle_MPI_type.Commit();
+
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
+
+    MPI::COMM_WORLD.Barrier();
+
     do {
 
     } while (true);

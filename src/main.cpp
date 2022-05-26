@@ -36,7 +36,7 @@ int main (int argc, char* argv[]){
     PSO mi_pso = PSO();
     double time_inicio;
     double time;
-    if(stoi(lista->getValor("-rank"))==0  && stoi(lista->getValor("-size")) > 1){
+    if(stoi(lista->getValor("-rank"))==0){
         mi_pso.crearCumulo();
         time_inicio = omp_get_wtime();
         mi_pso.ejecutar();
