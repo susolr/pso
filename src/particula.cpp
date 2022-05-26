@@ -353,6 +353,10 @@ vector<int> Particula::getPos(){
     return pos;
 }
 
+void Particula::setPos (vector<int> npos){
+    pos = npos;
+}
+
 vector<int> Particula::getBPos(){
     return b_pos;
 }

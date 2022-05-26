@@ -43,4 +43,7 @@ https://www.mathworks.com/help/stats/boxplot.html
 
 https://amithkk.medium.com/setting-up-visual-studio-code-and-wsl-for-mpi-develoment-8df55758a31c
 
+https://lsi2.ugr.es/jmantas/ppr/tutoriales/tutorial_mpi.php
+
+
 

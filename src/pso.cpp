@@ -51,6 +51,18 @@ void PSO::ejecutar(){
     int contador = 0;
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
+
+    MPI::Status status;
+	MPI::Datatype array_of_types[3] = {MPI::UNSIGNED_CHAR, MPI::FLOAT, MPI::INT};
+
+	// The 'Individual' datatype must be converted to a MPI datatype and commit it
+	MPI::Aint array_of_displacement[3] = {offsetof(Individual, chromosome), offsetof(Individual, fitness), offsetof(Individual, rank)};
+	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
+	Particle_MPI_type.Commit();
+
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
+
+    MPI::Request requests[conf -> mpiSize - 1];
     
     while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
@@ -140,7 +152,7 @@ void PSO::valorar(){
 
 void PSO::crearParticula(){
     
-    cumulo.clear();
+
     particula = Particula(dimension);
 }
 

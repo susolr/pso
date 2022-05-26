@@ -51,6 +51,8 @@ int main (int argc, char* argv[]){
     //mi_pso.mostrarResultados();
     cout << time << endl;
 
+    MPI_Finalize();
+
 
     return 0;
 }

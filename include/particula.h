@@ -24,6 +24,7 @@ public:
     void actualizarVelocidad(vector<int>& g);
     double getValue();
     double getBValue();
+    void setPos (vector<int> npos);
     vector<int> getBPos();
     vector<int> getPos();
     int getBK();
