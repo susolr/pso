@@ -76,17 +76,34 @@ void PSO::ejecutar(){
 
         #pragma omp parallel num_threads(n_threads)
         {
-            #pragma omp for
-                for (int i = 0; i < cumulo.size(); i++){
-                    //SEND DE LOS VALORES
-                    if(mpiSize == 1){
-                        cumulo[i].valorar();
+
+            if (mpiSize == 1){ //Trabaja únicamente la máquina master
+                #pragma omp for
+                    for (int i = 0; i < cumulo.size(); i++){
+                        cumulo[i].valorar();     
                     }
-                    else{
-                        //Receive
+            }
+            else { //Trabajan los workers
+
+                //envío el trabajo
+                #pragma omp for
+                    for (int i = 0; i < cumulo.size(); i++){
+                        //MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
                     }
-                    
-                }
+                //Trabajo???
+                /*
+
+
+                */
+
+                //recojo resultados
+                #pragma omp for
+                    for (int i = 0; i < cumulo.size(); i++){
+                        MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH);
+                    }
+
+            }
+            
             
             //cout << "Antes de actualizacion b_pos" << endl;
             #pragma omp master

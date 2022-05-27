@@ -121,4 +121,9 @@ sacar KNN a secas con sqrt(178) = 13
 Mejores K = 3, 13, 18, 20, 23
 
 
+Dudas:
+- Tiene sentido que la máquina master valore tambien las partículas
+- Podría lanzar la máquina master como maestro y esclavo simultáneamente
+
+
 

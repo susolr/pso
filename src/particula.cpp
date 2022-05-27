@@ -349,6 +349,14 @@ double Particula::getBValue(){
     return b_value;
 }
 
+void Particula::setValue(double val){
+    value = val;
+    if (value > b_value){
+        b_value = value;
+        setMejorPosicion();
+    }
+}
+
 vector<int> Particula::getPos(){
     return pos;
 }

@@ -25,6 +25,7 @@ public:
     double getValue();
     double getBValue();
     void setPos (vector<int> npos);
+    void setValue(double val);
     vector<int> getBPos();
     vector<int> getPos();
     int getBK();
