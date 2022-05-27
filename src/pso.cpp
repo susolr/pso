@@ -99,7 +99,7 @@ void PSO::ejecutar(){
                 //recojo resultados
                 #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
-                        MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH);
+                        //MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH);
                     }
 
             }
