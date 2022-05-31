@@ -120,7 +120,7 @@ void PSO::ejecutar(){
                         int tm = tamanios.at(i)
                         //MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
                         int rec = i+1;
-                        MPI::COMM_WORLD.Ireceive(aux, tm, Particle_MPI_type, rec, FINISH, &status);
+                        MPI::COMM_WORLD.Ireceive(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, &status);
                         for(int j = 0; j < tm; j++){
                             int index = i*cont_aux + j;
                             cumulo[index].setValue(aux[j].valor);
@@ -205,8 +205,6 @@ void PSO::valorar(){
         #pragma omp parallel num_threads(n_threads){
 
         }
-
-
 
     }
 
