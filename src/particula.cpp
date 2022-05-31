@@ -388,3 +388,12 @@ vector<int> Particula::generarAleatorio(){
 
     return aux;
 }
+
+particula_mpi Particula::toStruct(){
+    particula_mpi aux;
+    for (int i = 0; i < dimension; i++){
+        aux.pos[i] = pos.at(i);
+    }
+
+    return aux;
+}

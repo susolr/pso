@@ -53,20 +53,28 @@ void PSO::ejecutar(){
     int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
 
     MPI::Status status;
-	MPI::Datatype array_of_types[3] = {MPI::UNSIGNED_CHAR, MPI::FLOAT, MPI::INT};
-
+	MPI::Datatype array_of_types[3] = {MPI_INT, MPI_DOUBLE, MPI_INT};
+    int array_of_blocklengths[3] = {1, 1, dimension};
 
 	// The 'Individual' datatype must be converted to a MPI datatype and commit it
-	MPI::Aint array_of_displacement[3] = {offsetof(Individual, chromosome), offsetof(Individual, fitness), offsetof(Individual, rank)};
+	MPI::Aint array_of_displacement[3] = {offsetof(particula_mpi, n_particula), offsetof(particula_mpi, valor), offsetof(particula_mpi, pos)};
 	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
 	Particle_MPI_type.Commit();
 
 
     int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
 
-    MPI::Request requests[conf -> mpiSize - 1];
-
     MPI::COMM_WORLD.Barrier();
+
+    vector<int> tamanios;
+    int tam = dimension/(mpiSize-1) + 1;
+    int rest = dimension;
+    for (int i = 1; i < mpiSize - 1; i++){
+        tamanios.push_back(tam);
+        rest -= tam;
+    }
+
+    tamanios.push_back(rest);
     
     while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
@@ -89,21 +97,41 @@ void PSO::ejecutar(){
 
                 //envío el trabajo
                 #pragma omp master
-                {
-                    for (int i = 0; i < cumulo.size(); i++){
-                        //MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
+                {   
+                    int cont_aux = tamanio.at(0);
+                    for (int i = 0; i < tamanios.size(); i++){
+                        particula_mpi * aux = new particula_mpi [tamanios.at(i)];
+                        int tm = tamanios.at(i)
+                        for(int j = 0; j < tm; j++){
+                            int index = i*cont_aux + j;
+                            aux[j] = cumulo[index].toStruct();
+                            aux[j].n_particula = index;
+                        }
+                        MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
+
+                        delete [] aux;
                     }
 
                 //recojo resultados
-                    for (int i = 0; i < cumulo.size(); i++){
-                        //MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH, &status);
+
+                int cont_aux = tamanio.at(0);
+                    for (int i = 0; i < tamanios.size(); i++){
+                        particula_mpi * aux = new particula_mpi [tamanios.at(i)];
+                        int tm = tamanios.at(i)
+                        //MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
+                        int rec = i+1;
+                        MPI::COMM_WORLD.Ireceive(aux, tm, Particle_MPI_type, rec, FINISH, &status);
+                        for(int j = 0; j < tm; j++){
+                            int index = i*cont_aux + j;
+                            cumulo[index].setValue(aux[j].valor);
+                        }
+                        delete [] aux;
                     }
                 }
                     
 
             }
-            
-            
+
             //cout << "Antes de actualizacion b_pos" << endl;
             #pragma omp master
             {
@@ -144,7 +172,7 @@ void PSO::ejecutar(){
     }
 
     for (int p = 1; p < mpiSize; ++p) {
-        requests[p - 1] = MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
+        MPI::COMM_WORLD.Isend(NULL, 0, Particle_MPI_type, p, FINISH);
 	}
 
     MPI::COMM_WORLD.Barrier();
@@ -156,11 +184,11 @@ void PSO::valorar(){
 
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     MPI::Status status;
-	MPI::Datatype array_of_types[3] = {MPI::INT, MPI::INT, MPI::DOUBLE};
-    int array_of_blocklengths[3] = {conf -> nFeatures, conf -> nObjectives + 1, 2};
+	MPI::Datatype array_of_types[3] = {MPI_INT, MPI_DOUBLE, MPI_INT};
+    int array_of_blocklengths[3] = {1, 1, dimension};
 
 	// The 'Individual' datatype must be converted to a MPI datatype and commit it
-	MPI::Aint array_of_displacement[3] = {sizeof(3600*int), sizeof(int), sizeof(double)};
+	MPI::Aint array_of_displacement[3] = {offsetof(particula_mpi, n_particula), offsetof(particula_mpi, valor), offsetof(particula_mpi, pos)};
 	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
 	Particle_MPI_type.Commit();
 
@@ -168,7 +196,10 @@ void PSO::valorar(){
 
     MPI::COMM_WORLD.Barrier();
 
-    MPI::COMM_WORLD.Recv(particulas, );
+    particula_mpi particulas = new particula_mpi[];
+    int tam;
+
+    MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, &status);
 
     while (status.Get_tag() != FINISH){
         #pragma omp parallel num_threads(n_threads){

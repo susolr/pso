@@ -16,6 +16,12 @@
 #include "lector.h"
 using namespace std;
 
+typedef struct particula_struct {       
+        int n_particula;
+        double valor;
+        int pos[3600];
+} particula_mpi;
+
 class Particula {
 public:
     Particula(int n);
@@ -29,6 +35,7 @@ public:
     vector<int> getBPos();
     vector<int> getPos();
     int getBK();
+    particula_mpi toStruct();
 
 
 private: 
