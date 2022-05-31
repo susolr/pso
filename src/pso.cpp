@@ -55,10 +55,12 @@ void PSO::ejecutar(){
     MPI::Status status;
 	MPI::Datatype array_of_types[3] = {MPI::UNSIGNED_CHAR, MPI::FLOAT, MPI::INT};
 
+
 	// The 'Individual' datatype must be converted to a MPI datatype and commit it
 	MPI::Aint array_of_displacement[3] = {offsetof(Individual, chromosome), offsetof(Individual, fitness), offsetof(Individual, rank)};
 	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
 	Particle_MPI_type.Commit();
+
 
     int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
 
@@ -86,21 +88,18 @@ void PSO::ejecutar(){
             else { //Trabajan los workers
 
                 //envío el trabajo
-                #pragma omp for
+                #pragma omp master
+                {
                     for (int i = 0; i < cumulo.size(); i++){
                         //MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
                     }
-                //Trabajo???
-                /*
-
-
-                */
 
                 //recojo resultados
-                #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
-                        //MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH);
+                        //MPI::COMM_WORLD.Ireceive(NULL, 0, MPI::INT, p, FINISH, &status);
                     }
+                }
+                    
 
             }
             
@@ -140,20 +139,57 @@ void PSO::ejecutar(){
         var_value = abs(b_value-aux_value);
         clas_media = clas_media/cumulo.size();
         cout << "0," << clas_media << "\t0," << b_value << endl;
-        /*if (var_value < 0.001){
-            ++n_iter;
-        }
-        else {
-            n_iter = 0;
-        }*/
         contador++;
         
     }
 
-    for (int p = 1; p < conf -> mpiSize; ++p) {
+    for (int p = 1; p < mpiSize; ++p) {
         requests[p - 1] = MPI::COMM_WORLD.Isend(NULL, 0, MPI::INT, p, FINISH);
 	}
+
+    MPI::COMM_WORLD.Barrier();
+    Individual_MPI_type.Free();
 }
+
+
+void PSO::valorar(){
+
+    int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
+    MPI::Status status;
+	MPI::Datatype array_of_types[3] = {MPI::INT, MPI::INT, MPI::DOUBLE};
+    int array_of_blocklengths[3] = {conf -> nFeatures, conf -> nObjectives + 1, 2};
+
+	// The 'Individual' datatype must be converted to a MPI datatype and commit it
+	MPI::Aint array_of_displacement[3] = {sizeof(3600*int), sizeof(int), sizeof(double)};
+	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
+	Particle_MPI_type.Commit();
+
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
+
+    MPI::COMM_WORLD.Barrier();
+
+    MPI::COMM_WORLD.Recv(particulas, );
+
+    while (status.Get_tag() != FINISH){
+        #pragma omp parallel num_threads(n_threads){
+
+        }
+
+
+
+    }
+
+    MPI::COMM_WORLD.Barrier();
+    
+    Particle_MPI_type.Free();
+
+
+}
+
+void PSO::crearParticula(){
+    particula = Particula(dimension);
+}
+
 
 void PSO::mostrarResultados(){
     cout << "Monstrando resultados "  << endl;
@@ -166,30 +202,6 @@ void PSO::mostrarResultados(){
     }*/
     cout << endl;
 
-}
-
-void PSO::valorar(){
-    MPI::Status status;
-	MPI::Datatype array_of_types[3] = {MPI::UNSIGNED_CHAR, MPI::FLOAT, MPI::INT};
-
-	// The 'Individual' datatype must be converted to a MPI datatype and commit it
-	MPI::Aint array_of_displacement[3] = {offsetof(Individual, chromosome), offsetof(Individual, fitness), offsetof(Individual, rank)};
-	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
-	Particle_MPI_type.Commit();
-
-    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
-
-    MPI::COMM_WORLD.Barrier();
-
-    do {
-
-    } while (true);
-}
-
-void PSO::crearParticula(){
-    
-
-    particula = Particula(dimension);
 }
 
 

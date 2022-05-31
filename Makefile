@@ -38,6 +38,9 @@ run_p:
 build_p:
 	g++ -o pruebas -Iinclude $(SRC)/pruebas.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
+build_p_mpi:
+	mpic++ -O2 -o prueba -Iinclude $(SRC)/pruebas.cpp 
+
 clean:
 	rm pso
 	rm pruebas
