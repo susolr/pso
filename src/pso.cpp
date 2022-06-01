@@ -22,7 +22,6 @@
 
 
 /********Defines********/
-#define INITIALIZE 0
 #define IGNORE_VALUE 1
 #define FINISH 2
 
@@ -74,7 +73,7 @@ void PSO::ejecutar(){
     int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
 
     MPI::Status status;
-	MPI::Datatype array_of_types[3] = {MPI_INT, MPI_DOUBLE, MPI_INT};
+	MPI::Datatype array_of_types[3] = {MPI::INT, MPI::DOUBLE, MPI::INT};
     int array_of_blocklengths[3] = {1, 1, dimension};
 
 	// The 'Individual' datatype must be converted to a MPI datatype and commit it
@@ -101,7 +100,7 @@ void PSO::ejecutar(){
         for (int i = 0; i < tamanios.size(); i++){
             int dest = i+1;
             int envio = tamanios.at(i);
-            MPI::COMM_WORLD.Send(&envio, 1, MPI_INT, dest, IGNORE_VALUE);
+            MPI::COMM_WORLD.Send(&envio, 1, MPI::INT, dest, IGNORE_VALUE);
         }
 
     }
@@ -152,7 +151,7 @@ void PSO::ejecutar(){
                         int tm = tamanios.at(i);
                         //MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
                         int rec = i+1;
-                        MPI::COMM_WORLD.Recv(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, &status);
+                        MPI::COMM_WORLD.Recv(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, status);
                         for(int j = 0; j < tm; j++){
                             int index = i*cont_aux + j;
                             cumulo[index].setValue(aux[j].valor);
@@ -229,7 +228,7 @@ void PSO::valorar(){
     MPI::COMM_WORLD.Barrier();
 
     int tam;
-    MPI::COMM_WORLD.Recv(tam, 1, MPI_INT, 0, MPI_ANY_TAG, &status);
+    MPI::COMM_WORLD.Recv(&tam, 1, MPI::INT, 0, MPI::ANY_TAG, status);
 
     particula_mpi * particulas = new particula_mpi[tam];
 
@@ -237,7 +236,7 @@ void PSO::valorar(){
     MPI::COMM_WORLD.Barrier();
 
     //Comienza el bucle principal
-    MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, &status);
+    MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
     
 
     while (status.Get_tag() != FINISH){
@@ -250,12 +249,14 @@ void PSO::valorar(){
             }
         }
         MPI::COMM_WORLD.Isend(particulas, tam, Particle_MPI_type, 0, IGNORE_VALUE);
-        MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, &status);
+        MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
     }
 
     MPI::COMM_WORLD.Barrier();
     
     Particle_MPI_type.Free();
+
+    delete [] particulas;
 
 }
 

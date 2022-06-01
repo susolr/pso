@@ -23,6 +23,7 @@ using namespace std;
 
 int main (int argc, char* argv[]){
 
+    MPI::Init_thread(MPI_THREAD_MULTIPLE);
     Paramlist * lista;
     if (argc==1){
         lista = Paramlist::getInstance();
@@ -31,18 +32,20 @@ int main (int argc, char* argv[]){
         lista = Paramlist::getInstance(argc, argv);
     }
 
-    MPI::Init_thread(MPI_THREAD_MULTIPLE);
+    
 
     PSO mi_pso = PSO();
     double time_inicio;
     double time;
     if(stoi(lista->getValor("-rank"))==0){
+        cout << "Master " << endl << flush;
         mi_pso.crearCumulo();
         time_inicio = omp_get_wtime();
         mi_pso.ejecutar();
         time = omp_get_wtime() - time_inicio;
     }
     else {
+        cout << "Worker: " << MPI::COMM_WORLD.Get_size() << endl << flush;
         mi_pso.valorar();
     }
 
@@ -50,7 +53,7 @@ int main (int argc, char* argv[]){
     //mi_pso.mostrarResultados();
     cout << time << endl;
 
-    MPI_Finalize();
+    MPI::Finalize();
 
 
     return 0;

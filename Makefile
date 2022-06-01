@@ -17,6 +17,9 @@ pruebas: build_p run_p
 run:
 	./pso
 
+run_mpi: 
+	
+
 build_knn:
 	g++ -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
