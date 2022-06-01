@@ -9,6 +9,7 @@
  * 
  */
 
+/********INCLUDES********/
 #include "pso.h"
 #include <iostream>
 #include <fstream>
@@ -19,6 +20,14 @@
 #include "paramlist.h"
 #include <mpi.h>
 
+
+/********Defines********/
+#define INITIALIZE 0
+#define IGNORE_VALUE 1
+#define FINISH 2
+
+
+/********NAMESPACE********/
 using namespace std;
 
 PSO::PSO(){
@@ -38,6 +47,18 @@ void PSO::crearCumulo(){
     cumulo.clear();
     int n_particulas = stoi(Paramlist::getInstance()->getValor("-nP"));
     for (int i = 0; i < n_particulas; i++){
+        cumulo.push_back(Particula(dimension));
+        //cout << "Creada partícula " << i << endl;
+    }
+    //cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
+    b_pos = cumulo[0].getPos();
+}
+
+//Workers
+void PSO::crearCumulo( int n_p){
+    //cout << "Creando cumulo" << endl;
+    cumulo.clear();
+    for (int i = 0; i < n_p; i++){
         cumulo.push_back(Particula(dimension));
         //cout << "Creada partícula " << i << endl;
     }
@@ -69,12 +90,24 @@ void PSO::ejecutar(){
     vector<int> tamanios;
     int tam = dimension/(mpiSize-1) + 1;
     int rest = dimension;
-    for (int i = 1; i < mpiSize - 1; i++){
-        tamanios.push_back(tam);
-        rest -= tam;
-    }
+    if (mpiSize > 1){
+        for (int i = 1; i < mpiSize - 1; i++){
+            tamanios.push_back(tam);
+            rest -= tam;
+        }
 
-    tamanios.push_back(rest);
+        tamanios.push_back(rest);
+
+        for (int i = 0; i < tamanios.size(); i++){
+            int dest = i+1;
+            int envio = tamanios.at(i);
+            MPI::COMM_WORLD.Send(&envio, 1, MPI_INT, dest, IGNORE_VALUE);
+        }
+
+    }
+    
+
+    MPI::COMM_WORLD.Barrier();
     
     while (contador < n_max_iter){
         //cout << "Iter: " << contador << endl;
@@ -98,29 +131,28 @@ void PSO::ejecutar(){
                 //envío el trabajo
                 #pragma omp master
                 {   
-                    int cont_aux = tamanio.at(0);
+                    int cont_aux = tamanios.at(0);
                     for (int i = 0; i < tamanios.size(); i++){
                         particula_mpi * aux = new particula_mpi [tamanios.at(i)];
-                        int tm = tamanios.at(i)
+                        int tm = tamanios.at(i);
                         for(int j = 0; j < tm; j++){
                             int index = i*cont_aux + j;
                             aux[j] = cumulo[index].toStruct();
                             aux[j].n_particula = index;
                         }
-                        MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
+                        MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, IGNORE_VALUE);
 
                         delete [] aux;
                     }
 
                 //recojo resultados
 
-                int cont_aux = tamanio.at(0);
                     for (int i = 0; i < tamanios.size(); i++){
                         particula_mpi * aux = new particula_mpi [tamanios.at(i)];
-                        int tm = tamanios.at(i)
+                        int tm = tamanios.at(i);
                         //MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
                         int rec = i+1;
-                        MPI::COMM_WORLD.Ireceive(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, &status);
+                        MPI::COMM_WORLD.Recv(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, &status);
                         for(int j = 0; j < tm; j++){
                             int index = i*cont_aux + j;
                             cumulo[index].setValue(aux[j].valor);
@@ -172,11 +204,11 @@ void PSO::ejecutar(){
     }
 
     for (int p = 1; p < mpiSize; ++p) {
-        MPI::COMM_WORLD.Isend(NULL, 0, Particle_MPI_type, p, FINISH);
+        MPI::COMM_WORLD.Send(NULL, 0, Particle_MPI_type, p, FINISH);
 	}
 
     MPI::COMM_WORLD.Barrier();
-    Individual_MPI_type.Free();
+    Particle_MPI_type.Free();
 }
 
 
@@ -196,27 +228,35 @@ void PSO::valorar(){
 
     MPI::COMM_WORLD.Barrier();
 
-    particula_mpi particulas = new particula_mpi[];
     int tam;
+    MPI::COMM_WORLD.Recv(tam, 1, MPI_INT, 0, MPI_ANY_TAG, &status);
 
+    particula_mpi * particulas = new particula_mpi[tam];
+
+    crearCumulo(tam);
+    MPI::COMM_WORLD.Barrier();
+
+    //Comienza el bucle principal
     MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, &status);
+    
 
     while (status.Get_tag() != FINISH){
-        #pragma omp parallel num_threads(n_threads){
-
+        #pragma omp parallel num_threads(n_threads)
+        {
+            for (int i = 0; i < tam; i++){
+                cumulo[i].fromStruct(particulas[i]);
+                cumulo[i].valorar();
+                particulas[i].valor = cumulo[i].getValue();
+            }
         }
-
+        MPI::COMM_WORLD.Isend(particulas, tam, Particle_MPI_type, 0, IGNORE_VALUE);
+        MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, &status);
     }
 
     MPI::COMM_WORLD.Barrier();
     
     Particle_MPI_type.Free();
 
-
-}
-
-void PSO::crearParticula(){
-    particula = Particula(dimension);
 }
 
 

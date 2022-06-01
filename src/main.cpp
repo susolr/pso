@@ -43,7 +43,6 @@ int main (int argc, char* argv[]){
         time = omp_get_wtime() - time_inicio;
     }
     else {
-        //mi_pso.crearParticula();
         mi_pso.valorar();
     }
 

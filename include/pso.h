@@ -19,7 +19,6 @@ class PSO {
 public:
     PSO();
     void crearCumulo();
-    void crearParticula();
     void ejecutar();
     void mostrarResultados();
     void valorar();
@@ -33,6 +32,7 @@ private:
     int cont_cambio;
     int dimension;
     Particula particula;
+    void crearCumulo(int n_p);
 
 
 };

@@ -93,6 +93,36 @@ vector<int> barridoK(vector<pair<double,int>> distancias){
     return labels;
 }
 
+Particula::Particula(){
+    dimension = 3600;
+    pos = generarAleatorio();
+    c_cog = stod(Paramlist::getInstance()->getValor("-cC"));
+    c_social = stod((Paramlist::getInstance()->getValor("-cS")));
+    lector = Lector::getInstance();
+    inercia = stod(Paramlist::getInstance()->getValor("-cI"));
+    max_inercia = inercia;
+    min_inercia = 0.1;
+    b_value = 0.0;
+    b_pos = pos;
+    k_valor = stoi(Paramlist::getInstance()->getValor("-k"));
+    simd_var = stoi((Paramlist::getInstance()->getValor("-sI")));
+    n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
+    max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
+    for (int i = 0; i < dimension; i++){
+        double v = rand()%7 - 3;
+        vel.push_back(v);
+        //vel.push_back(0.0);
+        
+    }
+    //vel = generarAleatorio();
+    data_test = lector->getDataTest();
+    data_training = lector->getDataTraining();
+    labels_test = lector->getLabelsTest();
+    labels_training = lector->getLabelsTraining();
+    cont = 0;
+    //cout << "Sizes: " << data_test.size() << " " << data_training.size() << " " << labels_test.size() << " " << labels_training.size() << endl;
+}
+
 Particula::Particula(int n){
     dimension = n;
     pos = generarAleatorio();
@@ -218,13 +248,11 @@ void Particula::actualizarVelocidad(vector<int> &g){
 void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
-    //int k;
     value = calcularValor();
     var_value = abs(value-aux_value);
     if (value > b_value){
         b_value = value;
         setMejorPosicion();
-        //mejor_k = k;
     }
 }
 
@@ -396,4 +424,10 @@ particula_mpi Particula::toStruct(){
     }
 
     return aux;
+}
+
+void Particula::fromStruct(particula_mpi part){
+    for (int i = 0; i < dimension; i++){
+        pos[i] = part.pos[i];
+    }
 }

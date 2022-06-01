@@ -24,6 +24,7 @@ typedef struct particula_struct {
 
 class Particula {
 public:
+    Particula();
     Particula(int n);
     void actualizarPosicion();
     void valorar();
@@ -36,6 +37,7 @@ public:
     vector<int> getPos();
     int getBK();
     particula_mpi toStruct();
+    void fromStruct(particula_mpi part);
 
 
 private: 
