@@ -24,6 +24,7 @@ using namespace std;
 int main (int argc, char* argv[]){
 
     MPI::Init_thread(MPI_THREAD_MULTIPLE);
+    
     Paramlist * lista;
     if (argc==1){
         lista = Paramlist::getInstance();
@@ -31,8 +32,6 @@ int main (int argc, char* argv[]){
     else{
         lista = Paramlist::getInstance(argc, argv);
     }
-
-    
 
     PSO mi_pso = PSO();
     double time_inicio;
