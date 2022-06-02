@@ -82,7 +82,7 @@ void PSO::ejecutar(){
 	Particle_MPI_type.Commit();
 
 
-    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("size"));
 
     MPI::COMM_WORLD.Barrier();
 
@@ -158,9 +158,7 @@ void PSO::ejecutar(){
                         }
                         delete [] aux;
                     }
-                }
-                    
-
+                }       
             }
 
             //cout << "Antes de actualizacion b_pos" << endl;
@@ -223,7 +221,7 @@ void PSO::valorar(){
 	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
 	Particle_MPI_type.Commit();
 
-    int mpiSize = stoi(Paramlist::getInstance()->getValor("-size"));
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("size"));
 
     MPI::COMM_WORLD.Barrier();
 

@@ -24,6 +24,8 @@ using namespace std;
 int main (int argc, char* argv[]){
 
     MPI::Init_thread(MPI_THREAD_MULTIPLE);
+
+    
     
     Paramlist * lista;
     if (argc==1){
@@ -33,10 +35,12 @@ int main (int argc, char* argv[]){
         lista = Paramlist::getInstance(argc, argv);
     }
 
+    srand((uint) time(NULL) + stoi(lista->getValor("rank")));
+
     PSO mi_pso = PSO();
     double time_inicio;
     double time;
-    if(stoi(lista->getValor("-rank"))==0){
+    if(stoi(lista->getValor("rank"))==0){
         cout << "Master " << endl << flush;
         mi_pso.crearCumulo();
         time_inicio = omp_get_wtime();
@@ -53,7 +57,6 @@ int main (int argc, char* argv[]){
     cout << time << endl;
 
     MPI::Finalize();
-
 
     return 0;
 }

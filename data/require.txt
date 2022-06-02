@@ -126,4 +126,11 @@ Dudas:
 - Podría lanzar la máquina master como maestro y esclavo simultáneamente
 
 
+-D NFEATURES 3600
+
+
+-- MPI GECCO 2018
+-- Master GECCO 2020
+
+
 

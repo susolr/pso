@@ -10,7 +10,9 @@ INC = include
 OBJ = obj
 BIN = bin
 
-all: build run
+NFEATURES = -D N_FEATURES=$(N_FEATURES)
+
+all: build_mpi
 
 pruebas: build_p run_p
 
@@ -18,7 +20,7 @@ run:
 	./pso
 
 run_mpi: 
-	
+	mpirun --bind-to none --map-by node --host localhost,localhost ./pso
 
 build_knn:
 	g++ -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
@@ -33,7 +35,7 @@ build_o2:
 	g++ -O2 -o pso -Iinclude $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 build_mpi:
-	mpic++ -O2 -o pso -Iinclude $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
+	mpic++ -O2 -o pso -Iinclude $(NFEATURES) $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 run_p:
 	./pruebas -nP 1 -nH 2 -nI 3 -k 4 
