@@ -240,14 +240,12 @@ void PSO::valorar(){
     
 
     while (status.Get_tag() != FINISH){
-        #pragma omp parallel num_threads(n_threads)
-        {
+        #pragma omp parallel for num_threads(n_threads)
             for (int i = 0; i < tam; i++){
                 cumulo[i].fromStruct(particulas[i]);
                 cumulo[i].valorar();
                 particulas[i].valor = cumulo[i].getValue();
             }
-        }
         MPI::COMM_WORLD.Isend(particulas, tam, Particle_MPI_type, 0, IGNORE_VALUE);
         MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
     }
