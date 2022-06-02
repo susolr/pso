@@ -20,7 +20,7 @@ run:
 	./pso
 
 run_mpi: 
-	mpirun --bind-to none --map-by node --host localhost,localhost ./pso
+	mpirun --bind-to none --map-by node --host localhost ./pso
 
 build_knn:
 	g++ -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp

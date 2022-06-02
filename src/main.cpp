@@ -35,20 +35,20 @@ int main (int argc, char* argv[]){
         lista = Paramlist::getInstance(argc, argv);
     }
 
-    srand((uint) time(NULL) + stoi(lista->getValor("rank")));
+    srand((uint) time(NULL) + stoi(lista->getValor("MPIrank")));
 
     PSO mi_pso = PSO();
     double time_inicio;
     double time;
-    if(stoi(lista->getValor("rank"))==0){
-        cout << "Master " << endl << flush;
+    if(stoi(lista->getValor("MPIrank"))==0){
+        //cout << "Master tamanio: " << lista->getValor("MPIsize") << endl << flush;
         mi_pso.crearCumulo();
         time_inicio = omp_get_wtime();
         mi_pso.ejecutar();
         time = omp_get_wtime() - time_inicio;
     }
     else {
-        cout << "Worker: " << MPI::COMM_WORLD.Get_size() << endl << flush;
+        //cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
         mi_pso.valorar();
     }
 

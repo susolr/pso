@@ -94,7 +94,7 @@ vector<int> barridoK(vector<pair<double,int>> distancias){
 }
 
 Particula::Particula(){
-    dimension = 3600;
+    dimension = N_FEATURES;
     pos = generarAleatorio();
     c_cog = stod(Paramlist::getInstance()->getValor("-cC"));
     c_social = stod((Paramlist::getInstance()->getValor("-cS")));
@@ -153,8 +153,8 @@ Particula::Particula(int n){
     //cout << "Sizes: " << data_test.size() << " " << data_training.size() << " " << labels_test.size() << " " << labels_training.size() << endl;
 }
 
-
-/*void Particula::actualizarPosicion(){
+//Formula estándar para actualizar la posicion
+void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
@@ -168,8 +168,10 @@ Particula::Particula(int n){
         }
     }
 
-}*/
-void Particula::actualizarPosicion(){
+}
+
+//Formula para mejorar la tasa de clasificacion media
+/*void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     double s;
@@ -182,7 +184,7 @@ void Particula::actualizarPosicion(){
         }
     }
 
-}
+}*/
 
 
 void Particula::actualizarVelocidad(vector<int> &g){
@@ -196,12 +198,12 @@ vector<int> rd2 = generarAleatorio();
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i)); //Con componente aleatoria
         //vel.at(i) = inercia*vel.at(i) + c_cog*(b_pos.at(i) - pos.at(i)) + c_social*(g.at(i) - pos.at(i)); //Sin componente aleatoria. No satisfactorio
         //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
-        /*if (vel.at(i) > 3.0){
+        if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
         if (vel.at(i) < -3.0){
             vel.at(i) = -3.0;
-        }*/
+        }
     }
 
     //cont++;
@@ -209,18 +211,7 @@ vector<int> rd2 = generarAleatorio();
     
 }
 
-
-/*void Particula::actualizarPosicion(){
-    //cout << "Actualizando posicion" << endl << flush;
-    for (int i = 0; i < vel.size(); i++){
-        pos.at(i) = pos.at(i) + vel.at(i);
-        pos.at(i) = (4+pos.at(i))%2;
-        vel.at(i) = (3+vel.at(i))%3 - 1;
-    }
-
-}
-
-
+/*
 void Particula::actualizarVelocidad(vector<int> &g){
     //cout << "Actualizando velocidad" << endl << flush;
     vector<int> rd1 = generarAleatorio();

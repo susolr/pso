@@ -49,8 +49,8 @@ void Paramlist::init(){
     lista.push_back(Parametro("-cI", "Parámetro para definir el valor de la componente de inercia del algoritmo", "CInercia"));
     lista.push_back(Parametro("-k" , "Parámetro para definir el valor K del algoritmo de clasificación", "KValor"));
     lista.push_back(Parametro("-sI", "Parámetro para definir el uso de la orden simd", "SIMD"));
-    lista.push_back(Parametro("rank", "Parametro para guardar el rank de MPI del proceso", to_string(MPI::COMM_WORLD.Get_rank()),"Rank"));
-    lista.push_back(Parametro("size", "Parametro para guardar el tamaño de MPI COMM_WORLD", to_string(MPI::COMM_WORLD.Get_size()),"Size"));
+    lista.push_back(Parametro("MPIrank", "Parametro para guardar el rank de MPI del proceso", to_string(MPI::COMM_WORLD.Get_rank()),"MPIRank"));
+    lista.push_back(Parametro("MPIsize", "Parametro para guardar el tamaño de MPI COMM_WORLD", to_string(MPI::COMM_WORLD.Get_size()),"MPISize"));
 }
 
 int Paramlist::buscarParametro(string arg){

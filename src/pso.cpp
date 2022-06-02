@@ -66,7 +66,7 @@ void PSO::crearCumulo( int n_p){
 }
 
 void PSO::ejecutar(){
-    //cout << "Bucle principal" << endl;
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra al bucle principal" << endl << flush;
     int n_iter = 0;
     int contador = 0;
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
@@ -82,14 +82,23 @@ void PSO::ejecutar(){
 	Particle_MPI_type.Commit();
 
 
-    int mpiSize = stoi(Paramlist::getInstance()->getValor("size"));
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("MPIsize"));
 
     MPI::COMM_WORLD.Barrier();
 
     vector<int> tamanios;
-    int tam = dimension/(mpiSize-1) + 1;
-    int rest = dimension;
+    
     if (mpiSize > 1){
+        int n_particulas = stoi(Paramlist::getInstance()->getValor("-nP"));
+        int tam;
+        int rest = n_particulas;
+        if (n_particulas/(mpiSize-1)%10 != 0){
+            tam = n_particulas/(mpiSize-1) + 1;
+        }
+        else {
+            tam = n_particulas/(mpiSize-1);
+        }
+        //cout << "Tengo q distribuir" << endl << flush;
         for (int i = 1; i < mpiSize - 1; i++){
             tamanios.push_back(tam);
             rest -= tam;
@@ -100,15 +109,19 @@ void PSO::ejecutar(){
         for (int i = 0; i < tamanios.size(); i++){
             int dest = i+1;
             int envio = tamanios.at(i);
+            //cout << "Envio el tamanio del problema: " << tamanios.at(i) << endl << flush;
             MPI::COMM_WORLD.Send(&envio, 1, MPI::INT, dest, IGNORE_VALUE);
+            //cout << "Tamanio enviado" << endl << flush;
         }
 
     }
     
-
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" Antes de barrier" << endl << flush;
     MPI::COMM_WORLD.Barrier();
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" despues de barrier" << endl << flush;
     
     while (contador < n_max_iter){
+        //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
         //int max = 0;
@@ -139,7 +152,9 @@ void PSO::ejecutar(){
                             aux[j] = cumulo[index].toStruct();
                             aux[j].n_particula = index;
                         }
-                        MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, IGNORE_VALUE);
+                        //cout << "Envio grupo de particulas" << endl << flush;
+                        MPI::COMM_WORLD.Send(aux, tm, Particle_MPI_type, i+1, IGNORE_VALUE);
+                        //cout << "Grupo enviado" << endl << flush;
 
                         delete [] aux;
                     }
@@ -149,7 +164,6 @@ void PSO::ejecutar(){
                     for (int i = 0; i < tamanios.size(); i++){
                         particula_mpi * aux = new particula_mpi [tamanios.at(i)];
                         int tm = tamanios.at(i);
-                        //MPI::COMM_WORLD.Isend(aux, tm, Particle_MPI_type, i, NONE);
                         int rec = i+1;
                         MPI::COMM_WORLD.Recv(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, status);
                         for(int j = 0; j < tm; j++){
@@ -210,7 +224,7 @@ void PSO::ejecutar(){
 
 
 void PSO::valorar(){
-
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     MPI::Status status;
 	MPI::Datatype array_of_types[3] = {MPI_INT, MPI_DOUBLE, MPI_INT};
@@ -221,30 +235,37 @@ void PSO::valorar(){
 	MPI::Datatype Particle_MPI_type = MPI::Datatype::Create_struct(3, array_of_blocklengths, array_of_displacement, array_of_types);
 	Particle_MPI_type.Commit();
 
-    int mpiSize = stoi(Paramlist::getInstance()->getValor("size"));
+    int mpiSize = stoi(Paramlist::getInstance()->getValor("MPIsize"));
 
     MPI::COMM_WORLD.Barrier();
 
     int tam;
+    //cout << "Recibo el tamanio del problema" << endl << flush;
     MPI::COMM_WORLD.Recv(&tam, 1, MPI::INT, 0, MPI::ANY_TAG, status);
+    //cout << "Tamanio recibido" << endl << flush;
 
     particula_mpi * particulas = new particula_mpi[tam];
 
     crearCumulo(tam);
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" Antes de barrier" << endl << flush;
     MPI::COMM_WORLD.Barrier();
-
+    //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" Despues de barrier" << endl << flush;
     //Comienza el bucle principal
+
+    //cout << "Recibo el primer grupo de particulas" << endl << flush;
     MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
-    
+    //cout << "Primer grupo recibido" << endl << flush;
+
 
     while (status.Get_tag() != FINISH){
+        //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
         #pragma omp parallel for num_threads(n_threads)
             for (int i = 0; i < tam; i++){
                 cumulo[i].fromStruct(particulas[i]);
                 cumulo[i].valorar();
                 particulas[i].valor = cumulo[i].getValue();
             }
-        MPI::COMM_WORLD.Isend(particulas, tam, Particle_MPI_type, 0, IGNORE_VALUE);
+        MPI::COMM_WORLD.Send(particulas, tam, Particle_MPI_type, 0, IGNORE_VALUE);
         MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
     }
 
