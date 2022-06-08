@@ -139,7 +139,7 @@ Particula::Particula(int n){
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
-        double v = (rand()%700 - 300)*1.0/100.0;
+        double v = (rand()%600 - 300)*1.0/100.0;
         vel.push_back(v);
         //vel.push_back(0.0);
         
@@ -160,7 +160,8 @@ void Particula::actualizarPosicion(){
     for (int i = 0; i < vel.size(); i++){
         sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
         //cout << "sig: " << sig << endl;
-        if ((rand()%100) < sig){
+        double var_rand = (rand()%10000)*1.0/10000.0; 
+        if (var_rand < sig){
             pos.at(i) = 1;
         }
         else {

@@ -133,4 +133,10 @@ Dudas:
 -- Master GECCO 2020
 
 
+make -j N_FEATURES=3600
+
+mpirun --bind-to none --map-by node --host localhost,localhost ./pso
+mpirun --bind-to none -np 1 ./pso
+
+
 
