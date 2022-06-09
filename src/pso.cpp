@@ -70,6 +70,7 @@ void PSO::ejecutar(){
     int n_iter = 0;
     int contador = 0;
     int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
+    //cout << "num_threads " << n_threads << endl << flush;
     int n_max_iter = stoi(Paramlist::getInstance()->getValor("-nI"));
 
     MPI::Status status;
@@ -131,10 +132,10 @@ void PSO::ejecutar(){
 
         #pragma omp parallel num_threads(n_threads)
         {
-
             if (mpiSize == 1){ //Trabaja únicamente la máquina master
                 #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
+                        //cout << "Particula: " << i << " valorada por hebra " << omp_get_thread_num() << endl << flush; 
                         cumulo[i].valorar();     
                     }
             }
@@ -191,7 +192,7 @@ void PSO::ejecutar(){
                 if (cambia){
                         b_pos.clear();
                         b_pos = cumulo[pos].getBPos();
-                        //b_k = cumulo[pos].getBK();
+                        b_k = cumulo[pos].getBK();
                 }
             }
             
@@ -209,7 +210,7 @@ void PSO::ejecutar(){
         //cout << "Velocidad y posicion actualizadas" << endl;
         var_value = abs(b_value-aux_value);
         clas_media = clas_media/cumulo.size();
-        cout << "0," << clas_media << "\t0," << b_value << endl;
+        cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k << endl;
         contador++;
         
     }

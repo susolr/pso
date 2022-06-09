@@ -109,7 +109,7 @@ Particula::Particula(){
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
-        double v = (rand()%700 - 300)*1.0/100.0;
+        double v = (rand()%200 - 100)*1.0/100.0;
         vel.push_back(v);
         //vel.push_back(0.0);
         
@@ -139,7 +139,7 @@ Particula::Particula(int n){
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
-        double v = (rand()%600 - 300)*1.0/100.0;
+        double v = (rand()%200 - 100)*1.0/100.0;
         vel.push_back(v);
         //vel.push_back(0.0);
         
@@ -158,7 +158,7 @@ void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
-        sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
+        sig = 1.0/(1.0+exp(-vel.at(i))); //Sigmoidea
         //cout << "sig: " << sig << endl;
         double var_rand = (rand()%10000)*1.0/10000.0; 
         if (var_rand < sig){
@@ -177,10 +177,11 @@ void Particula::actualizarPosicion(){
     double sig;
     double s;
     for (int i = 0; i < vel.size(); i++){
-        sig = 1.0/(1.0+exp(-vel.at(i))); //SoftMax
+        sig = 1.0/(1.0+exp(-vel.at(i))); //Sigmoidea
         s = 2 * abs(sig-0.5);
         //cout << "sig: " << sig << endl;
-        if ((rand()%100) < s){
+        double var_rand = (rand()%10000)*1.0/10000.0; 
+        if (var_rand < s){
             pos.at(i) = (pos.at(i) + 1)%2;
         }
     }
@@ -190,8 +191,8 @@ void Particula::actualizarPosicion(){
 
 void Particula::actualizarVelocidad(vector<int> &g){
 //cout << "Actualizando velocidad" << endl << flush;
-vector<int> rd1 = generarAleatorio();
-vector<int> rd2 = generarAleatorio();
+    vector<int> rd1 = generarAleatorio();
+    vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
         //int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
@@ -224,7 +225,7 @@ void Particula::actualizarVelocidad(vector<int> &g){
 
 }*/
 
-/*void Particula::valorar(){
+void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
     int k;
@@ -235,9 +236,9 @@ void Particula::actualizarVelocidad(vector<int> &g){
         setMejorPosicion();
         mejor_k = k;
     }
-}*/
+}
 
-void Particula::valorar(){
+/*void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
     value = calcularValor();
@@ -246,7 +247,7 @@ void Particula::valorar(){
         b_value = value;
         setMejorPosicion();
     }
-}
+}*/
 
 double Particula::calcularValor(){
     //cout << "Calcular valor" << endl;
