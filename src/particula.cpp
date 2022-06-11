@@ -154,7 +154,7 @@ Particula::Particula(int n){
 }
 
 //Formula estándar para actualizar la posicion
-void Particula::actualizarPosicion(){
+/*void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
@@ -169,10 +169,10 @@ void Particula::actualizarPosicion(){
         }
     }
 
-}
+}*/
 
-//Formula para mejorar la tasa de clasificacion media
-/*void Particula::actualizarPosicion(){
+//Formula alternativa para mejorar la tasa de clasificacion media
+void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     double s;
@@ -186,7 +186,7 @@ void Particula::actualizarPosicion(){
         }
     }
 
-}*/
+}
 
 
 void Particula::actualizarVelocidad(vector<int> &g){
