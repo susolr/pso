@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="pruebas/tercera_tanda/200p_1000i_b"
+DIR="pruebas/tercera_tanda/200p_200i_c"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
