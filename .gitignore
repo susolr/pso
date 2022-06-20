@@ -34,6 +34,7 @@
 # Others
 .vscode
 
+figuras/*.pptx
+
 pruebas/
-figuras/
 
