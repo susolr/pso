@@ -138,5 +138,15 @@ make -j N_FEATURES=3600
 mpirun --bind-to none --map-by node --host localhost,localhost ./pso
 mpirun --bind-to none -np 1 ./pso
 
+- El índice debe estar numerado
+- Ya tienes una subsección de validación, por lo que la palabra validación sobra en todas las subsubsecciones de las que cuelga
+- En el índice: "Trabajo realizado" -> "Caso de estudio"
 
 
+y conforme vayas escribiendo ocúpate de los warnings, overfull y underful de Látex. Especialmente los warnings amarillos y los overfull
+
+los badness 10000 suele ser que manualmente metes un \\ donde no pega
+
+
+https://manualdelatex.com/tutoriales
+https://manualdelatex.com/simbolos#chapter10
