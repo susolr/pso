@@ -1,0 +1,28 @@
+#!/bin/bash
+
+################# Global variables
+
+NPARTICULAS=(20)
+CSOCIAL=(0.8)
+CCOGNITIVO=(0.8)
+NREPETITIONS=5
+NITERACIONES=20
+NMAXHEBRAS=8
+PROJECT=${PWD##*/}
+NK=178
+
+DIR="mediciones/"
+rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+make build_mpi
+for k in $( eval echo {1..$NK} ); do
+	echo "Repetition: $k" >> "$DIR/raw.txt"
+	echo -e "\t" $k
+	salloc -N1 -n1 -p guest -w compute-0-4 mpiexec ./pso -nP $NPARTICULAS -nI $NITERACIONES > last.txt
+	paste last* > "$DIR/clasificacion_$R.txt"
+	rm last.txt
+		
+done
+
+find ./pruebas/segunda_tanda/mi_knn -name \*.txt -exec sed -i 's/\./,/g' {} \;

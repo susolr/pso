@@ -25,6 +25,8 @@ https://www.researchgate.net/profile/Yun-Chia-Liang/publication/253556513_A_Bina
 https://www.researchgate.net/publication/258456389_Binary_Particle_Swarm_Optimization_challenges_and_New_Solutions
 http://www.cs.us.es/~fsancho/ficheros/IA2019/INBPSO.pdf
 
+http://www.scielo.org.mx/scielo.php?pid=S1665-64232009000300004&script=sci_arttext&tlng=en
+
 # Ejemplos KNN
 
 https://github.com/mddragnev/k-nearest-neighbors/blob/master/KNN/KNN/main.cpp

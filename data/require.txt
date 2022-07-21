@@ -150,3 +150,43 @@ los badness 10000 suele ser que manualmente metes un \\ donde no pega
 
 https://manualdelatex.com/tutoriales
 https://manualdelatex.com/simbolos#chapter10
+
+Introducción:
+    Motivación 
+    Objetivos (coger del propósito)
+        Versión paralela 
+        Analisis del tiempo
+
+
+Cambiar paralelización: primero nodos después CPU
+
+Hablar de PSO, después BPSO, después KNN
+
+\setalgcapfontsize
+
+multiplicacion \cdot
+
+CAP 2: Background
+
+PSO
+BPSO
+KNN
+Estado del arte
+Encefalografía
+
+Tesis de Diego Ariel Aquino
+
+claves hpmoon:
+user: jlopez
+pass: pra57jit8
+
+salloc -N2 -n1 -p guest -w compute-0-2,compute-0-4 mpiexec -x OMP_NUM_THREADS=16 ./holaMundo
+
+-N nodos
+-n CPU
+-p cola
+-w nombres
+-x OMP_NUM_THREADS=16 sirve para indicar a OpenMP mediante variable de entorno cuántas hebras quieras.
+
+
+echo export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/$USER/.openmpi/lib/" >> /home/$USER/.bashrc

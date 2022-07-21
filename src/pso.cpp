@@ -8,8 +8,6 @@
  * @copyright Copyright (c) 2021
  * 
  */
-
-/********INCLUDES********/
 #include "pso.h"
 #include <iostream>
 #include <fstream>
@@ -25,8 +23,6 @@
 #define IGNORE_VALUE 1
 #define FINISH 2
 
-
-/********NAMESPACE********/
 using namespace std;
 
 PSO::PSO(){
