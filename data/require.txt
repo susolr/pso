@@ -188,5 +188,3 @@ salloc -N2 -n1 -p guest -w compute-0-2,compute-0-4 mpiexec -x OMP_NUM_THREADS=16
 -w nombres
 -x OMP_NUM_THREADS=16 sirve para indicar a OpenMP mediante variable de entorno cuántas hebras quieras.
 
-
-echo export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/$USER/.openmpi/lib/" >> /home/$USER/.bashrc
