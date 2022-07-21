@@ -12,7 +12,8 @@ rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 make -j N_FEATURES=3600
-for k in $( eval echo {1..$NREPETITIONS} ); do
+for k in $( eval echo {1..$NREPETITIONS} )
+do
 	echo "Repetition: $k" >> "$DIR/raw.txt"
 	echo -e "\t" $k
 	salloc -N1 -n1 -p guest -w compute-0-4 mpiexec ./pso -nP $NPARTICULAS -nI $NITERACIONES > last.txt
