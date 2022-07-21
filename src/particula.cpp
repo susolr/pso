@@ -260,7 +260,7 @@ double Particula::calcularValor(){
         double distancia = 0.0;
         for(int j = 0; j < data_training.size(); j++){
             //cout << "Iteracion: \nI:" << i << "\nJ: " << j << endl;
-        #pragma omp simd if(simd_var==1 && n_hebras>0)
+        #pragma omp simd
             for (int k = 0; k < data_training[j].size(); k++){
                 //cout << "Iteracion: \nI:" << i << "\nJ: " << j << "\nK:" << k << endl;
                 if(pos[k]==1){
