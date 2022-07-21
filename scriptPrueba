@@ -7,7 +7,7 @@ NREPETITIONS=5
 NITERACIONES=20
 NMAXHEBRAS=8
 
-DIR="mediciones/"
+DIR="mediciones"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
