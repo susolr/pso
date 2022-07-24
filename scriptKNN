@@ -21,8 +21,7 @@ for k in $( eval echo {1..$NK} ); do
 	echo -e "\t" $k
 	./knn -k $k > last.txt
 	echo "`sed -n 1p last.txt`" >> tmp_clasificacion.txt
-	echo "`sed -n 2p last.txt`" >> tmp_time.txt
-		
+	echo "`sed -n 2p last.txt`" >> tmp_time.txt	
 done
 paste tmp_clasificacion* > "$DIR/clasificacion.txt"
 paste tmp_time* > "$DIR/time.txt"
