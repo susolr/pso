@@ -15,6 +15,7 @@
 #include "lector.h"
 #include <string>
 #include <mpi.h>
+#include <omp.h>
 
 using namespace std;
 
@@ -42,7 +43,7 @@ Paramlist::Paramlist(int argc, char** argv){
 
 void Paramlist::init(){
     lista.push_back(Parametro("-nP", "Parámetro para definir el número de párticulas que conforman el cúmulo", "NParticulas"));
-    lista.push_back(Parametro("-nH", "Parámetro para definir el número de hebras en paralelo", "NHebras"));
+    lista.push_back(Parametro("-nH", "Parámetro para definir el número de hebras en paralelo", to_string(omp_get_max_threads()),"NHebras"));
     lista.push_back(Parametro("-nI", "Parámetro para definir el número máximo de iteraciones del bucle principal", "NMaxIteraciones"));
     lista.push_back(Parametro("-cS", "Parámetro para definir el valor de la componente social del algoritmo", "CSocial"));
     lista.push_back(Parametro("-cC", "Parámetro para definir el valor de la componente cognitiva del algoritmo", "CCognitiva"));
