@@ -8,12 +8,12 @@
 
 
 <Config>
-    <NParticulas>200</NParticulas>
-    <NHebras>8</NHebras>
-    <NMaxIteraciones>200</NMaxIteraciones>
+    <NParticulas>60</NParticulas>
+    <NHebras>12</NHebras>
+    <NMaxIteraciones>50</NMaxIteraciones>
     <CSocial>1.0</CSocial>
     <CCognitiva>1.0</CCognitiva>
     <CInercia>1.0</CInercia>
-    <KValor>23</KValor>
+    <KValor>3</KValor>
     <SIMD>1</SIMD>
 </Config>

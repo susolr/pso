@@ -200,12 +200,12 @@ void Particula::actualizarVelocidad(vector<int> &g){
         vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i)); //Con componente aleatoria
         //vel.at(i) = inercia*vel.at(i) + c_cog*(b_pos.at(i) - pos.at(i)) + c_social*(g.at(i) - pos.at(i)); //Sin componente aleatoria. No satisfactorio
         //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
-        if (vel.at(i) > 3.0){
+        /*if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
         if (vel.at(i) < -3.0){
             vel.at(i) = -3.0;
-        }
+        }*/
     }
 
     //cont++;
@@ -225,7 +225,7 @@ void Particula::actualizarVelocidad(vector<int> &g){
 
 }*/
 
-void Particula::valorar(){
+/*void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
     int k;
@@ -236,9 +236,9 @@ void Particula::valorar(){
         setMejorPosicion();
         mejor_k = k;
     }
-}
+}*/
 
-/*void Particula::valorar(){
+void Particula::valorar(){
     //cout << "Valorando" << endl;
     double aux_value = value;
     value = calcularValor();
@@ -247,7 +247,7 @@ void Particula::valorar(){
         b_value = value;
         setMejorPosicion();
     }
-}*/
+}
 
 double Particula::calcularValor(){
     //cout << "Calcular valor" << endl;
