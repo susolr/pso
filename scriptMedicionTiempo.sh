@@ -18,6 +18,7 @@ do
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
     do
+        echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
         salloc -N1 -n1 -p guest -w compute-0-4 mpiexec -x OMP_NUM_THREADS=$H ./pso > last.txt
