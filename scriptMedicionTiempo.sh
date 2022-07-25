@@ -11,12 +11,12 @@ rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 make -j N_FEATURES=3600
-for H in {1..$NMAXHEBRAS}
+for H in $( eval echo {1..$NMAXHEBRAS} );
 do
-    echo -e "\t`date`" && echo -e "\tStarts with" $NH "hebras"
-    DIR+="/$NH hebras"
+    echo -e "\t`date`" && echo -e "\tStarts with" $H "hebras"
+    DIR+="/$H hebras"
     mkdir "$DIR"
-    for R in {1..5}
+    for R in $( eval echo {1..$NREPETITIONS} );
     do
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
