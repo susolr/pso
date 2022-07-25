@@ -20,7 +20,7 @@ do
     do
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -N1 -n1 -p guest -w compute-0-8 mpiexec -x OMP_NUM_THREADS=$H ./pso > last.txt
+        salloc -N1 -n1 -p guest -w compute-0-4 mpiexec -x OMP_NUM_THREADS=$H ./pso > last.txt
         #mpiexec ./pso -nH $H > last.txt
         echo "`sed -n 1p last.txt`" >> tmp_time.txt
     done
