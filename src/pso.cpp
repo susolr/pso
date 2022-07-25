@@ -126,7 +126,7 @@ void PSO::ejecutar(){
         //cout << "Particula 0: " << cumulo[0].getPos()[2] << endl;
         //cout << "Valorando..." << endl;
 
-        #pragma omp parallel num_threads(n_threads)
+        #pragma omp parallel
         {
             if (mpiSize == 1){ //Trabaja únicamente la máquina master
                 #pragma omp for
