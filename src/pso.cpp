@@ -45,7 +45,7 @@ void PSO::crearCumulo(){
         cumulo.push_back(Particula(dimension));
         //cout << "Creada partícula " << i << endl;
     }
-    cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
+    //cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
     b_pos = cumulo[0].getPos();
 }
 
@@ -131,7 +131,7 @@ void PSO::ejecutar(){
             if (mpiSize == 1){ //Trabaja únicamente la máquina master
                 #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
-                        cout << "Iteracion " << contador << "Particula: " << i << " valorada por hebra " << omp_get_thread_num() << endl << flush; 
+                        //cout << "Iteracion " << contador << "Particula: " << i << " valorada por hebra " << omp_get_thread_num() << endl << flush; 
                         cumulo[i].valorar();     
                     }
             }

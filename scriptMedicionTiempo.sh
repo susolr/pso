@@ -1,10 +1,6 @@
 #!/bin/bash
 ################# Global variables
-NPARTICULAS=(20)
-CSOCIAL=(0.8)
-CCOGNITIVO=(0.8)
-NREPETITIONS=5
-NITERACIONES=20
+NREPETITIONS=1
 NMAXHEBRAS=12
 DIR="mediciones_tiempo"
 rm -rf $DIR && mkdir $DIR
