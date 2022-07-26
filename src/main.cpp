@@ -35,7 +35,7 @@ int main (int argc, char* argv[]){
         lista = Paramlist::getInstance(argc, argv);
     }
 
-    cout << "N hebras" << lista->getValor("-nH") << endl;
+    //cout << "N hebras" << lista->getValor("-nH") << endl;
 
     srand((uint) time(NULL) + stoi(lista->getValor("MPIrank")));
 
