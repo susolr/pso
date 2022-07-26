@@ -189,3 +189,7 @@ salloc -N2 -n1 -p guest -w compute-0-2,compute-0-4 mpiexec -x OMP_NUM_THREADS=16
 -x OMP_NUM_THREADS=16 sirve para indicar a OpenMP mediante variable de entorno cuántas hebras quieras.
 
 dos2unix Para el formato
+
+nohup ... &  Para ejecutar en segundo plano
+pgrep -a nohup  Para matar el proceso
+kill
