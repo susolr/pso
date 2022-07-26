@@ -131,7 +131,7 @@ void PSO::ejecutar(){
             if (mpiSize == 1){ //Trabaja únicamente la máquina master
                 #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
-                        cout << "Particula: " << i << " valorada por hebra " << omp_get_thread_num() << endl << flush; 
+                        cout << "Iteracion " << contador << "Particula: " << i << " valorada por hebra " << omp_get_thread_num() << endl << flush; 
                         cumulo[i].valorar();     
                     }
             }
