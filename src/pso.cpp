@@ -128,6 +128,11 @@ void PSO::ejecutar(){
 
         #pragma omp parallel
         {
+            if (contador == 0){
+                #pragma omp critical{
+                    cout << "Soy la hebra " << omp_get_thread_num() << endl << flush;
+                }
+            }
             if (mpiSize == 1){ //Trabaja únicamente la máquina master
                 #pragma omp for
                     for (int i = 0; i < cumulo.size(); i++){
