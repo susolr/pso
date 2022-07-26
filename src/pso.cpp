@@ -129,7 +129,8 @@ void PSO::ejecutar(){
         #pragma omp parallel
         {
             if (contador == 0){
-                #pragma omp critical{
+                #pragma omp critical
+                {
                     cout << "Soy la hebra " << omp_get_thread_num() << endl << flush;
                 }
             }
