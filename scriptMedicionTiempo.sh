@@ -1,8 +1,8 @@
 #!/bin/bash
 ################# Global variables
-NREPETITIONS=1
+NREPETITIONS=5
 NMAXHEBRAS=12
-DIR="mediciones_tiempo_k"
+DIR="mediciones_tiempo_k_3"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
