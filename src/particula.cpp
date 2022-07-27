@@ -350,7 +350,6 @@ double Particula::calcularValor(int & k){
         }
     }
 
-    
     //cout << "Valor: " << valor << "\t N_aciertos " << n_aciertos << "\tN_fallos " << n_fallos << endl;
     return b_valor;
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 ################# Global variables
-NREPETITIONS=5
+NREPETITIONS=1
 NMAXHEBRAS=12
 DIR="mediciones_tiempo_k"
 rm -rf $DIR && mkdir $DIR
@@ -17,7 +17,7 @@ do
         echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -N1 -n1 -p guest -w compute-0-4 mpiexec -x OMP_NUM_THREADS=$H ./pso > last.txt
+        salloc -N1 -n1 -p guest -w compute-0-4 mpiexec --bind-to none -x OMP_NUM_THREADS=$H ./pso > last.txt
         #mpiexec ./pso -nH $H > last.txt
         echo "`sed -n 1p last.txt`" >> tmp_time.txt
     done
