@@ -3,6 +3,7 @@
 NREPETITIONS=5
 NMAXHEBRAS=12
 NMAXNODOS=4
+NODES="compute-0-2,compute-0-3,compute-0-4"
 DIR="mediciones_tiempo_multi"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
@@ -18,7 +19,7 @@ do
         echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -N$N -n1 -p guest mpiexec --bind-to none -np $N -x OMP_NUM_THREADS=12 ./pso > last.txt
+        salloc -N2 -n1 -p guest -w compute-0-2,compute-0-4 mpiexec --bind-to none -np 3 --map-by node --host compute-0-4,compute-0-2 -x OMP_NUM_THREADS=12 ./pso > last.txt
         #mpiexec ./pso -nH $H > last.txt
         echo "`sed -n 1p last.txt`" >> tmp_time.txt
     done

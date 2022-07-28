@@ -118,7 +118,7 @@ void PSO::ejecutar(){
     //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" despues de barrier" << endl << flush;
     
     while (contador < n_max_iter){
-        //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
+        cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
         //cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
         //int max = 0;
@@ -254,7 +254,7 @@ void PSO::valorar(){
 
 
     while (status.Get_tag() != FINISH){
-        //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
+        cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
         #pragma omp parallel for
             for (int i = 0; i < tam; i++){
                 cumulo[i].fromStruct(particulas[i]);
