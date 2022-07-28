@@ -222,7 +222,6 @@ void PSO::ejecutar(){
 
 void PSO::valorar(){
     //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
-    int n_threads = stoi(Paramlist::getInstance()->getValor("-nH"));
     MPI::Status status;
 	MPI::Datatype array_of_types[3] = {MPI_INT, MPI_DOUBLE, MPI_INT};
     int array_of_blocklengths[3] = {1, 1, dimension};
@@ -256,7 +255,7 @@ void PSO::valorar(){
 
     while (status.Get_tag() != FINISH){
         //cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar" << endl << flush;
-        #pragma omp parallel for num_threads(n_threads)
+        #pragma omp parallel for
             for (int i = 0; i < tam; i++){
                 cumulo[i].fromStruct(particulas[i]);
                 cumulo[i].valorar();

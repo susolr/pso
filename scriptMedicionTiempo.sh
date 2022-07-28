@@ -18,7 +18,7 @@ do
         echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -N$N -n1 -p guest mpiexec --bind-to none -x OMP_NUM_THREADS=12 ./pso > last.txt
+        salloc -N$N -n1 -p guest mpiexec --bind-to none -np $N -x OMP_NUM_THREADS=12 ./pso > last.txt
         #mpiexec ./pso -nH $H > last.txt
         echo "`sed -n 1p last.txt`" >> tmp_time.txt
     done
