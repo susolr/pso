@@ -46,6 +46,9 @@ build_p:
 build_p_mpi:
 	mpic++ -O2 -o prueba -Iinclude $(SRC)/pruebas.cpp 
 
+build_hybrid_mpi:
+	mpic++ -O2 -o hybrid -Iinclude $(SRC)/hybrid.cpp -fopenmp
+
 clean:
 	rm pso
 	rm pruebas
