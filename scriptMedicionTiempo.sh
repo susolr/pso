@@ -28,4 +28,4 @@ do
     rm -rf tmp*
     DIR="$(dirname "$DIR")"
 done
-find ./mediciones_tiempo -name \*.txt -exec sed -i 's/\./,/g' {} \;
+find ./mediciones_tiempo_multi -name \*.txt -exec sed -i 's/\./,/g' {} \;
