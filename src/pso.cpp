@@ -136,6 +136,24 @@ void PSO::ejecutar(){
                     }
             }
             else { //Trabajan los workers
+            int numprocs, rank, namelen;
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int iam = 0, np = 1;
+
+    MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Get_processor_name(processor_name, &namelen);
+
+    // omp_set_num_threads(omp_get_max_threads());
+    #pragma omp parallel default(shared) private(iam, np)
+    {
+        np = omp_get_num_threads();
+        iam = omp_get_thread_num();
+        #pragma omp critical
+        {
+            printf("Hybrid: Hello from thread %d/%d from process %d/%d on %s\n", iam, np, rank, numprocs, processor_name);
+        }
+    }
 
                 //envío el trabajo
                 #pragma omp master
