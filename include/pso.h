@@ -22,6 +22,7 @@ public:
     void ejecutar();
     void mostrarResultados();
     void valorar();
+    void infoHybrid();
 
 private:
 
