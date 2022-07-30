@@ -2,7 +2,7 @@
 ################# Global variables
 NREPETITIONS=5
 NMAXHEBRAS=12
-NMAXNODOS=4
+NMAXNODOS=1
 NODES="compute-0-2,compute-0-3,compute-0-4"
 DIR="mediciones_tiempo_multi"
 rm -rf $DIR && mkdir $DIR
@@ -12,7 +12,7 @@ make -j N_FEATURES=3600
 for N in $( eval echo {1..$NMAXNODOS} );
 do
     echo -e "\t`date`" && echo -e "\tStarts with" $H "hebras"
-    DIR+="/$N nodos"
+    DIR+="/6 nodos"
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
     do
