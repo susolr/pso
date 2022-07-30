@@ -11,7 +11,7 @@ echo "-------------------"
 make -j N_FEATURES=3600
 for N in $( eval echo {1..$NMAXNODOS} );
 do
-    echo -e "\t`date`" && echo -e "\tStarts with" $H "hebras"
+    echo -e "\t`date`" && echo -e "\tStarts with" $N "hebras"
     DIR+="/6 nodos"
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
