@@ -58,7 +58,7 @@ int main (int argc, char* argv[]){
         time_inicio = omp_get_wtime();
         mi_pso.ejecutar();
         time = omp_get_wtime() - time_inicio;
-        cout << time*1000 << endl;
+        cout << time << endl;
     }
     else {
         //cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
