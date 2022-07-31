@@ -9,7 +9,7 @@ rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 make -j N_FEATURES=3600
-for N in $( eval echo {1..$NMAXNODOS} );
+for N in $( eval echo {5..$NMAXNODOS} );
 do
     echo -e "\t`date`" && echo -e "\tStarts with" $N "hebras"
     DIR+="/$N nodos"
