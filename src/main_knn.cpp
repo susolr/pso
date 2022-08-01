@@ -35,7 +35,7 @@ int main (int argc, char* argv[]){
         mi_knn.ejecutar();
         double time = omp_get_wtime() - time_inicio;
         mi_knn.mostrarResultados();
-        cout << time*1000 << endl;
+        //cout << time*1000 << endl;
     }
 
 
