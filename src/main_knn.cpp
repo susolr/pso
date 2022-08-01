@@ -29,15 +29,14 @@ int main (int argc, char* argv[]){
     else{
         lista = Paramlist::getInstance(argc, argv);
     }*/
+    double time_inicio = omp_get_wtime();
     for (int i = 1; i <= 178; i++){
-        KNN mi_knn = KNN(i);
-        double time_inicio = omp_get_wtime();
-        mi_knn.ejecutar();
-        double time = omp_get_wtime() - time_inicio;
-        mi_knn.mostrarResultados();
-        //cout << time*1000 << endl;
+        KNN mi_knn = KNN(i);        
+        mi_knn.ejecutar();       
+        mi_knn.mostrarResultados();       
     }
-
+    double time = omp_get_wtime() - time_inicio;
+    cout << time*1000 << endl;
 
     return 0;
 }
