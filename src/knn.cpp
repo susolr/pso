@@ -110,5 +110,5 @@ void KNN::ejecutar(){
 }
 
 void KNN::mostrarResultados(){
-    cout << valor << "\t" << k_valor << endl;
+    cout << "0," <<valor << "\t" << k_valor << endl;
 }
