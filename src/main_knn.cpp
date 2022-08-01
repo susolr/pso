@@ -17,18 +17,18 @@
 #include "lector.h"
 #include "knn.h"
 #include "omp.h"
-#include "paramlist.h"
+//#include "paramlist.h"
 using namespace std;
 
 int main (int argc, char* argv[]){
 
-    Paramlist * lista;
+    /*Paramlist * lista;
     if (argc==1){
         lista = Paramlist::getInstance();
     }
     else{
         lista = Paramlist::getInstance(argc, argv);
-    }
+    }*/
     KNN mi_knn = KNN();
     double time_inicio = omp_get_wtime();
     mi_knn.ejecutar();

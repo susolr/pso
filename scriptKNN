@@ -11,7 +11,7 @@ NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 NK=178
 
-DIR="pruebas/segunda_tanda/mi_knn"
+DIR="mi_knn"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
