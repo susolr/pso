@@ -205,7 +205,8 @@ void PSO::ejecutar(){
         //cout << "Velocidad y posicion actualizadas" << endl;
         //var_value = abs(b_value-aux_value);
         clas_media = clas_media/cumulo.size();
-        cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k << endl;
+        //cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k << endl;
+        cout << "0," << clas_media << "\t0," << b_value << endl;
         contador++;
         
     }
