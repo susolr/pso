@@ -26,7 +26,7 @@ build_knn:
 	g++ -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 build_knn_o2:
-	g++ -O2 -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
+	g++ -O2 -o knn -Iinclude $(SRC)/main_knn.cpp $(SRC)/lector.cpp $(SRC)/knn.cpp $(SRC)/parametro.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 build:
 	g++ -o pso -Iinclude $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
