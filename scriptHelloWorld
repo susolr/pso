@@ -1,6 +1,6 @@
 #!/bin/bash
 #------- USER COMMANDS
-NP=(100,200,300,400)
+NP=(100 200 300 400)
 for i in "${NP[@]}"
 do
 echo "Iteration $i"
