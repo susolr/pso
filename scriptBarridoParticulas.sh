@@ -22,11 +22,10 @@ do
         echo -e "\t" $R
         salloc -p guest -N7 -n7 -w compute-0-4,compute-0-1,compute-0-2,compute-0-3,compute-0-6,compute-0-7,compute-0-8 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=$12 ./pso -nP $P > last.txt
         #mpiexec ./pso -nH $H > last.txt
-        echo "`sed -n 1p last.txt`" >> tmp_time.txt
+        #echo "`sed -n 1p last.txt`" >> tmp_time.txt
+        paste last* > "$DIR/clasificacion_$R.txt"
+        rm last.txt
     done
-    rm last.txt
-    paste tmp_time* > "$DIR/time.txt"
-    rm -rf tmp*
     DIR="$(dirname "$DIR")"
 done
 find ./mediciones_tiempo -name \*.txt -exec sed -i 's/\./,/g' {} \;
