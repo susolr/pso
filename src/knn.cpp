@@ -50,7 +50,7 @@ int valorKNN(int k_valor, vector<pair<double,int>> distancias){
     return label;
 }
 
-KNN::KNN(){
+KNN::KNN(int k){
     lector = Lector::getInstance();
     lector->setDataBase("104");
     lector->leerDatos(178,3600);
@@ -58,7 +58,7 @@ KNN::KNN(){
     data_training = lector->getDataTraining();
     labels_test = lector->getLabelsTest();
     labels_training = lector->getLabelsTraining();
-    k_valor = stoi(Paramlist::getInstance()->getValor("-k"));
+    k_valor = k;
     valor = 0.0;
 
 }

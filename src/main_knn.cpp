@@ -29,7 +29,8 @@ int main (int argc, char* argv[]){
     else{
         lista = Paramlist::getInstance(argc, argv);
     }*/
-    KNN mi_knn = KNN();
+    int k = *argv[1];
+    KNN mi_knn = KNN(k);
     double time_inicio = omp_get_wtime();
     mi_knn.ejecutar();
     double time = omp_get_wtime() - time_inicio;

@@ -19,7 +19,7 @@ make build_knn_o2
 for k in $( eval echo {1..$NK} ); do
 	echo "Repetition: $k" >> "$DIR/raw.txt"
 	echo -e "\t" $k
-	./knn -k $k > last.txt
+	salloc -p guest -N1 -n1 -w compute-0-4 ./knn -k $k > last.txt
 	echo "`sed -n 1p last.txt`" >> tmp_clasificacion.txt
 	echo "`sed -n 2p last.txt`" >> tmp_time.txt	
 done

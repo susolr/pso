@@ -19,7 +19,7 @@ using namespace std;
 
 class KNN {
 public:
-    KNN();
+    KNN(int k);
     void ejecutar();
     void mostrarResultados();
 
