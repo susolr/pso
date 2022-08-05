@@ -13,7 +13,7 @@ make -j N_FEATURES=3600
 for I in "${NI[@]}";
 do
     echo -e "\t`date`" && echo -e "\tStarts with" $P "particulas"
-    DIR+="/$P particulas"
+    DIR+="/$I iteraciones"
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
     do
