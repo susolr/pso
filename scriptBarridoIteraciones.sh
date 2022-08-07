@@ -20,7 +20,7 @@ do
         echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -p guest -N7 -n7 -w compute-0-4,compute-0-1,compute-0-2,compute-0-3,compute-0-5,compute-0-6,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=$12 ./pso -nI $I > last.txt
+        salloc -p guest -N7 -n7 -w compute-0-4,compute-0-1,compute-0-2,compute-0-3,compute-0-5,compute-0-6,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso -nI $I > last.txt
         #mpiexec ./pso -nH $H > last.txt
         #echo "`sed -n 1p last.txt`" >> tmp_time.txt
         paste last* > "$DIR/clasificacion_$R.txt"
