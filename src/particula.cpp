@@ -168,7 +168,6 @@ void Particula::actualizarPosicion(){
             pos.at(i) = 0;
         }
     }
-
 }
 
 //Formula alternativa para mejorar la tasa de clasificacion media
