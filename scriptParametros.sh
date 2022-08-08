@@ -12,8 +12,8 @@ echo "-------------------"
 make -j N_FEATURES=3600
 for I in "${VI[@]}";
 do
-    echo -e "\t`date`" && echo -e "\tStarts with" $P "particulas"
-    DIR+="/$I iteraciones"
+    echo -e "\t`date`" && echo -e "\tStarts with" $I "inercia"
+    DIR+="/$I inercia"
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
     do
