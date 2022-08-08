@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="variante_control_velocidad_v0"
+DIR="caso_base"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
@@ -24,4 +24,4 @@ for R in $( eval echo {1..$NREPETITIONS} ); do
 	rm last.txt
 done
 
-find ./variante_control_velocidad_v0 -name \*.txt -exec sed -i 's/\./,/g' {} \;
+find ./caso_base -name \*.txt -exec sed -i 's/\./,/g' {} \;
