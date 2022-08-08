@@ -5,7 +5,7 @@ VI=(0.2 0.4 0.6 0.8 1.0)
 NMAXHEBRAS=12
 NMAXNODOS=7
 NODES="compute-0-2,compute-0-3,compute-0-4"
-DIR="mediciones_iteraciones"
+DIR="coeficiente_inercia"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
