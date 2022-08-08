@@ -109,9 +109,9 @@ Particula::Particula(){
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
-        //double v = (rand()%200 - 100)*1.0/100.0;
-        //vel.push_back(v);
-        vel.push_back(0.0);
+        double v = (rand()%200 - 100)*1.0/100.0;
+        vel.push_back(v);
+        //vel.push_back(0.0);
         
     }
     //vel = generarAleatorio();
@@ -139,9 +139,9 @@ Particula::Particula(int n){
     n_hebras = stoi((Paramlist::getInstance()->getValor("-nH")));
     max_iter = stoi((Paramlist::getInstance()->getValor("-nI")));
     for (int i = 0; i < dimension; i++){
-        //double v = (rand()%200 - 100)*1.0/100.0;
-        //vel.push_back(v);
-        vel.push_back(0.0);
+        double v = (rand()%200 - 100)*1.0/100.0;
+        vel.push_back(v);
+        //vel.push_back(0.0);
         
     }
     //vel = generarAleatorio();
