@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="inercia_dinamica"
+DIR="variante_no_aleatorio"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
@@ -19,7 +19,7 @@ make -j N_FEATURES=3600
 
 for R in $( eval echo {1..$NREPETITIONS} ); do
 	echo -e "\t\t" $R
-	salloc -p guest -N6 -n6 -w compute-0-4,compute-0-1,compute-0-2,compute-0-5,compute-0-6,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso > last.txt
+	salloc -p guest -N3 -n3 -w compute-0-1,compute-0-2,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso > last.txt
 	paste last* > "$DIR/clasificacion_$R.txt"
 	rm last.txt
 done
