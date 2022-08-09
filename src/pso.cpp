@@ -57,7 +57,7 @@ void PSO::crearCumulo( int n_p){
         cumulo.push_back(Particula(dimension));
         //cout << "Creada partícula " << i << endl;
     }
-    //cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
+    cout << "Tamaño del cúmulo: " << cumulo.size() << endl;
     b_pos = cumulo[0].getPos();
 }
 
