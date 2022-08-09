@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="variante_no_aleatorio"
+DIR="variante_actualizacion_posicion"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
