@@ -154,7 +154,7 @@ Particula::Particula(int n){
 }
 
 //Formula estándar para actualizar la posicion
-void Particula::actualizarPosicion(){
+/*void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     for (int i = 0; i < vel.size(); i++){
@@ -168,10 +168,10 @@ void Particula::actualizarPosicion(){
             pos.at(i) = 0;
         }
     }
-}
+}*/
 
 //Formula alternativa para mejorar la tasa de clasificacion media
-/*void Particula::actualizarPosicion(){
+void Particula::actualizarPosicion(){
     //cout << "Actualizando posicion" << endl << flush;
     double sig;
     double s;
@@ -185,7 +185,7 @@ void Particula::actualizarPosicion(){
         }
     }
 
-}*/
+}
 
 
 void Particula::actualizarVelocidad(vector<int> &g){
@@ -194,11 +194,11 @@ void Particula::actualizarVelocidad(vector<int> &g){
     vector<int> rd2 = generarAleatorio();
 
     for (int i = 0; i < dimension; i++){
-        //int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
-        //int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
+        int v_cog = (b_pos.at(i)==pos.at(i)) ? 1 : -1;
+        int v_soc = (g.at(i)==pos.at(i)) ? 1 : -1;
         //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*(b_pos.at(i) - pos.at(i)) + c_social*rd2.at(i)*(g.at(i) - pos.at(i)); //Con componente aleatoria
-        vel.at(i) = inercia*vel.at(i) + c_cog*(b_pos.at(i) - pos.at(i)) + c_social*(g.at(i) - pos.at(i)); //Sin componente aleatoria. No satisfactorio
-        //vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
+        //vel.at(i) = inercia*vel.at(i) + c_cog*(b_pos.at(i) - pos.at(i)) + c_social*(g.at(i) - pos.at(i)); //Sin componente aleatoria. No satisfactorio
+        vel.at(i) = inercia*vel.at(i) + c_cog*rd1.at(i)*v_cog + c_social*rd2.at(i)*v_soc;
         /*if (vel.at(i) > 3.0){
             vel.at(i) = 3.0;
         }
