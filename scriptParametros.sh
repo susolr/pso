@@ -1,26 +1,26 @@
 #!/bin/bash
 ################# Global variables
 NREPETITIONS=5
-VI=(0.8 1.0)
+VC=(0.2 0.4 0.6 0.8 1.0)
 NMAXHEBRAS=12
 NMAXNODOS=7
 NODES="compute-0-2,compute-0-3,compute-0-4"
-DIR="coeficiente_inercia"
+DIR="coeficiente_cognitivo"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 make -j N_FEATURES=3600
-for I in "${VI[@]}";
+for C in "${VC[@]}";
 do
-    echo -e "\t`date`" && echo -e "\tStarts with" $I "inercia"
-    DIR+="/$I inercia"
+    echo -e "\t`date`" && echo -e "\tStarts with" $C "cognitivo"
+    DIR+="/$C cognitivo"
     mkdir "$DIR"
     for R in $( eval echo {1..$NREPETITIONS} );
     do
         echo -e "\t`date`" && echo -e "\tStarts " $R "repetition"
         echo "Repetition: $R" >> "$DIR/raw.txt"
         echo -e "\t" $R
-        salloc -p guest -N6 -n6 -w compute-0-4,compute-0-1,compute-0-2,compute-0-5,compute-0-6,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso -cI $I > last.txt
+        salloc -p guest -N3 -n3 -w compute-0-1,compute-0-2,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso -cC $C > last.txt
         #mpiexec ./pso -nH $H > last.txt
         #echo "`sed -n 1p last.txt`" >> tmp_time.txt
         paste last* > "$DIR/clasificacion_$R.txt"
