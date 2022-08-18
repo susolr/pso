@@ -10,7 +10,7 @@ NITERACIONES=20
 NMAXHEBRAS=8
 PROJECT=${PWD##*/}
 
-DIR="variante_actualizacion_posicion"
+DIR="variante_control_velocidad_2"
 rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
@@ -19,9 +19,9 @@ make -j N_FEATURES=3600
 
 for R in $( eval echo {1..$NREPETITIONS} ); do
 	echo -e "\t\t" $R
-	salloc -p guest -N3 -n3 -w compute-0-1,compute-0-2,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso > last.txt
+	salloc -p guest -N7 -n7 -w compute-0-1,compute-0-2,compute-0-3,compute-0-4,compute-0-5,compute-0-6,compute-0-7 mpiexec --map-by node --bind-to none -x OMP_NUM_THREADS=12 ./pso > last.txt
 	paste last* > "$DIR/clasificacion_$R.txt"
 	rm last.txt
 done
 
-find ./caso_base -name \*.txt -exec sed -i 's/\./,/g' {} \;
+find ./variante_control_velocidad_2 -name \*.txt -exec sed -i 's/\./,/g' {} \;
