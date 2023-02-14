@@ -1,4 +1,4 @@
-# BPSO
+# PSO
 
 This is a parallel and distributed mono-objective algorithm to EEG classification. It corresponds to a Binary Particle Swarm Optimization. The application follows a master-worker model, being able to split the evaluation of all the particles among all available nodes. Inside each of these nodes, it´s able to evaluate the particles using all the CPUs, providing up to 2 leves of parallelism. 
 
