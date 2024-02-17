@@ -14,7 +14,9 @@ NFEATURES = -D N_FEATURES=$(N_FEATURES)
 
 all: build_mpi
 
-pruebas: build_p run_p
+pruebas: build_p_mpi run_p
+
+knn: build_knn_o2
 
 run:
 	./pso

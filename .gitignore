@@ -36,5 +36,6 @@
 
 figuras/*.pptx
 pruebas/
-mediciones/
+mediciones*/
+*.txt
 
