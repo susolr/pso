@@ -1,0 +1,29 @@
+{
+  "NParticulas": {
+    "title": "Número de partículas",
+    "value": 200,
+    "tag": "-nP"
+  },
+  "NHebras": { "title": "Número de hebras", "value": 28, "tag": "-nH" },
+  "NMaxIteraciones": {
+    "title": "Número máximo de iteraciones",
+    "value": 150,
+    "tag": "-nI"
+  },
+  "CSocial": { "title": "Componente social", "value": 1.0, "tag": "-cS" },
+  "CCognitiva": { "title": "Componente cognitiva", "value": 1.0, "tag": "-cC" },
+  "CInercia": { "title": "Componente de inercia", "value": 1.0, "tag": "-cI" },
+  "KValor": { "title": "Valor K (clasificación)", "value": 13, "tag": "-k" },
+  "SIMD": { "title": "SIMD (vectorización)", "value": 1, "tag": "-sI" },
+  "PCambio": { "title": "Probabilidad de cambio", "value": 0.9, "tag": "-pC" },
+  "BK": { "title": "Barrido de K", "value": 0, "tag": "-bK" },
+  "VInicial": { "title": "Velocidad inicial", "value": 1, "tag": "-vI" },
+  "VControl": { "title": "Control de velocidad", "value": 1, "tag": "-vC" },
+  "IDinamica": { "title": "Inercia dinámica", "value": 0, "tag": "-iD" },
+  "CAleatoria": { "title": "Componente aleatoria", "value": 1, "tag": "-cA" },
+  "WSComunicacion": {
+    "title": "WebSocket comunicación",
+    "value": 1,
+    "tag": "-WSC"
+  }
+}

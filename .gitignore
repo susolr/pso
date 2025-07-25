@@ -38,4 +38,7 @@ figuras/*.pptx
 pruebas/
 mediciones*/
 *.txt
-
+energia*/
+pruebas*/
+datos_antiguos*/
+data*/

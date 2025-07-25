@@ -12,6 +12,10 @@ BIN = bin
 
 NFEATURES = -D N_FEATURES=$(N_FEATURES)
 
+CXXFLAGS += -I/usr/include/websocketpp -I/usr/include/boost -I/usr/include/nlohmann
+LDFLAGS  += -lboost_system -lpthread
+
+
 all: build_mpi
 
 pruebas: build_p_mpi run_p
@@ -37,7 +41,7 @@ build_o2:
 	g++ -O2 -o pso -Iinclude $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 build_mpi:
-	mpic++ -O2 -o pso -Iinclude $(NFEATURES) $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
+	mpic++ -O2 -o pso -Iinclude $(CXXFLAGS) $(LDFLAGS) $(NFEATURES) $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp $(SRC)/webSocketServer.cpp -fopenmp
 
 run_p:
 	./pruebas -nP 1 -nH 2 -nI 3 -k 4 

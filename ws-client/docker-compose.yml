@@ -1,0 +1,14 @@
+services:
+  ws-client:
+    container_name: ws-client-dev
+    build:
+      context: .
+      dockerfile: DEV.Dockerfile
+    restart: unless-stopped
+    command: yarn dev
+    image: ws-client-dev:latest
+    ports:
+      - 3001:3000
+    volumes:
+      - .:/app
+    

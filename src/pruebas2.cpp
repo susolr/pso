@@ -9,28 +9,40 @@
  *
  */
 
+#include <signal.h>     // Para la función kill
+#include <sys/types.h>  // Para el tipo pid_t
+#include <unistd.h>     // Para la función getpid, fork
+
+#include <cstdlib>  // Para la función system
 #include <iostream>
-#include <cmath>
 
-using namespace std;
+int main() {
+    std::string comando = "top";  // Comando a ejecutar
 
-int main(int argc, char **argv)
-{
+    // Creamos un nuevo proceso hijo
+    pid_t pid = fork();
 
-    double sig;
+    if (pid == -1) {
+        std::cerr << "Error al crear el proceso hijo." << std::endl;
+        return 1;
+    } else if (pid == 0) {
+        // Este es el proceso hijo
+        std::cout << "Soy el proceso hijo con PID: " << getpid() << std::endl;
+        // Ejecutamos el comando
+        system(comando.c_str());
+        // El proceso hijo termina aquí
+        exit(0);
+    } else {
+        // Este es el proceso padre
+        std::cout << "Soy el proceso padre con PID: " << getpid() << std::endl;
+        std::cout << "El PID del proceso hijo es: " << pid << std::endl;
 
-    sig = 1.0 / (1.0 + exp(-1.7)); // Sigmoidea
-    cout << "sig: " << sig << endl;
-    cout << rand() << endl;
-    double var_rand = (rand() % 10000) * 1.0 / 10000.0;
-    cout << var_rand << endl;
-    if (0.02 < sig)
-    {
-        cout << 1 << endl;
-    }
-    else
-    {
-        cout << 0 << endl;
+        // Esperar un momento antes de terminar el proceso hijo
+        sleep(10);
+
+        // Terminar el proceso hijo utilizando la función kill
+        kill(pid, SIGKILL);
+        kill(pid, SIGTERM);
     }
 
     return 0;

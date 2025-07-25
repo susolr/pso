@@ -1,0 +1,19 @@
+#!/bin/bash
+################# Global variables
+NMAXNODOS=32
+NODES=("localhost" "node02" "node03" "node04" "node05" "node06" "node07" "node08" "node09" "node10" "node11" "node12" "node13" "node14" "node15" "node16" "node17" "node18" "node19" "node20" "node21" "node22" "node23" "node24" "node25" "node26" "node27" "node28" "node29" "node30" "node31" "node32")
+NODOS=""
+DIR="BCI"
+#rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+#make -j N_FEATURES=11352
+
+
+echo "Start the execution of BCI"
+#nohup turbostat --Summary --quiet --Joules --show Pkg_J --interval 1 -o $DIR/energia_1.txt &
+#PID=$!
+mpirun --bind-to none --map-by node --host $1 ./pso -pC 0.90 -k 18 -cS 0.4 -nP 500 -nI 300 -nH 48  > $DIR/clasificacion_$1.txt
+#kill -9 $PID
+#echo "`sed -n 1p last.txt`" >> tmp_time.txt
+

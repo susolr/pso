@@ -1,0 +1,22 @@
+#!/bin/bash
+################# Global variables
+NMAXNODOS=32
+NODES=("node02" "node03" "node04" "node05" "node06" "node07" "node08")
+NODOS="localhost,"
+DIR="pruebas_turbo"
+rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+make -j N_FEATURES=3600
+for N in "${NODES[@]}";
+do
+    NODOS+="$N"
+    echo "Start the execution with $NODOS nodos"
+    mpirun --bind-to none --map-by node --host $NODOS ./pso -pC 0.90 -k 18 -cS 0.4 -nP 1000 -nI 300 -nH 48  > last.txt
+    #echo "`sed -n 1p last.txt`" >> tmp_time.txt
+    paste last* > "$DIR/clasificacion_$N.txt"
+    rm last.txt
+    NODOS+=","
+    
+done
+find ./mediciones -name \*.txt -exec sed -i 's/\./,/g' {} \;

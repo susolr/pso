@@ -1,0 +1,22 @@
+#!/bin/bash
+################# Global variables
+NREPETITIONS=3
+HEBRAS=(2)
+DIR="energia_hebras"
+#rm -rf $DIR && mkdir $DIR
+date && echo "Start the execution"
+echo "-------------------"
+make -j N_FEATURES=3600
+for NH in "${HEBRAS[@]}";
+do
+    echo -e "\t`date`" && echo -e "\tStarts with" $NH "hebras"
+    nohup turbostat --Summary --quiet --Joules --show Pkg_J --interval 1 -o $DIR/energia_$NH.txt &
+    PID=$!
+    mpirun --bind-to none --map-by node --host localhost ./pso -pC 0.90 -k 18 -cS 0.4 -nP 1000 -nI 300 -nH $NH  > last.txt
+    kill -9 $PID
+    #echo "`sed -n 1p last.txt`" >> tmp_time.txt
+    paste last* > "$DIR/clasificacion_$NH.txt"
+    rm last.txt
+
+done
+find ./mediciones -name \*.txt -exec sed -i 's/\./,/g' {} \;

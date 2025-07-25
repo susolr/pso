@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- @file config.xml -->
-<!-- @author Jesús López Rodríguez (jlopezpeque@hotmail.com) -->
+<!-- @author Jesús López Rodríguez (jlopezpeque@gmail.com) -->
 <!-- @date 16/02/2022 -->
 <!-- @brief File with the program configurations -->
 <!-- @copyright Copyright (c) 2022 -->
@@ -9,7 +9,7 @@
 
 <Config>
     <NParticulas>200</NParticulas>
-    <NHebras>8</NHebras>
+    <NHebras>28</NHebras>
     <NMaxIteraciones>150</NMaxIteraciones>
     <CSocial>1.0</CSocial>
     <CCognitiva>1.0</CCognitiva>
@@ -17,4 +17,10 @@
     <KValor>13</KValor>
     <SIMD>1</SIMD>
     <PCambio>0.9</PCambio>
+    <BK>0</BK>
+    <VInicial>1</VInicial>
+    <VControl>1</VControl>
+    <IDinamica>0</IDinamica>
+    <CAleatoria>1</CAleatoria>
+    <WSComunicacion>1</WSComunicacion>
 </Config>

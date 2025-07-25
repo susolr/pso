@@ -1,28 +1,43 @@
 /**
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE', which is part of Atom repository.
+ *
+ * This work has been funded by:
+ *
+ * University of Granada under grant number PPJIA-2023-25.\n
+ * Spanish 'Ministerio de Ciencia, Innovación y Universidades' under grants number
+ * PID2022-137461NB-C32 and PID2020-119478GB-I00.\n Spanish 'Ministerio de Universidades' as part of
+ * the program of mobility stays for professors and researchers in foreign higher education and
+ * research centers under grant number CAS22/00332.\n European Regional Development Fund (ERDF).
+ *
  * @file main.cpp
- * @author Jesús López Rodríguez (jlopezpeque@hotmail.com)
- * @brief 
- * @version 0.1
- * @date 2021-11-14
- * 
- * @copyright Copyright (c) 2021
- * 
+ * @author Juan José Escobar Pérez and Jesús López Rodríguez
+ * @date 02/02/2024
+ * @brief A parallel and distributed Binary Particle Swarm Optimization (BPSO) algorithm to EEG
+ * classification
+ * @copyright Atom (c) 2024 University of Granada
  */
 
-#include <iostream>
-#include <ctime>
+#include <mpi.h>
+#include <signal.h>     // Para la función kill
+#include <sys/types.h>  // Para el tipo pid_t
+#include <unistd.h>     // Para la función getpid, fork
+
 #include <cmath>
+#include <cstdlib>  // Para la función system
+#include <ctime>
+#include <iostream>
 #include <queue>
+
 #include "lector.h"
-#include "pso.h"
 #include "omp.h"
 #include "paramlist.h"
-#include <mpi.h>
+#include "pso.h"
+#include "webSocketServer.h"
 
 using namespace std;
 
-int main (int argc, char* argv[]){
-
+int main(int argc, char *argv[]) {
     int numprocs, rank, namelen;
     char processor_name[MPI_MAX_PROCESSOR_NAME];
 
@@ -31,43 +46,46 @@ int main (int argc, char* argv[]){
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Get_processor_name(processor_name, &namelen);
 
-    //printf("Hybrid: Hello from process %d/%d on %s\n", rank, numprocs, processor_name);
+    // printf("Hybrid: Hello from process %d/%d on %s\n", rank, numprocs, processor_name);
 
-    //MPI::Init_thread(MPI_THREAD_MULTIPLE);
+    // MPI::Init_thread(MPI_THREAD_MULTIPLE);
 
-    
-    
-    Paramlist * lista;
-    if (argc==1){
+    Paramlist *lista;
+    if (argc == 1) {
         lista = Paramlist::getInstance();
-    }
-    else{
+    } else {
         lista = Paramlist::getInstance(argc, argv);
     }
 
-    //cout << "N hebras" << lista->getValor("-nH") << endl;
+    // cout << "N hebras" << lista->getValor("-nH") << endl;
 
-    srand((uint) time(NULL) + stoi(lista->getValor("MPIrank")));
+    srand((uint)time(NULL) + stoi(lista->getValor("MPIrank")));
 
     PSO mi_pso = PSO();
     double time_inicio;
     double time;
-    if(stoi(lista->getValor("MPIrank"))==0){
-        //cout << "Master tamanio: " << lista->getValor("MPIsize") << endl << flush;
+
+    if (stoi(lista->getValor("MPIrank")) == 0) {
+        // cout << "Master tamanio: " << lista->getValor("MPIsize") << endl << flush;
+        auto &ws = WebSocketServer::getInstance();
+        if (stoi(lista->getValor("-WSC"))) {
+            ws.start(9999);
+        }
+
         mi_pso.crearCumulo();
         time_inicio = omp_get_wtime();
         mi_pso.ejecutar();
         time = omp_get_wtime() - time_inicio;
+        if (stoi(lista->getValor("-WSC"))) {
+            ws.stop();
+        }
+
         cout << time << endl;
-    }
-    else {
-        //cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
+
+    } else {
+        // cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
         mi_pso.valorar();
     }
-
-    
-    //mi_pso.mostrarResultados();
-
 
     MPI::Finalize();
 

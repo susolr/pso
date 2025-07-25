@@ -1,0 +1,92 @@
+{
+  "NParticulas": {
+    "title": "Número de partículas",
+    "value": 200,
+    "tag": "-nP",
+    "editable": false
+  },
+  "NHebras": {
+    "title": "Número de hebras",
+    "value": 28,
+    "tag": "-nH",
+    "editable": false
+  },
+  "NMaxIteraciones": {
+    "title": "Número máximo de iteraciones",
+    "value": 150,
+    "tag": "-nI",
+    "editable": true
+  },
+  "CSocial": {
+    "title": "Componente social",
+    "value": 1.0,
+    "tag": "-cS",
+    "editable": true
+  },
+  "CCognitiva": {
+    "title": "Componente cognitiva",
+    "value": 1.0,
+    "tag": "-cC",
+    "editable": true
+  },
+  "CInercia": {
+    "title": "Componente de inercia",
+    "value": 1.0,
+    "tag": "-cI",
+    "editable": true
+  },
+  "KValor": {
+    "title": "Valor K (clasificación)",
+    "value": 13,
+    "tag": "-k",
+    "editable": false
+  },
+  "SIMD": {
+    "title": "SIMD (vectorización)",
+    "value": 1,
+    "tag": "-sI",
+    "editable": false
+  },
+  "PCambio": {
+    "title": "Probabilidad de cambio",
+    "value": 0.9,
+    "tag": "-pC",
+    "editable": true
+  },
+  "BK": {
+    "title": "Barrido de K",
+    "value": 0,
+    "tag": "-bK",
+    "editable": false
+  },
+  "VInicial": {
+    "title": "Velocidad inicial",
+    "value": 1,
+    "tag": "-vI",
+    "editable": false
+  },
+  "VControl": {
+    "title": "Control de velocidad",
+    "value": 1,
+    "tag": "-vC",
+    "editable": true
+  },
+  "IDinamica": {
+    "title": "Inercia dinámica",
+    "value": 0,
+    "tag": "-iD",
+    "editable": false
+  },
+  "CAleatoria": {
+    "title": "Componente aleatoria",
+    "value": 1,
+    "tag": "-cA",
+    "editable": false
+  },
+  "WSComunicacion": {
+    "title": "WebSocket comunicación",
+    "value": 1,
+    "tag": "-WSC",
+    "editable": false
+  }
+}

@@ -1,0 +1,22 @@
+FROM ubuntu:22.04
+
+# Instala dependencias necesarias para compilar y ejecutar el backend
+RUN apt-get update && \
+    apt-get install -y build-essential libboost-system-dev libwebsocketpp-dev libomp-dev libopenmpi-dev nlohmann-json3-dev
+
+WORKDIR /app
+
+# Copia solo lo necesario para compilar y ejecutar el backend
+COPY src/ ./src/
+COPY include/ ./include/
+COPY Makefile ./
+COPY config.xml ./
+COPY datos_antiguos/ ./datos_antiguos/
+COPY script* ./
+
+# Compila el backend
+RUN make -j N_FEATURES=11352
+
+EXPOSE 9999
+
+CMD ["./pso"] 
