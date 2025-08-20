@@ -23,4 +23,5 @@
     <IDinamica>0</IDinamica>
     <CAleatoria>1</CAleatoria>
     <WSComunicacion>1</WSComunicacion>
+    <WSRealtime>1</WSRealtime>
 </Config>

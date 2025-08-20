@@ -129,6 +129,7 @@ void PSO::ejecutar() {
     // barrier" << endl << flush;
 
     for (int contador = 0; contador < n_max_iter; ++contador) {
+        double iterationInitTime = omp_get_wtime();
         // cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a
         // valorar" << endl << flush; cout << "Iter: " << contador << endl;
         double aux_value = b_value, var_value;
@@ -213,12 +214,12 @@ void PSO::ejecutar() {
         clas_media = clas_media / cumulo.size();
         // cout << "0," << clas_media << "\t0," << b_value << "\t" << b_k << endl;
         cout << "0," << clas_media << "\t0," << b_value << endl;
-
+        double iterationTime = omp_get_wtime() - iterationInitTime;
         std::ostringstream envio;
         envio << clas_media << "\t" << b_value << endl;
         json telemtry = {
             {"type", "telemetry"},
-            {"payload", {{"iteration", contador}, {"average", clas_media}, {"best", b_value}}}};
+            {"payload", {{"iteration", contador}, {"average", clas_media}, {"best", b_value}, {"executionTime", iterationTime}, {"position", b_pos}}}};
 
         ws.broadcast(telemtry.dump());
     }

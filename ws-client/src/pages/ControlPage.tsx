@@ -117,6 +117,7 @@ export default function ControlPage() {
 
   const handleSubmitParams = (form: Record<string, any>) => {
     // Aquí se enviaría la configuración al backend
+    console.log(form);
     setModalOpen(false);
   };
 

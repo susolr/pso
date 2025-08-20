@@ -88,5 +88,11 @@
     "value": 1,
     "tag": "-WSC",
     "editable": false
+  },
+  "WSRealtime": {
+    "title": "Envío en tiempo real",
+    "value": 1,
+    "tag": "-WSR",
+    "editable": false
   }
 }
