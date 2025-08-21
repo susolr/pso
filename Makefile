@@ -41,7 +41,7 @@ build_o2:
 	g++ -O2 -o pso -Iinclude $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp -fopenmp
 
 build_mpi:
-	mpic++ -O2 -o pso -Iinclude $(CXXFLAGS) $(LDFLAGS) $(NFEATURES) $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp $(SRC)/webSocketServer.cpp -fopenmp
+	mpic++ -O2 -std=c++17 -o pso -Iinclude $(CXXFLAGS) $(LDFLAGS) $(NFEATURES) $(SRC)/main.cpp $(SRC)/lector.cpp $(SRC)/pso.cpp $(SRC)/particula.cpp $(SRC)/parametro.cpp $(SRC)/paramlist.cpp $(SRC)/tinyxml2.cpp $(SRC)/webSocketServer.cpp $(SRC)/pso_manager.cpp -fopenmp
 
 run_p:
 	./pruebas -nP 1 -nH 2 -nI 3 -k 4 

@@ -19,6 +19,7 @@ interface WebSocketContextType {
   messages: Message[];
   connect: () => void;
   disconnect: () => void;
+  send: (msg: Message) => boolean;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | undefined>(
@@ -91,17 +92,18 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     setStatus("disconnected");
   };
 
-  // Elimina el cierre automático del socket al desmontar el provider para mantener la conexión global
-  // useEffect(() => {
-  //   return () => {
-  //     if (wsRef.current) wsRef.current.close();
-  //     if (reconnectIntervalRef.current) clearInterval(reconnectIntervalRef.current);
-  //   };
-  // }, []);
+  const send = (msg: Message): boolean => {
+    const json = JSON.stringify(msg);
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(json);
+      return true;
+    }
+    return false;
+  };
 
   return (
     <WebSocketContext.Provider
-      value={{ wsUrl, setWsUrl, status, messages, connect, disconnect }}
+      value={{ wsUrl, setWsUrl, status, messages, connect, disconnect, send }}
     >
       {children}
     </WebSocketContext.Provider>

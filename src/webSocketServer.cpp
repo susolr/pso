@@ -18,17 +18,19 @@
  */
 
 #include "webSocketServer.h"
-#include "paramlist.h"
 
 #include <iostream>
 #include <nlohmann/json.hpp>
+
+#include "paramlist.h"
+#include "pso_manager.h"
 
 WebSocketServer& WebSocketServer::getInstance() {
     static WebSocketServer instance;
     return instance;
 }
 
-WebSocketServer::WebSocketServer() : m_running(false) {
+WebSocketServer::WebSocketServer() : m_running(false), m_paused(false), m_stopping(false), m_liveTelemetry(true) {
     m_server.init_asio();
 
     // Desactivar logs internos de websocketpp
@@ -122,10 +124,60 @@ void WebSocketServer::handleMessage(const std::string& message) {
         auto jsonMsg = nlohmann::json::parse(message);
         std::string type = jsonMsg.value("type", "");
         if (type == "update") {
+            std::cout << "[WS][CONTROL] update recibido" << std::endl;
             handleUpdate(jsonMsg["payload"].dump());
-        } else {
-            std::cerr << "[WS] Tipo de mensaje no soportado: " << type << std::endl;
+            return;
         }
+        if (type == "control/pause") {
+            std::cout << "[WS][CONTROL] pause" << std::endl;
+            requestPause();
+            return;
+        }
+        if (type == "control/resume") {
+            std::cout << "[WS][CONTROL] resume" << std::endl;
+            requestResume();
+            return;
+        }
+        if (type == "control/stop") {
+            std::cout << "[WS][CONTROL] stop" << std::endl;
+            requestStop();
+            PSOManager::getInstance().stop();
+            return;
+        }
+        if (type == "control/toggle_live") {
+            bool enabled = jsonMsg["payload"].value("enabled", true);
+            std::cout << "[WS][CONTROL] toggle_live => " << (enabled ? "ON" : "OFF") << std::endl;
+            setLiveTelemetry(enabled);
+            // Actualiza también paramlist (-WSR)
+            Paramlist::getInstance()->setValor("-WSR", enabled ? "1" : "0");
+            return;
+        }
+        if (type == "control/start" || type == "control/scriptRun") {
+            // Actualizar Paramlist con params recibidos
+            if (jsonMsg.contains("payload") && jsonMsg["payload"].contains("params")) {
+                auto params = jsonMsg["payload"]["params"];
+                std::cout << "[WS][CONTROL] " << type << " con " << params.size() << " parámetros" << std::endl;
+                for (auto it = params.begin(); it != params.end(); ++it) {
+                    std::string tag = it.value()["tag"]; // ej: -nP
+                    std::string value = it.value()["value"].dump();
+                    if (value.size() >= 2 && value.front() == '"' && value.back() == '"') {
+                        value = value.substr(1, value.size() - 2);
+                    }
+                    Paramlist::getInstance()->setValor(tag, value);
+                }
+            }
+            // Lanzar ejecución en hilo aparte para no bloquear el hilo de WS
+            if (type == "control/start") {
+                std::cout << "[WS][CONTROL] start => ejecución única (async)" << std::endl;
+                std::thread([](){ PSOManager::getInstance().startSingle(); }).detach();
+            } else {
+                int runs = jsonMsg["payload"].value("runs", 1);
+                std::cout << "[WS][CONTROL] scriptRun => runs=" << runs << " (async)" << std::endl;
+                std::thread([runs](){ PSOManager::getInstance().startScript(runs); }).detach();
+            }
+            return;
+        }
+        std::cerr << "[WS] Tipo de mensaje no soportado: " << type << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "[WS] Error al procesar mensaje entrante: " << e.what() << std::endl;
     }
@@ -139,14 +191,27 @@ void WebSocketServer::handleUpdate(const std::string& payload) {
         for (auto it = jsonPayload.begin(); it != jsonPayload.end(); ++it) {
             std::string tag = it.value()["tag"];
             std::string value = it.value()["value"].dump();
-            // Eliminar comillas si es string
             if (value.size() >= 2 && value.front() == '"' && value.back() == '"') {
                 value = value.substr(1, value.size() - 2);
             }
-            std::cout << "[WS] Actualizando " << tag << " a " << value << std::endl;
+            std::cout << "[WS][CONTROL] set " << tag << " = " << value << std::endl;
             paramlist->setValor(tag, value);
         }
     } catch (const std::exception& e) {
         std::cerr << "[WS] Error al procesar update: " << e.what() << std::endl;
     }
 }
+
+void WebSocketServer::requestPause() { m_paused.store(true); }
+void WebSocketServer::requestResume() { m_paused.store(false); }
+void WebSocketServer::requestStop() { m_stopping.store(true); }
+void WebSocketServer::resetControl() {
+    m_paused.store(false);
+    m_stopping.store(false);
+    std::cout << "[WS][CONTROL] reset flags pausa/stop" << std::endl;
+}
+bool WebSocketServer::isPaused() const { return m_paused.load(); }
+bool WebSocketServer::isStopping() const { return m_stopping.load(); }
+
+void WebSocketServer::setLiveTelemetry(bool enabled) { m_liveTelemetry.store(enabled); }
+bool WebSocketServer::isLiveTelemetry() const { return m_liveTelemetry.load(); }

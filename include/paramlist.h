@@ -32,6 +32,7 @@ class Paramlist {
    public:
     string getValor(string arg);
     void setValor(string tag, string valor);
+    unordered_map<string, string> getAllByTag();
     Paramlist(Paramlist& otro) = delete;
     void operator=(const Paramlist& otro) = delete;
     static Paramlist* getInstance();

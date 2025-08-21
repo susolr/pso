@@ -31,6 +31,9 @@
 #include "lector.h"
 #include "paramlist.h"
 #include "webSocketServer.h"
+#include "pso_manager.h"
+#include <thread>
+#include <chrono>
 
 /********Defines********/
 #define IGNORE_VALUE 1
@@ -41,7 +44,7 @@ using namespace std;
 
 PSO::PSO() {
     Lector *lector = Lector::getInstance();
-    lector->setDataBase("001");
+    lector->setDataBase(Paramlist::getInstance()->getValor("-dB"));
     dimension = N_FEATURES;
     lector->leerDatos(288, dimension);
 
@@ -129,6 +132,15 @@ void PSO::ejecutar() {
     // barrier" << endl << flush;
 
     for (int contador = 0; contador < n_max_iter; ++contador) {
+        // Parada solicitada
+        if (WebSocketServer::getInstance().isStopping()) {
+            break;
+        }
+        // Pausa solicitada (espera activa suave)
+        while (WebSocketServer::getInstance().isPaused()) {
+            if (WebSocketServer::getInstance().isStopping()) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
         double iterationInitTime = omp_get_wtime();
         // cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a
         // valorar" << endl << flush; cout << "Iter: " << contador << endl;
@@ -221,7 +233,14 @@ void PSO::ejecutar() {
             {"type", "telemetry"},
             {"payload", {{"iteration", contador}, {"average", clas_media}, {"best", b_value}, {"executionTime", iterationTime}, {"position", b_pos}}}};
 
-        ws.broadcast(telemtry.dump());
+        // Persistencia: siempre
+        PSOManager::appendTelemetry(telemtry["payload"]);
+
+        // Emisión WS: respetar -WSR
+        bool live = stoi(Paramlist::getInstance()->getValor("-WSR")) != 0;
+        if (live) {
+            ws.broadcast(telemtry.dump());
+        }
     }
 
     for (int p = 1; p < mpiSize; ++p) {

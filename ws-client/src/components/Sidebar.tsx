@@ -7,6 +7,7 @@ const navLinks = [
   { to: "/edit-params", label: "Editar parámetros" },
   { to: "/control", label: "Control" },
   { to: "/params-view", label: "Vista de parámetros" },
+  { to: "/results", label: "Resultados" },
   { to: "/about", label: "Acerca de" },
 ];
 

@@ -36,10 +36,10 @@ class Parametro {
     void setTag(string tag);
     void setArg(string arg);
     void setDescripcion(string descripcion);
-    string getValor();
-    string getArg();
-    string getDescipcion();
-    string getTag();
+    string getValor() const;
+    string getArg() const;
+    string getDescipcion() const;
+    string getTag() const;
     bool isSet();
 
    private:

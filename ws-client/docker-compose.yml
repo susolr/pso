@@ -11,4 +11,4 @@ services:
       - 3001:3000
     volumes:
       - .:/app
-    
+      - ../results:/app/public/results:ro

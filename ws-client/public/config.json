@@ -94,5 +94,11 @@
     "value": 1,
     "tag": "-WSR",
     "editable": false
+  },
+  "DATABASE": {
+    "title": "Base de datos",
+    "value": 104,
+    "tag": "-dB",
+    "editable": false
   }
 }

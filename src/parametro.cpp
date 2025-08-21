@@ -58,10 +58,10 @@ void Parametro::setArg(string arg) { this->arg = arg; }
 
 void Parametro::setDescripcion(string descripcion) { this->descrip = descripcion; }
 
-string Parametro::getValor() { return valor; }
+string Parametro::getValor() const { return valor; }
 
-string Parametro::getArg() { return arg; }
+string Parametro::getArg() const { return arg; }
 
-string Parametro::getDescipcion() { return descrip; }
+string Parametro::getDescipcion() const { return descrip; }
 
-string Parametro::getTag() { return tag; }
+string Parametro::getTag() const { return tag; }

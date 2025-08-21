@@ -67,7 +67,9 @@ void Paramlist::init() {
     lista["-vC"] = Parametro("-vC", "Parámetro para definir el uso del control de velocidad", "VControl");
     lista["-iD"] = Parametro("-iD", "Parámetro para definir el uso de la inercia dinámica", "IDinamica");
     lista["-WSC"] = Parametro("-WSC", "Parámetro para definir el uso de websockets para la comunicacion", "WSComunicacion");
+    lista["-WSR"] = Parametro("-WSR", "Parámetro para definir el uso de websockets para la recepcion de datos", "WSRealtime");
     lista["-cA"] = Parametro("-cA", "Parámetro para definir el uso de la componente aleatoria", "CAleatoria");
+    lista["-dB"] = Parametro("-dB", "Parámetro para definir el uso de la base de datos", "DATABASE");
     lista["MPIrank"] = Parametro("MPIrank", "Parametro para guardar el rank de MPI del proceso", to_string(MPI::COMM_WORLD.Get_rank()), "MPIRank");
     lista["MPIsize"] = Parametro("MPIsize", "Parametro para guardar el tamaño de MPI COMM_WORLD", to_string(MPI::COMM_WORLD.Get_size()), "MPISize");
 }
@@ -94,6 +96,14 @@ void Paramlist::setValor(string tag, string valor) {
     if (it != lista.end()) {
         it->second.setValor(valor);
     }
+}
+
+unordered_map<string, string> Paramlist::getAllByTag() {
+    unordered_map<string, string> out;
+    for (const auto &kv : lista) {
+        out[kv.first] = kv.second.getValor();
+    }
+    return out;
 }
 
 Paramlist *Paramlist::getInstance() {

@@ -34,6 +34,9 @@
 #include "paramlist.h"
 #include "pso.h"
 #include "webSocketServer.h"
+#include "pso_manager.h"
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -68,20 +71,17 @@ int main(int argc, char *argv[]) {
     if (stoi(lista->getValor("MPIrank")) == 0) {
         // cout << "Master tamanio: " << lista->getValor("MPIsize") << endl << flush;
         auto &ws = WebSocketServer::getInstance();
-        if (stoi(lista->getValor("-WSC"))) {
+        int wsc = stoi(lista->getValor("-WSC"));
+        if (wsc) {
             ws.start(9999);
+            // Esperar órdenes por WebSocket (start/scriptRun)
+            while (true) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            }
+        } else {
+            // Modo standalone: ejecutar una sola vez y salir
+            PSOManager::getInstance().startSingle();
         }
-
-        mi_pso.crearCumulo();
-        time_inicio = omp_get_wtime();
-        mi_pso.ejecutar();
-        time = omp_get_wtime() - time_inicio;
-        if (stoi(lista->getValor("-WSC"))) {
-            ws.stop();
-        }
-
-        cout << time << endl;
-
     } else {
         // cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
         mi_pso.valorar();

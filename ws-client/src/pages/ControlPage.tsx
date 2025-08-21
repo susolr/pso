@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
+import { useWebSocketContext } from "../context/WebSocketContext";
 
 function ParamsModal({
   open,
@@ -14,7 +15,7 @@ function ParamsModal({
 
   useEffect(() => {
     if (open) {
-      // Inicializa el formulario con los valores actuales
+      // Inicializa el formulario con los valores actuales (TODOS los parámetros)
       const initial: Record<string, any> = {};
       Object.entries(params).forEach(([key, obj]: [string, any]) => {
         initial[key] = obj.value;
@@ -96,12 +97,17 @@ export default function ControlPage() {
   const [scriptRuns, setScriptRuns] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [scriptMode, setScriptMode] = useState(false);
+  const [live, setLive] = useState<boolean>(true);
+  const { status, send } = useWebSocketContext();
 
   useEffect(() => {
     fetch("/config.json")
       .then((res) => res.json())
       .then((data) => {
         setParams(data);
+        if (data.WSRealtime && typeof data.WSRealtime.value !== "undefined") {
+          setLive(!!Number(data.WSRealtime.value));
+        }
         setLoading(false);
       });
   }, []);
@@ -115,10 +121,35 @@ export default function ControlPage() {
     setModalOpen(false);
   };
 
+  const buildParamsPayload = (form: Record<string, any>) => {
+    // Mapear a { clave: { value, tag } }
+    const payload: Record<string, any> = {};
+    Object.entries(params).forEach(([key, obj]: [string, any]) => {
+      payload[key] = { value: form[key] ?? obj.value, tag: obj.tag };
+    });
+    return payload;
+  };
+
   const handleSubmitParams = (form: Record<string, any>) => {
-    // Aquí se enviaría la configuración al backend
-    console.log(form);
+    const payload = buildParamsPayload(form);
+    if (scriptMode) {
+      send({
+        type: "control/scriptRun",
+        payload: { runs: scriptRuns, params: payload },
+      });
+    } else {
+      send({ type: "control/start", payload: { params: payload } });
+    }
     setModalOpen(false);
+  };
+
+  const handlePause = () => send({ type: "control/pause", payload: {} });
+  const handleResume = () => send({ type: "control/resume", payload: {} });
+  const handleStop = () => send({ type: "control/stop", payload: {} });
+
+  const handleToggleLive = (val: boolean) => {
+    setLive(val);
+    send({ type: "control/toggle_live", payload: { enabled: val } });
   };
 
   if (loading)
@@ -144,6 +175,21 @@ export default function ControlPage() {
           Cuadro de mando del algoritmo
         </h2>
         <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col gap-8">
+          {/* Estado conexión y live toggle */}
+          <div className="flex items-center justify-between bg-gray-900 p-4 rounded">
+            <div>
+              Estado WS: <span className="font-semibold">{status}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm">Telemetría en vivo</label>
+              <input
+                type="checkbox"
+                checked={live}
+                onChange={(e) => handleToggleLive(e.target.checked)}
+              />
+            </div>
+          </div>
+
           {/* Controles principales */}
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             <button
@@ -152,10 +198,22 @@ export default function ControlPage() {
             >
               Lanzar
             </button>
-            <button className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-black font-bold text-lg shadow transition">
+            <button
+              onClick={handlePause}
+              className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-black font-bold text-lg shadow transition"
+            >
               Pausar
             </button>
-            <button className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded text-white font-bold text-lg shadow transition">
+            <button
+              onClick={handleResume}
+              className="px-6 py-3 bg-amber-600 hover:bg-amber-700 rounded text-white font-bold text-lg shadow transition"
+            >
+              Reanudar
+            </button>
+            <button
+              onClick={handleStop}
+              className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded text-white font-bold text-lg shadow transition"
+            >
               Parar
             </button>
           </div>

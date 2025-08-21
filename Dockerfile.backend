@@ -15,7 +15,7 @@ COPY datos_antiguos/ ./datos_antiguos/
 COPY script* ./
 
 # Compila el backend
-RUN make -j N_FEATURES=11352
+RUN make -j N_FEATURES=3600
 
 EXPOSE 9999
 

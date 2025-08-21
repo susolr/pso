@@ -25,5 +25,15 @@
     "title": "WebSocket comunicación",
     "value": 1,
     "tag": "-WSC"
+  },
+  "WSRealtime": {
+    "title": "WebSocket recepción de datos",
+    "value": 1,
+    "tag": "-WSR"
+  },
+  "DATABASE": {
+    "title": "Base de datos",
+    "value": 104,
+    "tag": "-dB"
   }
 }

@@ -43,6 +43,18 @@ class WebSocketServer {
     // Detiene el servidor
     void stop();
 
+    // Control de ejecución
+    void requestPause();
+    void requestResume();
+    void requestStop();
+    void resetControl();
+    bool isPaused() const;
+    bool isStopping() const;
+
+    // Telemetría en vivo
+    void setLiveTelemetry(bool enabled);
+    bool isLiveTelemetry() const;
+
    private:
     WebSocketServer();
     ~WebSocketServer();
@@ -57,7 +69,7 @@ class WebSocketServer {
     void onOpen(connection_hdl hdl);
     void onClose(connection_hdl hdl);
 
-    // Nuevo: manejar mensajes entrantes
+    // Mensajes entrantes
     void handleMessage(const std::string& message);
     void handleUpdate(const std::string& payload);
 
@@ -67,4 +79,9 @@ class WebSocketServer {
 
     std::thread m_thread;
     std::atomic<bool> m_running;
+
+    // Estado de control
+    std::atomic<bool> m_paused;
+    std::atomic<bool> m_stopping;
+    std::atomic<bool> m_liveTelemetry;
 };

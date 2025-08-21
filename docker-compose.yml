@@ -9,6 +9,7 @@ services:
       - "9999:9999"
     restart: unless-stopped
     volumes:
+      - ./results:/app/results
       - ./data:/app/data
 
   frontend:
@@ -19,3 +20,5 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+    volumes:
+      - ./results:/usr/share/nginx/html/results:ro

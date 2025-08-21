@@ -6,6 +6,8 @@ import ChartPage from "./pages/ChartPage";
 import EditParamsPage from "./pages/EditParamsPage";
 import ControlPage from "./pages/ControlPage";
 import ParamsViewPage from "./pages/ParamsViewPage";
+import ResultsPage from "./pages/ResultsPage";
+import ResultDetailPage from "./pages/ResultDetailPage";
 import { WebSocketProvider } from "./context/WebSocketContext";
 
 export default function App() {
@@ -20,6 +22,8 @@ export default function App() {
             <Route path="/edit-params" element={<EditParamsPage />} />
             <Route path="/control" element={<ControlPage />} />
             <Route path="/params-view" element={<ParamsViewPage />} />
+            <Route path="/results" element={<ResultsPage />} />
+            <Route path="/results/:id" element={<ResultDetailPage />} />
             {/* 👆 Aquí podrás añadir más páginas: */}
             {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
             {/* <Route path="/settings" element={<SettingsPage />} /> */}
