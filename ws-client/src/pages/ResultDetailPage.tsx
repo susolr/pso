@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
+import html2canvas from "html2canvas";
 
 type TelemetryRow = {
   iteration: number;
@@ -120,11 +121,54 @@ export default function ResultDetailPage() {
   const exportSVG = () => {
     const chart = chartRef.current;
     if (!chart) return;
-    const svg = chart.toBase64Image("image/svg+xml");
-    const a = document.createElement("a");
-    a.href = svg;
-    a.download = `run_${id}_${selectedGraph}.svg`;
-    a.click();
+
+    try {
+      // Obtener el canvas de Chart.js directamente
+      const canvas = chart.canvas;
+      const width = canvas.width;
+      const height = canvas.height;
+
+      // Crear un canvas temporal para procesar la imagen
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = width;
+      tempCanvas.height = height;
+      const tempCtx = tempCanvas.getContext("2d");
+
+      if (!tempCtx) {
+        throw new Error("No se pudo crear el contexto del canvas temporal");
+      }
+
+      // Dibujar el canvas original en el temporal
+      tempCtx.drawImage(canvas, 0, 0);
+
+      // Crear un SVG que contenga la imagen del canvas como base64
+      const svgContent = `
+        <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              text { font-family: Arial, sans-serif; }
+            </style>
+          </defs>
+          <image 
+            width="${width}" 
+            height="${height}" 
+            href="${tempCanvas.toDataURL("image/png")}"
+            preserveAspectRatio="xMidYMid meet"
+          />
+        </svg>
+      `;
+
+      // Crear blob y descargar
+      const blob = new Blob([svgContent], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `run_${id}_${selectedGraph}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error al exportar SVG:", error);
+    }
   };
 
   const exportCSV = () => {
