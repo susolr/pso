@@ -28,11 +28,14 @@
 #include <ctime>
 #include <iostream>
 #include <queue>
+#include <thread>
+#include <chrono>
 
 #include "lector.h"
 #include "omp.h"
 #include "paramlist.h"
 #include "pso.h"
+#include "pso_manager.h"
 #include "webSocketServer.h"
 
 using namespace std;
@@ -68,22 +71,33 @@ int main(int argc, char *argv[]) {
     if (stoi(lista->getValor("MPIrank")) == 0) {
         // cout << "Master tamanio: " << lista->getValor("MPIsize") << endl << flush;
         auto &ws = WebSocketServer::getInstance();
+        
         if (stoi(lista->getValor("-WSC"))) {
+            // Modo WebSocket: esperar comandos
             ws.start(9999);
+            std::cout << "[MAIN] Servidor WebSocket iniciado. Esperando órdenes..." << std::endl;
+            while (true) {
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+        } else {
+            // Modo standalone: ejecutar directamente
+            std::cout << "[MAIN] Modo standalone (-WSC 0). Ejecutando..." << std::endl;
+            
+            // Verificar si hay múltiples ejecuciones configuradas
+            int numRuns = stoi(lista->getValor("-r"));
+            if (numRuns > 1) {
+                // Ejecutar como script group
+                std::string scriptName = "Standalone Script - " + std::to_string(numRuns) + " ejecuciones";
+                PSOManager::getInstance().startScript(numRuns, scriptName);
+            } else {
+                // Ejecución única
+                PSOManager::getInstance().startSingle();
+            }
+            
+            std::cout << "[MAIN] Ejecución standalone finalizada." << std::endl;
         }
-
-        mi_pso.crearCumulo();
-        time_inicio = omp_get_wtime();
-        mi_pso.ejecutar();
-        time = omp_get_wtime() - time_inicio;
-        if (stoi(lista->getValor("-WSC"))) {
-            ws.stop();
-        }
-
-        cout << time << endl;
-
     } else {
-        // cout << "Worker: " << lista->getValor("MPIrank") << endl << flush;
+        // Workers: solo valorar
         mi_pso.valorar();
     }
 

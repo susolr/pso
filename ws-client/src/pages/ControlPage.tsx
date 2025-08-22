@@ -10,6 +10,8 @@ function ParamsModal({
   scriptMode,
   scriptRuns,
   setScriptRuns,
+  scriptName,
+  setScriptName,
 }: any) {
   const [form, setForm] = useState<Record<string, any>>({});
 
@@ -59,15 +61,29 @@ function ParamsModal({
             ))}
           </div>
           {scriptMode && (
-            <div className="mt-6 flex items-center gap-2">
-              <label className="font-semibold text-sm">Ejecuciones:</label>
-              <input
-                type="number"
-                min={1}
-                value={scriptRuns}
-                onChange={(e) => setScriptRuns(Number(e.target.value))}
-                className="bg-gray-900 border border-gray-700 rounded px-2 py-1 w-20 text-gray-100"
-              />
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <label className="font-semibold text-sm">Ejecuciones:</label>
+                <input
+                  type="number"
+                  min={1}
+                  value={scriptRuns}
+                  onChange={(e) => setScriptRuns(Number(e.target.value))}
+                  className="bg-gray-900 border border-gray-700 rounded px-2 py-1 w-20 text-gray-100"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="font-semibold text-sm">
+                  Nombre del script:
+                </label>
+                <input
+                  type="text"
+                  value={scriptName}
+                  onChange={(e) => setScriptName(e.target.value)}
+                  placeholder="Ej: Experimento A - 5 ejecuciones"
+                  className="bg-gray-900 border border-gray-700 rounded px-2 py-1 text-gray-100"
+                />
+              </div>
             </div>
           )}
           <div className="flex justify-end gap-4 mt-8">
@@ -95,6 +111,7 @@ export default function ControlPage() {
   const [params, setParams] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [scriptRuns, setScriptRuns] = useState(1);
+  const [scriptName, setScriptName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [scriptMode, setScriptMode] = useState(false);
   const [live, setLive] = useState<boolean>(true);
@@ -135,7 +152,11 @@ export default function ControlPage() {
     if (scriptMode) {
       send({
         type: "control/scriptRun",
-        payload: { runs: scriptRuns, params: payload },
+        payload: {
+          numRuns: scriptRuns,
+          scriptName: scriptName || `Script de ${scriptRuns} ejecuciones`, // Default name if empty
+          params: payload,
+        },
       });
     } else {
       send({ type: "control/start", payload: { params: payload } });
@@ -169,6 +190,8 @@ export default function ControlPage() {
         scriptMode={scriptMode}
         scriptRuns={scriptRuns}
         setScriptRuns={setScriptRuns}
+        scriptName={scriptName}
+        setScriptName={setScriptName}
       />
       <div className="max-w-3xl mx-auto py-8">
         <h2 className="text-3xl font-bold mb-6 text-center">

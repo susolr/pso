@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
-import html2canvas from "html2canvas";
 
 type TelemetryRow = {
   iteration: number;

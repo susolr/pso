@@ -20,6 +20,7 @@
 #pragma once
 
 #include <atomic>
+#include <condition_variable>
 #include <mutex>
 #include <set>
 #include <string>
@@ -84,4 +85,6 @@ class WebSocketServer {
     std::atomic<bool> m_paused;
     std::atomic<bool> m_stopping;
     std::atomic<bool> m_liveTelemetry;
+    std::condition_variable m_cv;
+    std::mutex m_mutex;
 };

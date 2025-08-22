@@ -17,8 +17,11 @@ PSOManager &PSOManager::getInstance() {
     return instance;
 }
 
-PSOManager::PSOManager() : m_running(false), m_stopping(false), m_lastAverage(0.0), m_lastBest(0.0), m_lastIteration(0), m_lastTotalSeconds(0.0), m_totalRuns(0), m_currentRunIndex(0) {}
-PSOManager::~PSOManager() { closeRunDirectory(); }
+PSOManager::PSOManager() : m_running(false), m_stopping(false), m_lastAverage(0.0), m_lastBest(0.0), m_lastIteration(0), m_lastTotalSeconds(0.0), m_totalRuns(0), m_currentRunIndex(0), m_scriptId(""), m_scriptName("") {}
+PSOManager::~PSOManager() { 
+    // No cerrar el directorio en el destructor para evitar duplicados
+    // closeRunDirectory(); 
+}
 
 static std::string nowTimestamp() {
     auto t = std::chrono::system_clock::now();
@@ -35,7 +38,14 @@ static std::string nowTimestamp() {
 }
 
 void PSOManager::openNewRunDirectory() {
-    m_currentRunId = nowTimestamp();
+    if (!m_scriptId.empty()) {
+        // Para scripts: scriptId_NumeroEjecucion
+        m_currentRunId = m_scriptId + "_" + std::to_string(m_currentRunIndex + 1);
+    } else {
+        // Para ejecuciones individuales: timestamp
+        m_currentRunId = nowTimestamp();
+    }
+    
     m_currentRunDir = std::string("results/runs/") + m_currentRunId;
     fs::create_directories(m_currentRunDir);
     // abrir telemetry
@@ -69,6 +79,17 @@ void PSOManager::writeSummary() {
         {"lastBest", m_lastBest},
         {"totalSeconds", m_lastTotalSeconds},
     };
+    
+    // Añadir información de script si es parte de un grupo
+    if (!m_scriptId.empty()) {
+        s["scriptId"] = m_scriptId;
+        s["scriptRun"] = m_currentRunIndex + 1;
+        s["totalScriptRuns"] = m_totalRuns;
+        if (!m_scriptName.empty()) {
+            s["scriptName"] = m_scriptName;
+        }
+    }
+    
     std::ofstream f(m_currentRunDir + "/summary.json");
     f << s.dump(2);
 }
@@ -95,6 +116,17 @@ void PSOManager::updateIndex() {
         {"lastBest", m_lastBest},
         {"lastAverage", m_lastAverage}
     };
+    
+    // Añadir información de script si es parte de un grupo
+    if (!m_scriptId.empty()) {
+        entry["scriptId"] = m_scriptId;
+        entry["scriptRun"] = m_currentRunIndex + 1;
+        entry["totalScriptRuns"] = m_totalRuns;
+        if (!m_scriptName.empty()) {
+            entry["scriptName"] = m_scriptName;
+        }
+    }
+    
     idx.push_back(entry);
     // Guardar
     fs::create_directories("results/runs");
@@ -127,11 +159,14 @@ void PSOManager::startSingle() {
     m_running.store(false);
 }
 
-void PSOManager::startScript(int runs) {
+void PSOManager::startScript(int runs, const std::string& scriptName) {
     if (m_running.load()) return;
     m_stopping.store(false);
     m_running.store(true);
     m_totalRuns = runs;
+    m_scriptId = "script_" + nowTimestamp();
+    m_scriptName = scriptName.empty() ? "Script de " + std::to_string(runs) + " ejecuciones" : scriptName;
+    
     for (m_currentRunIndex = 0; m_currentRunIndex < m_totalRuns; ++m_currentRunIndex) {
         if (m_stopping.load()) break;
         openNewRunDirectory();

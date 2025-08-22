@@ -15,7 +15,7 @@ class PSOManager {
     void startSingle();
 
     // Arranca modo script con N ejecuciones consecutivas
-    void startScript(int runs);
+    void startScript(int runs, const std::string& scriptName = "");
 
     // Señales de control
     void pause();
@@ -60,4 +60,6 @@ class PSOManager {
     // Script
     int m_totalRuns;
     int m_currentRunIndex;
+    std::string m_scriptId;  // ID único para el grupo de script
+    std::string m_scriptName; // Nombre descriptivo del script
 };

@@ -19,6 +19,7 @@
 
 #include "webSocketServer.h"
 #include "paramlist.h"
+#include "pso_manager.h"
 
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -121,8 +122,34 @@ void WebSocketServer::handleMessage(const std::string& message) {
     try {
         auto jsonMsg = nlohmann::json::parse(message);
         std::string type = jsonMsg.value("type", "");
+        
         if (type == "update") {
             handleUpdate(jsonMsg["payload"].dump());
+        } else if (type == "control/start") {
+            std::cout << "[WS] Comando: Iniciar ejecución única" << std::endl;
+            std::thread([]() {
+                PSOManager::getInstance().startSingle();
+            }).detach();
+        } else if (type == "control/scriptRun") {
+            int numRuns = jsonMsg["payload"]["numRuns"];
+            std::string scriptName = jsonMsg["payload"].value("scriptName", "");
+            std::cout << "[WS] Comando: Ejecutar script con " << numRuns << " ejecuciones" << std::endl;
+            std::thread([numRuns, scriptName]() {
+                PSOManager::getInstance().startScript(numRuns, scriptName);
+            }).detach();
+        } else if (type == "control/pause") {
+            std::cout << "[WS] Comando: Pausar ejecución" << std::endl;
+            requestPause();
+        } else if (type == "control/resume") {
+            std::cout << "[WS] Comando: Reanudar ejecución" << std::endl;
+            requestResume();
+        } else if (type == "control/stop") {
+            std::cout << "[WS] Comando: Detener ejecución" << std::endl;
+            requestStop();
+        } else if (type == "control/toggle_live") {
+            bool enabled = jsonMsg["payload"]["enabled"];
+            std::cout << "[WS] Comando: Toggle telemetría en vivo: " << (enabled ? "ON" : "OFF") << std::endl;
+            m_liveTelemetry.store(enabled);
         } else {
             std::cerr << "[WS] Tipo de mensaje no soportado: " << type << std::endl;
         }
@@ -149,4 +176,37 @@ void WebSocketServer::handleUpdate(const std::string& payload) {
     } catch (const std::exception& e) {
         std::cerr << "[WS] Error al procesar update: " << e.what() << std::endl;
     }
+}
+
+void WebSocketServer::requestPause() {
+    m_paused.store(true);
+}
+
+void WebSocketServer::requestResume() {
+    m_paused.store(false);
+    m_cv.notify_all();
+}
+
+void WebSocketServer::requestStop() {
+    m_stopping.store(true);
+    m_paused.store(false);
+    m_cv.notify_all();
+}
+
+void WebSocketServer::resetControl() {
+    m_paused.store(false);
+    m_stopping.store(false);
+    m_cv.notify_all();
+}
+
+bool WebSocketServer::isPaused() const {
+    return m_paused.load();
+}
+
+bool WebSocketServer::isStopping() const {
+    return m_stopping.load();
+}
+
+bool WebSocketServer::isLiveTelemetry() const {
+    return m_liveTelemetry.load();
 }

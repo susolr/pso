@@ -100,5 +100,11 @@
     "value": 104,
     "tag": "-dB",
     "editable": false
+  },
+  "RUNS": {
+    "title": "Número de ejecuciones",
+    "value": 1,
+    "tag": "-r",
+    "editable": false
   }
 }

@@ -8,6 +8,7 @@ import ControlPage from "./pages/ControlPage";
 import ParamsViewPage from "./pages/ParamsViewPage";
 import ResultsPage from "./pages/ResultsPage";
 import ResultDetailPage from "./pages/ResultDetailPage";
+import ScriptGroupPage from "./pages/ScriptGroupPage";
 import { WebSocketProvider } from "./context/WebSocketContext";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/params-view" element={<ParamsViewPage />} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/results/:id" element={<ResultDetailPage />} />
+            <Route path="/script/:scriptId" element={<ScriptGroupPage />} />
             {/* 👆 Aquí podrás añadir más páginas: */}
             {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
             {/* <Route path="/settings" element={<SettingsPage />} /> */}

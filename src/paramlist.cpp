@@ -70,6 +70,7 @@ void Paramlist::init() {
     lista["-WSR"] = Parametro("-WSR", "Parámetro para definir el uso de websockets para la recepcion de datos", "WSRealtime");
     lista["-cA"] = Parametro("-cA", "Parámetro para definir el uso de la componente aleatoria", "CAleatoria");
     lista["-dB"] = Parametro("-dB", "Parámetro para definir el uso de la base de datos", "DATABASE");
+    lista["-r"] = Parametro("-r", "Parámetro para definir el número de ejecuciones", "RUNS");
     lista["MPIrank"] = Parametro("MPIrank", "Parametro para guardar el rank de MPI del proceso", to_string(MPI::COMM_WORLD.Get_rank()), "MPIRank");
     lista["MPIsize"] = Parametro("MPIsize", "Parametro para guardar el tamaño de MPI COMM_WORLD", to_string(MPI::COMM_WORLD.Get_size()), "MPISize");
 }
