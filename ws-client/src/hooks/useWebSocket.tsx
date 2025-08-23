@@ -21,7 +21,7 @@ export function useWebSocket(initialUrl: string) {
 
   const connect = () => {
     if (wsRef.current && (status === "connected" || status === "connecting")) {
-      console.warn("🔄 Ya existe una conexión activa.");
+      console.warn("🔄 An active connection already exists.");
       return;
     }
 
@@ -50,13 +50,13 @@ export function useWebSocket(initialUrl: string) {
     };
 
     ws.onclose = () => {
-      console.log("❌ Conexión cerrada");
+      console.log("❌ Connection closed");
       setStatus("disconnected");
       attemptReconnect();
     };
 
     ws.onerror = (err) => {
-      console.error("🚨 Error en la conexión:", err);
+      console.error("🚨 Connection error:", err);
       setStatus("error");
       attemptReconnect();
     };

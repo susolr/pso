@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { to: "/", label: "Inicio" },
+  { to: "/", label: "Home" },
   { to: "/websocket", label: "WebSocket" },
-  { to: "/chart", label: "Gráfica" },
-  { to: "/edit-params", label: "Editar parámetros" },
+  { to: "/chart", label: "Charts" },
+  { to: "/edit-params", label: "Edit Parameters" },
   { to: "/control", label: "Control" },
-  { to: "/params-view", label: "Vista de parámetros" },
-  { to: "/results", label: "Resultados" },
-  { to: "/about", label: "Acerca de" },
+  { to: "/params-view", label: "Parameters View" },
+  { to: "/results", label: "Results" },
+  { to: "/about", label: "About" },
 ];
 
 export default function Sidebar() {

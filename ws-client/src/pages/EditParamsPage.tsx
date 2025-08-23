@@ -46,11 +46,11 @@ export default function EditParamsPage() {
       window.wsSend && window.wsSend(JSON.stringify(msg));
       setEnviado(true);
     } else {
-      alert("No hay conexión WebSocket activa");
+      alert("No active WebSocket connection");
     }
   };
 
-  // Exponer wsSend global para facilitar el envío desde el contexto
+  // Expose wsSend globally to facilitate sending from context
   useEffect(() => {
     // @ts-ignore
     window.wsSend = (data: string) => {
@@ -59,7 +59,7 @@ export default function EditParamsPage() {
         // @ts-ignore
         window.ws.send(data);
       } else {
-        alert("WebSocket no está conectado");
+        alert("WebSocket is not connected");
       }
     };
   }, []);
@@ -67,14 +67,14 @@ export default function EditParamsPage() {
   if (loading)
     return (
       <Layout>
-        <div>Cargando parámetros...</div>
+        <div>Loading parameters...</div>
       </Layout>
     );
 
   return (
     <Layout>
       <div className="max-w-2xl mx-auto py-8">
-        <h2 className="text-3xl font-bold mb-6">Editar parámetros</h2>
+        <h2 className="text-3xl font-bold mb-6">Edit Parameters</h2>
         <form
           onSubmit={handleSubmit}
           className="bg-gray-800 p-6 rounded shadow"
@@ -103,11 +103,11 @@ export default function EditParamsPage() {
               className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold"
               disabled={status !== "connected"}
             >
-              Enviar cambios
+              Send Changes
             </button>
           </div>
           {enviado && (
-            <div className="text-green-400 mt-2">¡Parámetros enviados!</div>
+            <div className="text-green-400 mt-2">Parameters sent!</div>
           )}
         </form>
       </div>

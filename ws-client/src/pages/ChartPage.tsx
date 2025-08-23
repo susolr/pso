@@ -5,9 +5,9 @@ import "chart.js/auto";
 import { useWebSocketContext } from "../context/WebSocketContext";
 
 const GRAPH_TYPES = [
-  { key: "classification", label: "Clasificación" },
-  { key: "executionTime", label: "Tiempo de ejecución" },
-  { key: "position", label: "Vector de posición" },
+  { key: "classification", label: "Classification" },
+  { key: "executionTime", label: "Execution Time" },
+  { key: "position", label: "Position Vector" },
 ];
 
 export default function ChartPage() {
@@ -20,7 +20,7 @@ export default function ChartPage() {
   const [best, setBest] = useState<number[]>([]);
 
   useEffect(() => {
-    // Filtrar solo mensajes de telemetría
+    // Filter only telemetry messages
     const telemetry = messages.filter((msg: any) => msg.type === "telemetry");
     setLabels(telemetry.map((msg: any) => msg.payload.iteration));
     setAverage(telemetry.map((msg: any) => msg.payload.average));
@@ -37,7 +37,7 @@ export default function ChartPage() {
     );
   }, [messages]);
 
-  // Datos para la gráfica de clasificación (average + best)
+  // Data for classification chart (average + best)
   const classificationData = {
     labels,
     datasets: [
@@ -58,12 +58,12 @@ export default function ChartPage() {
     ],
   };
 
-  // Datos para la gráfica de tiempo de ejecución
+  // Data for execution time chart
   const executionTimeData = {
     labels,
     datasets: [
       {
-        label: "Tiempo de ejecución (s)",
+        label: "Execution Time (s)",
         data: executionTimes,
         borderColor: "#f59e42",
         backgroundColor: "#f59e4288",
@@ -72,12 +72,12 @@ export default function ChartPage() {
     ],
   };
 
-  // Datos para la gráfica de vector de posición (ejemplo: suma de componentes en cada iteración)
+  // Data for position vector chart (example: sum of components in each iteration)
   const positionData = {
     labels,
     datasets: [
       {
-        label: "Número de features activas",
+        label: "Number of Active Features",
         data: positions.map((vec) =>
           Array.isArray(vec) ? vec.reduce((a, b) => a + b, 0) : 0
         ),
@@ -89,13 +89,13 @@ export default function ChartPage() {
   };
 
   let chartData = classificationData;
-  let chartTitle = "Evolución de la clasificación";
+  let chartTitle = "Classification Evolution";
   if (selectedGraph === "executionTime") {
     chartData = executionTimeData;
-    chartTitle = "Evolución del tiempo de ejecución";
+    chartTitle = "Execution Time Evolution";
   } else if (selectedGraph === "position") {
     chartData = positionData;
-    chartTitle = "Evolución del número de features activas";
+    chartTitle = "Active Features Evolution";
   }
 
   // Panel de control contextual
@@ -129,13 +129,13 @@ export default function ChartPage() {
     controlPanel = (
       <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-4 bg-gray-900 rounded p-4">
         <div>
-          Media: <span className="font-mono">{avg.toFixed(3)} s</span>
+          Average: <span className="font-mono">{avg.toFixed(3)} s</span>
         </div>
         <div>
-          Mínimo: <span className="font-mono">{min.toFixed(3)} s</span>
+          Minimum: <span className="font-mono">{min.toFixed(3)} s</span>
         </div>
         <div>
-          Máximo: <span className="font-mono">{max.toFixed(3)} s</span>
+          Maximum: <span className="font-mono">{max.toFixed(3)} s</span>
         </div>
       </div>
     );
@@ -149,22 +149,22 @@ export default function ChartPage() {
     controlPanel = (
       <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-4 bg-gray-900 rounded p-4">
         <div>
-          Número medio de features activas:{" "}
+          Average number of active features:{" "}
           <span className="font-mono">{avg.toFixed(2)}</span>
         </div>
         <div>
-          Mínimo: <span className="font-mono">{Math.floor(min)}</span>
+          Minimum: <span className="font-mono">{Math.floor(min)}</span>
         </div>
         <div>
-          Máximo: <span className="font-mono">{Math.floor(max)}</span>
+          Maximum: <span className="font-mono">{Math.floor(max)}</span>
         </div>
       </div>
     );
-    // Nueva sección: mostrar features activas por iteración como colapsables
+    // New section: show active features per iteration as collapsibles
     extraSection = (
       <div className="mt-6 bg-gray-900 rounded p-4">
         <h4 className="text-lg font-bold mb-2 text-center">
-          Features activas por iteración
+          Active Features per Iteration
         </h4>
         <div className="space-y-2">
           {positions.map((vec, idx) => {
@@ -180,10 +180,10 @@ export default function ChartPage() {
               >
                 <summary className="cursor-pointer px-3 py-2 select-none flex justify-between items-center">
                   <span>
-                    Iteración {labels[idx]} — {active.length} features activas
+                    Iteration {labels[idx]} — {active.length} active features
                   </span>
                   <span className="text-gray-400 text-xs">
-                    (clic para expandir)
+                    (click to expand)
                   </span>
                 </summary>
                 <div className="px-3 py-3 border-t border-gray-700">
@@ -193,7 +193,7 @@ export default function ChartPage() {
                     </div>
                   ) : (
                     <span className="text-gray-400 text-sm">
-                      Ninguna feature activa
+                      No active features
                     </span>
                   )}
                 </div>
@@ -209,7 +209,7 @@ export default function ChartPage() {
     <Layout>
       <div className="max-w-3xl mx-auto py-8">
         <h2 className="text-3xl font-bold mb-6 text-center">
-          Gráficas en tiempo real
+          Real-time Charts
         </h2>
         <div className="mb-6 flex justify-center">
           <select

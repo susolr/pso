@@ -17,7 +17,7 @@ function ParamsModal({
 
   useEffect(() => {
     if (open) {
-      // Inicializa el formulario con los valores actuales (TODOS los parámetros)
+      // Initialize form with current values (ALL parameters)
       const initial: Record<string, any> = {};
       Object.entries(params).forEach(([key, obj]: [string, any]) => {
         initial[key] = obj.value;
@@ -41,7 +41,7 @@ function ParamsModal({
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
       <div className="bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-2xl relative">
         <h3 className="text-2xl font-bold mb-4 text-center">
-          Configurar parámetros
+          Configure Parameters
         </h3>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -63,7 +63,7 @@ function ParamsModal({
           {scriptMode && (
             <div className="mt-6 space-y-4">
               <div className="flex items-center gap-2">
-                <label className="font-semibold text-sm">Ejecuciones:</label>
+                <label className="font-semibold text-sm">Runs:</label>
                 <input
                   type="number"
                   min={1}
@@ -73,14 +73,12 @@ function ParamsModal({
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="font-semibold text-sm">
-                  Nombre del script:
-                </label>
+                <label className="font-semibold text-sm">Script Name:</label>
                 <input
                   type="text"
                   value={scriptName}
                   onChange={(e) => setScriptName(e.target.value)}
-                  placeholder="Ej: Experimento A - 5 ejecuciones"
+                  placeholder="Ex: Experiment A - 5 runs"
                   className="bg-gray-900 border border-gray-700 rounded px-2 py-1 text-gray-100"
                 />
               </div>
@@ -92,13 +90,13 @@ function ParamsModal({
               onClick={onClose}
               className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded text-white font-semibold"
             >
-              Cancelar
+              Cancel
             </button>
             <button
               type="submit"
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold"
             >
-              Aceptar
+              Accept
             </button>
           </div>
         </form>
@@ -154,7 +152,7 @@ export default function ControlPage() {
         type: "control/scriptRun",
         payload: {
           numRuns: scriptRuns,
-          scriptName: scriptName || `Script de ${scriptRuns} ejecuciones`, // Default name if empty
+          scriptName: scriptName || `Script of ${scriptRuns} runs`, // Default name if empty
           params: payload,
         },
       });
@@ -176,7 +174,7 @@ export default function ControlPage() {
   if (loading)
     return (
       <Layout>
-        <div>Cargando parámetros...</div>
+        <div>Loading parameters...</div>
       </Layout>
     );
 
@@ -195,16 +193,16 @@ export default function ControlPage() {
       />
       <div className="max-w-3xl mx-auto py-8">
         <h2 className="text-3xl font-bold mb-6 text-center">
-          Cuadro de mando del algoritmo
+          Algorithm Control Panel
         </h2>
         <div className="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col gap-8">
-          {/* Estado conexión y live toggle */}
+          {/* Connection status and live toggle */}
           <div className="flex items-center justify-between bg-gray-900 p-4 rounded">
             <div>
-              Estado WS: <span className="font-semibold">{status}</span>
+              WS Status: <span className="font-semibold">{status}</span>
             </div>
             <div className="flex items-center gap-2">
-              <label className="text-sm">Telemetría en vivo</label>
+              <label className="text-sm">Live Telemetry</label>
               <input
                 type="checkbox"
                 checked={live}
@@ -213,38 +211,38 @@ export default function ControlPage() {
             </div>
           </div>
 
-          {/* Controles principales */}
+          {/* Main controls */}
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             <button
               onClick={() => handleOpenModal(false)}
               className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded text-white font-bold text-lg shadow transition"
             >
-              Lanzar
+              Launch
             </button>
             <button
               onClick={handlePause}
-              className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 rounded text-black font-bold text-lg shadow transition"
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded text-white font-bold text-lg shadow transition"
             >
-              Pausar
+              Pause
             </button>
             <button
               onClick={handleResume}
               className="px-6 py-3 bg-amber-600 hover:bg-amber-700 rounded text-white font-bold text-lg shadow transition"
             >
-              Reanudar
+              Resume
             </button>
             <button
               onClick={handleStop}
               className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded text-white font-bold text-lg shadow transition"
             >
-              Parar
+              Stop
             </button>
           </div>
 
-          {/* Modo script */}
+          {/* Script mode */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-center bg-gray-900 rounded p-4 mt-4">
             <span className="font-semibold text-lg text-white mr-2">
-              Modo script:
+              Script Mode:
             </span>
             <input
               type="number"
@@ -253,12 +251,12 @@ export default function ControlPage() {
               onChange={(e) => setScriptRuns(Number(e.target.value))}
               className="bg-gray-800 border border-gray-700 rounded px-2 py-1 w-24 text-gray-100 text-center mr-2"
             />
-            <span className="text-gray-300">ejecuciones</span>
+            <span className="text-gray-300">runs</span>
             <button
               onClick={() => handleOpenModal(true)}
               className="ml-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold"
             >
-              Ejecutar script
+              Run Script
             </button>
           </div>
         </div>

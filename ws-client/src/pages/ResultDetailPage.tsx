@@ -77,7 +77,7 @@ export default function ResultDetailPage() {
         labels,
         datasets: [
           {
-            label: "Tiempo de ejecución (s)",
+            label: "Execution Time (s)",
             data: exec,
             borderColor: "#f59e42",
             backgroundColor: "#f59e4288",
@@ -89,7 +89,7 @@ export default function ResultDetailPage() {
         labels,
         datasets: [
           {
-            label: "Número de features activas",
+            label: "Number of Active Features",
             data: posActive,
             borderColor: "#a855f7",
             backgroundColor: "#a855f788",
@@ -134,7 +134,7 @@ export default function ResultDetailPage() {
       const tempCtx = tempCanvas.getContext("2d");
 
       if (!tempCtx) {
-        throw new Error("No se pudo crear el contexto del canvas temporal");
+        throw new Error("Could not create temporary canvas context");
       }
 
       // Dibujar el canvas original en el temporal
@@ -166,7 +166,7 @@ export default function ResultDetailPage() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error al exportar SVG:", error);
+      console.error("Error exporting SVG:", error);
     }
   };
 
@@ -214,15 +214,15 @@ export default function ResultDetailPage() {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Volver a resultados
+            Back to Results
           </button>
-          <h2 className="text-3xl font-bold">Detalle ejecución {id}</h2>
-          <div className="w-32"></div> {/* Espaciador para centrar el título */}
+          <h2 className="text-3xl font-bold">Run Detail {id}</h2>
+          <div className="w-32"></div> {/* Spacer to center the title */}
         </div>
         {summary && (
           <div className="bg-gray-800 rounded p-4 flex flex-wrap gap-6 justify-center">
             <div>
-              Iteraciones:{" "}
+              Iterations:{" "}
               <span className="font-mono">{summary.lastIteration ?? "-"}</span>
             </div>
             <div>
@@ -240,7 +240,7 @@ export default function ResultDetailPage() {
               </span>
             </div>
             <div>
-              Duración:{" "}
+              Duration:{" "}
               <span className="font-mono">
                 {summary.totalSeconds?.toFixed?.(2) ??
                   summary.totalSeconds ??
@@ -257,28 +257,28 @@ export default function ResultDetailPage() {
               onChange={(e) => setSelectedGraph(e.target.value as GraphKey)}
               className="bg-gray-900 border border-gray-700 rounded px-3 py-2"
             >
-              <option value="classification">Clasificación</option>
-              <option value="executionTime">Tiempo de ejecución</option>
-              <option value="position">Número de features activas</option>
+              <option value="classification">Classification</option>
+              <option value="executionTime">Execution Time</option>
+              <option value="position">Number of Active Features</option>
             </select>
             <div className="flex gap-2">
               <button
                 onClick={exportPNG}
                 className="px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white"
               >
-                Exportar PNG
+                Export PNG
               </button>
               <button
                 onClick={exportSVG}
                 className="px-3 py-2 bg-purple-600 hover:bg-purple-700 rounded text-white"
               >
-                Exportar SVG
+                Export SVG
               </button>
               <button
                 onClick={exportCSV}
                 className="px-3 py-2 bg-green-600 hover:bg-green-700 rounded text-white"
               >
-                Exportar CSV
+                Export CSV
               </button>
             </div>
           </div>
@@ -293,7 +293,7 @@ export default function ResultDetailPage() {
         </div>
         {params && (
           <div className="bg-gray-800 rounded p-4">
-            <h3 className="text-xl font-bold mb-2">Parámetros</h3>
+            <h3 className="text-xl font-bold mb-2">Parameters</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {Object.entries(params).map(([tag, val]) => (
                 <div

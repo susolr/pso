@@ -35,7 +35,7 @@ export default function ScriptGroupPage() {
   useEffect(() => {
     if (!scriptId) return;
 
-    // Cargar el índice para obtener información del script
+    // Load index to get script information
     fetch("/results/runs/index.json")
       .then((res) => res.json())
       .then((indexData) => {
@@ -43,12 +43,12 @@ export default function ScriptGroupPage() {
           (run: any) => run.scriptId === scriptId
         );
         if (scriptRunsData.length === 0) {
-          throw new Error("Script no encontrado");
+          throw new Error("Script not found");
         }
 
         setScriptName(scriptRunsData[0].scriptName || `Script ${scriptId}`);
 
-        // Cargar telemetría de cada ejecución
+        // Load telemetry from each run
         const promises = scriptRunsData.map((run: any) =>
           fetch(`/results/runs/${run.id}/telemetry.ndjson`)
             .then((res) => res.text())
@@ -73,7 +73,7 @@ export default function ScriptGroupPage() {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error cargando script:", error);
+        console.error("Error loading script:", error);
         setLoading(false);
       });
   }, [scriptId]);
@@ -87,7 +87,7 @@ export default function ScriptGroupPage() {
     );
     const iterations = Array.from({ length: maxIterations }, (_, i) => i);
 
-    // Calcular promedios por iteración
+    // Calculate averages per iteration
     const avgBest = iterations.map((iteration) => {
       const values = scriptRuns
         .map((run) => run.telemetry[iteration]?.best)
@@ -144,14 +144,14 @@ export default function ScriptGroupPage() {
         labels: aggregatedData.iterations,
         datasets: [
           {
-            label: "Average (promedio)",
+            label: "Average (mean)",
             data: aggregatedData.avgAverage,
             borderColor: "#3b82f6",
             backgroundColor: "#3b82f688",
             tension: 0.2,
           },
           {
-            label: "Best (promedio)",
+            label: "Best (mean)",
             data: aggregatedData.avgBest,
             borderColor: "#22d3ee",
             backgroundColor: "#22d3ee88",
@@ -163,7 +163,7 @@ export default function ScriptGroupPage() {
         labels: aggregatedData.iterations,
         datasets: [
           {
-            label: "Tiempo de ejecución (promedio)",
+            label: "Execution Time (mean)",
             data: aggregatedData.avgExecutionTime,
             borderColor: "#f59e42",
             backgroundColor: "#f59e4288",
@@ -175,7 +175,7 @@ export default function ScriptGroupPage() {
         labels: aggregatedData.iterations,
         datasets: [
           {
-            label: "Número de features activas (promedio)",
+            label: "Number of Active Features (mean)",
             data: aggregatedData.avgPosition,
             borderColor: "#a855f7",
             backgroundColor: "#a855f788",
@@ -215,7 +215,7 @@ export default function ScriptGroupPage() {
       const tempCtx = tempCanvas.getContext("2d");
 
       if (!tempCtx) {
-        throw new Error("No se pudo crear el contexto del canvas temporal");
+        throw new Error("Could not create temporary canvas context");
       }
 
       // Dibujar el canvas original en el temporal
@@ -247,7 +247,7 @@ export default function ScriptGroupPage() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error al exportar SVG:", error);
+      console.error("Error exporting SVG:", error);
     }
   };
 
@@ -255,7 +255,7 @@ export default function ScriptGroupPage() {
     return (
       <Layout>
         <div className="max-w-5xl mx-auto py-8">
-          <div>Cargando datos del script...</div>
+          <div>Loading script data...</div>
         </div>
       </Layout>
     );
@@ -265,9 +265,7 @@ export default function ScriptGroupPage() {
     return (
       <Layout>
         <div className="max-w-5xl mx-auto py-8">
-          <div className="text-red-400">
-            Error: No se pudieron cargar los datos del script
-          </div>
+          <div className="text-red-400">Error: Could not load script data</div>
         </div>
       </Layout>
     );
@@ -294,24 +292,24 @@ export default function ScriptGroupPage() {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Volver a resultados
+            Back to Results
           </button>
           <h2 className="text-3xl font-bold">
-            Gráficas Agregadas: {scriptName}
+            Aggregated Charts: {scriptName}
           </h2>
           <div className="w-32"></div>
         </div>
 
-        {/* Información del script */}
+        {/* Script information */}
         <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-          <h3 className="text-xl font-semibold mb-4">Información del Script</h3>
+          <h3 className="text-xl font-semibold mb-4">Script Information</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <div className="text-gray-400">Número de ejecuciones:</div>
+              <div className="text-gray-400">Number of runs:</div>
               <div className="font-semibold">{scriptRuns.length}</div>
             </div>
             <div>
-              <div className="text-gray-400">Tiempo total:</div>
+              <div className="text-gray-400">Total time:</div>
               <div className="font-semibold">
                 {scriptRuns
                   .reduce((sum, run) => sum + (run.totalSeconds || 0), 0)
@@ -320,7 +318,7 @@ export default function ScriptGroupPage() {
               </div>
             </div>
             <div>
-              <div className="text-gray-400">Tiempo promedio:</div>
+              <div className="text-gray-400">Average time:</div>
               <div className="font-semibold">
                 {(
                   scriptRuns.reduce(
@@ -332,7 +330,7 @@ export default function ScriptGroupPage() {
               </div>
             </div>
             <div>
-              <div className="text-gray-400">Mejor resultado:</div>
+              <div className="text-gray-400">Best result:</div>
               <div className="font-semibold">
                 {Math.max(
                   ...scriptRuns.map((run) => run.lastBest || 0)
@@ -348,7 +346,7 @@ export default function ScriptGroupPage() {
               <div className="text-2xl font-bold text-blue-400">
                 {scriptRuns.length}
               </div>
-              <div className="text-sm text-gray-300">Ejecuciones</div>
+              <div className="text-sm text-gray-300">Runs</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-green-400">
@@ -356,7 +354,7 @@ export default function ScriptGroupPage() {
                   aggregatedData.avgBest.length - 1
                 ]?.toFixed(2) || "0"}
               </div>
-              <div className="text-sm text-gray-300">Best Final (promedio)</div>
+              <div className="text-sm text-gray-300">Best Final (mean)</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-yellow-400">
@@ -364,9 +362,7 @@ export default function ScriptGroupPage() {
                   aggregatedData.avgAverage.length - 1
                 ]?.toFixed(2) || "0"}
               </div>
-              <div className="text-sm text-gray-300">
-                Average Final (promedio)
-              </div>
+              <div className="text-sm text-gray-300">Average Final (mean)</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-purple-400">
@@ -375,49 +371,46 @@ export default function ScriptGroupPage() {
                   .toFixed(2)}
               </div>
               <div className="text-sm text-gray-300">
-                Suma de tiempos por iteracion (promedio)
+                Sum of times per iteration (mean)
               </div>
             </div>
           </div>
         </div>
 
-        {/* Selector de gráfica */}
+        {/* Chart selector */}
         <div className="flex items-center gap-4">
-          <label className="font-semibold">Gráfica:</label>
+          <label className="font-semibold">Chart:</label>
           <select
             value={selectedGraph}
             onChange={(e) => setSelectedGraph(e.target.value as any)}
             className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-white"
           >
-            <option value="classification">Clasificación (promedio)</option>
-            <option value="executionTime">
-              Tiempo de ejecución (promedio)
-            </option>
-            <option value="position">Features activas (promedio)</option>
+            <option value="classification">Classification (mean)</option>
+            <option value="executionTime">Execution Time (mean)</option>
+            <option value="position">Active Features (mean)</option>
           </select>
         </div>
 
-        {/* Gráfica */}
+        {/* Chart */}
         <div className="bg-gray-800 rounded-lg p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">
-              {selectedGraph === "classification" && "Clasificación Promedio"}
-              {selectedGraph === "executionTime" &&
-                "Tiempo de Ejecución Promedio"}
-              {selectedGraph === "position" && "Features Activas Promedio"}
+              {selectedGraph === "classification" && "Average Classification"}
+              {selectedGraph === "executionTime" && "Average Execution Time"}
+              {selectedGraph === "position" && "Average Active Features"}
             </h3>
             <div className="flex gap-2">
               <button
                 onClick={exportPNG}
                 className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-white text-sm"
               >
-                Exportar PNG
+                Export PNG
               </button>
               <button
                 onClick={exportSVG}
                 className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-white text-sm"
               >
-                Exportar SVG
+                Export SVG
               </button>
             </div>
           </div>
@@ -441,7 +434,7 @@ export default function ScriptGroupPage() {
                     x: {
                       title: {
                         display: true,
-                        text: "Iteración",
+                        text: "Iteration",
                         color: "white",
                       },
                       ticks: {
@@ -456,10 +449,10 @@ export default function ScriptGroupPage() {
                         display: true,
                         text:
                           selectedGraph === "classification"
-                            ? "Porcentaje"
+                            ? "Percentage"
                             : selectedGraph === "executionTime"
-                            ? "Tiempo (s)"
-                            : "Features activas",
+                            ? "Time (s)"
+                            : "Active Features",
                         color: "white",
                       },
                       ticks: {
@@ -476,11 +469,9 @@ export default function ScriptGroupPage() {
           </div>
         </div>
 
-        {/* Lista de ejecuciones individuales */}
+        {/* Individual runs list */}
         <div className="bg-gray-800 rounded-lg p-6">
-          <h3 className="text-xl font-semibold mb-4">
-            Ejecuciones Individuales
-          </h3>
+          <h3 className="text-xl font-semibold mb-4">Individual Runs</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {scriptRuns.map((run) => (
               <div
@@ -492,7 +483,7 @@ export default function ScriptGroupPage() {
                   #{run.scriptRun}
                 </div>
                 <div className="text-sm text-gray-300">
-                  {run.telemetry.length} iteraciones
+                  {run.telemetry.length} iterations
                 </div>
                 <div className="text-xs text-gray-400 mt-1">
                   Best:{" "}

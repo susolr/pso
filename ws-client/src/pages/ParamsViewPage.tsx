@@ -17,16 +17,14 @@ export default function ParamsViewPage() {
   if (loading)
     return (
       <Layout>
-        <div>Cargando parámetros...</div>
+        <div>Loading parameters...</div>
       </Layout>
     );
 
   return (
     <Layout>
       <div className="max-w-3xl mx-auto py-8">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Vista de parámetros
-        </h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Parameters View</h2>
         <div className="bg-gray-800 rounded-lg shadow-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-900 rounded p-4">
             {Object.entries(params).map(([key, obj]: [string, any]) => (

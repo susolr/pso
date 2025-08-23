@@ -183,6 +183,7 @@ void PSOManager::runOnce() {
     p.crearCumulo();
     p.ejecutar();
     auto t1 = std::chrono::high_resolution_clock::now();
+    std::cout << std::chrono::duration<double>(t1 - t0).count() << std::endl << std::flush;
     m_lastTotalSeconds = std::chrono::duration<double>(t1 - t0).count();
 }
 

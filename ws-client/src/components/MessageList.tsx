@@ -24,7 +24,7 @@ export default function MessageList({ messages }: Props) {
           </div>
         ))}
         {messages.length === 0 && (
-          <p className="text-gray-400 italic">No hay mensajes aún</p>
+          <p className="text-gray-400 italic">No messages yet</p>
         )}
       </div>
     </div>

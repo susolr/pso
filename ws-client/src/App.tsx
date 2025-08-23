@@ -26,9 +26,6 @@ export default function App() {
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/results/:id" element={<ResultDetailPage />} />
             <Route path="/script/:scriptId" element={<ScriptGroupPage />} />
-            {/* 👆 Aquí podrás añadir más páginas: */}
-            {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
-            {/* <Route path="/settings" element={<SettingsPage />} /> */}
           </Routes>
         </Layout>
       </Router>
