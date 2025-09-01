@@ -36,8 +36,9 @@
 #include <chrono>
 
 /********Defines********/
-#define IGNORE_VALUE 1
-#define FINISH -1
+#define IGNORE_VALUE 100
+#define RUN_END 998
+#define FINISH 999
 
 using json = nlohmann::json;
 using namespace std;
@@ -78,7 +79,7 @@ void PSO::crearCumulo(int n_p) {
     b_pos = cumulo[0].getPos();
 }
 
-void PSO::ejecutar() {
+void PSO::ejecutar(int endTag) {
     // cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra al bucle
     // principal" << endl << flush;
     auto &ws = WebSocketServer::getInstance();
@@ -160,12 +161,13 @@ void PSO::ejecutar() {
         } else {  // Trabajan los workers
             // envío el trabajo
 
-            int cont_aux = sizes[0];
+            // CORRECCIÓN: Calcular correctamente el offset para cada worker
+            int offset = 0;
             for (int i = 0; i < mpiSize - 1; i++) {
                 particula_mpi *aux = new particula_mpi[sizes[i]];
                 int tm = sizes[i];
                 for (int j = 0; j < tm; j++) {
-                    int index = i * cont_aux + j;
+                    int index = offset + j;
                     aux[j] = cumulo[index].toStruct();
                     aux[j].n_particula = index;
                 }
@@ -175,20 +177,25 @@ void PSO::ejecutar() {
                 // cout << "Grupo enviado" << endl << flush;
 
                 delete[] aux;
+                offset += tm;  // Actualizar offset para el siguiente worker
             }
 
             // recojo resultados
 
-            for (int i = 0; i < mpiSize; i++) {
+            offset = 0;  // Reutilizar la variable offset ya declarada
+            for (int i = 0; i < mpiSize - 1; i++) {  // CORRECCIÓN: mpiSize - 1, no mpiSize
                 particula_mpi *aux = new particula_mpi[sizes[i]];
                 int tm = sizes[i];
                 int rec = i + 1;
                 MPI::COMM_WORLD.Recv(aux, tm, Particle_MPI_type, rec, MPI::ANY_TAG, status);
                 for (int j = 0; j < tm; j++) {
-                    int index = i * cont_aux + j;
-                    cumulo[index].setValue(aux[j].valor);
+                    int index = offset + j;
+                    if (index < cumulo.size()) {  // Verificación de límites
+                        cumulo[index].setValue(aux[j].valor);
+                    }
                 }
                 delete[] aux;
+                offset += tm;  // Actualizar offset para el siguiente worker
             }
         }
 
@@ -244,10 +251,13 @@ void PSO::ejecutar() {
     }
 
     for (int p = 1; p < mpiSize; ++p) {
-        MPI::COMM_WORLD.Send(NULL, 0, Particle_MPI_type, p, FINISH);
+        MPI::COMM_WORLD.Send(NULL, 0, Particle_MPI_type, p, endTag);
     }
 
-    MPI::COMM_WORLD.Barrier();
+    // Solo sincronizar al finalizar completamente (FINISH). Entre runs no hacemos Barrier
+    if (endTag == FINISH) {
+        MPI::COMM_WORLD.Barrier();
+    }
     Particle_MPI_type.Free();
 
     cout << endl;
@@ -283,6 +293,24 @@ void PSO::valorar() {
     // MPI::COMM_WORLD.Recv(&tam, 1, MPI::INT, 0, MPI::ANY_TAG, status);
     // cout << "Tamanio recibido" << endl << flush;
 
+    // PROBLEMA: tam no está inicializado, causando segmentation fault
+    // Necesitamos calcular el tamaño basado en el rank del worker
+    int mpiRank = stoi(Paramlist::getInstance()->getValor("MPIrank"));
+    // mpiSize ya está declarado arriba
+    int n_particles = stoi(Paramlist::getInstance()->getValor("-nP"));
+    
+    // Calcular cuántas partículas debe procesar este worker
+    int base_size = n_particles / (mpiSize - 1);
+    int remainder = n_particles % (mpiSize - 1);
+    tam = (mpiRank <= remainder) ? base_size + 1 : base_size;
+    
+    // Verificar que tam es válido
+    if (tam <= 0) {
+        cerr << "ERROR: Worker " << mpiRank << " tiene tamaño inválido: " << tam << endl;
+        MPI::Finalize();
+        exit(1);
+    }
+
     particula_mpi *particulas = new particula_mpi[tam];
 
     crearCumulo(tam);
@@ -291,11 +319,17 @@ void PSO::valorar() {
     // stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" Despues de barrier" << endl << flush;
     // Comienza el bucle principal
 
-    // cout << "Recibo el primer grupo de particulas" << endl << flush;
+    // Recibir primer bloque; puede ser datos, RUN_END o FINISH
     MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
-    // cout << "Primer grupo recibido" << endl << flush;
-
-    while (status.Get_tag() != FINISH) {
+    while (true) {
+        if (status.Get_tag() == FINISH) {
+            break;
+        }
+        if (status.Get_tag() == RUN_END) {
+            // Preparado para siguiente ejecución: volver a esperar nuevo bloque
+            MPI::COMM_WORLD.Recv(particulas, tam, Particle_MPI_type, 0, MPI::ANY_TAG, status);
+            continue;
+        }
 // cout << "Proceso: " << stoi(Paramlist::getInstance()->getValor("MPIrank")) <<" entra a valorar"
 // << endl << flush;
 #pragma omp parallel for

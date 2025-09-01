@@ -152,7 +152,7 @@ export default function ControlPage() {
         type: "control/scriptRun",
         payload: {
           numRuns: scriptRuns,
-          scriptName: scriptName || `Script of ${scriptRuns} runs`, // Default name if empty
+          scriptName: scriptName || `Script of ${scriptRuns} runs`,
           params: payload,
         },
       });

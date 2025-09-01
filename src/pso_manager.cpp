@@ -181,7 +181,10 @@ void PSOManager::runOnce() {
     auto t0 = std::chrono::high_resolution_clock::now();
     PSO p;
     p.crearCumulo();
-    p.ejecutar();
+    // Este método será llamado desde startSingle o dentro del bucle de startScript
+    // La etiqueta de finalización se decide fuera (RUN_END para runs intermedios, FINISH en el último)
+    int endTag = (m_totalRuns > 1 && (m_currentRunIndex + 1) < m_totalRuns) ? RUN_END : FINISH;
+    p.ejecutar(endTag);
     auto t1 = std::chrono::high_resolution_clock::now();
     std::cout << std::chrono::duration<double>(t1 - t0).count() << std::endl << std::flush;
     m_lastTotalSeconds = std::chrono::duration<double>(t1 - t0).count();

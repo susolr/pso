@@ -78,6 +78,7 @@ Particula::Particula() {
     max_inercia = stod(Paramlist::getInstance()->getValor("-cI"));
 
     b_value = 0.0;
+    value = 0.0;  // Inicializar value
     b_pos = pos;
 
     for (int i = 0; i < dimension; i++) {
@@ -106,6 +107,7 @@ Particula::Particula(int n) {
     max_inercia = stod(Paramlist::getInstance()->getValor("-cI"));
 
     b_value = 0.0;
+    value = 0.0;  // Inicializar value
     b_pos = pos;
     int v_inicial = stoi(Paramlist::getInstance()->getValor("-vI"));
     for (int i = 0; i < dimension; i++) {
@@ -248,7 +250,7 @@ double Particula::getValue() { return value; }
 double Particula::getBValue() { return b_value; }
 
 void Particula::setValue(double val) {
-    cout << "Llamando a setValue con " << value << "\t" << val << endl;
+    //cout << "Llamando a setValue con " << value << "\t" << val << endl;
     value = val;
     if (value > b_value) {
         b_value = value;
@@ -280,6 +282,8 @@ vector<int> Particula::generarAleatorio() {
 
 particula_mpi Particula::toStruct() {
     particula_mpi aux;
+    aux.n_particula = 0;  // Se asignará después
+    aux.valor = value;    // Inicializar con el valor actual
     for (int i = 0; i < dimension; i++) {
         aux.pos[i] = pos.at(i);
     }
@@ -288,6 +292,7 @@ particula_mpi Particula::toStruct() {
 }
 
 void Particula::fromStruct(particula_mpi part) {
+    value = part.valor;  // Actualizar el valor
     for (int i = 0; i < dimension; i++) {
         pos[i] = part.pos[i];
     }
