@@ -25,11 +25,19 @@
 #include "particula.h"
 using namespace std;
 
+// Etiquetas de control para MPI entre runs y finalización
+#ifndef RUN_END
+#define RUN_END 998
+#endif
+#ifndef FINISH
+#define FINISH 999
+#endif
+
 class PSO {
    public:
     PSO();
     void crearCumulo();
-    void ejecutar();
+    void ejecutar(int endTag);
     void mostrarResultados();
     void valorar();
     void infoHybrid();
