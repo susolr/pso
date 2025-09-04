@@ -2,24 +2,23 @@
 ################# Global variables
 NREPETITIONS=5
 HEBRAS=(1 2 4 6 8 10 12 14 16 18 20)
-DIR="energia_hebras"
-#rm -rf $DIR && mkdir $DIR
+DIR="medicion_hebras_600"
+rm -rf $DIR && mkdir $DIR
 date && echo "Start the execution"
 echo "-------------------"
 make -j N_FEATURES=3600
 for NH in "${HEBRAS[@]}";
 do
-    rm -rf $DIR/$NH && mkdir $DIR/$NH
-    for R in $( eval echo {1..$NREPETITIONS} );
-    do
-    echo -e "\t`date`" && echo -e "\tStarts with" $NH "hebras" $R "repetition"
-    nohup turbostat --Summary --quiet --Joules --show Pkg_J --interval 1 -o $DIR/$NH/energia_$R.txt &
-    PID=$!
-    mpirun --bind-to none --map-by node --host localhost ./pso -nP 200 -nI 100 -nH $NH  > last.txt
-    kill -9 $PID
+    #rm -rf $DIR/$NH && mkdir $DIR/$NH
+
+    echo -e "\t`date`" && echo -e "\tStarts with" $NH "hebras"
+    #nohup turbostat --Summary --quiet --Joules --show Pkg_J --interval 1 -o $DIR/$NH/energia_$R.txt &
+    #PID=$!
+    mpirun --bind-to none --map-by node --host localhost ./pso -r 5 -nP 600 -nI 100 -nH $NH -WSC 0 > $DIR/clasificacion_$NH.txt
+    #kill -9 $PID
     #echo "`sed -n 1p last.txt`" >> tmp_time.txt
-    paste last* > "$DIR/$NH/clasificacion_$R.txt"
-    rm last.txt
-    done
+    #paste last* > "$DIR/clasificacion_$NH.txt"
+    #rm last.txt
+
 done
-find ./mediciones -name \*.txt -exec sed -i 's/\./,/g' {} \;
+#find ./mediciones -name \*.txt -exec sed -i 's/\./,/g' {} \;
